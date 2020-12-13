@@ -1,7 +1,0 @@
-<resources>
-    <style name="Theme.Archipelago.App" parent="Theme.Archipelago">
-        <!-- Navigation bar colors -->
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowLightNavigationBar">false</item>
-    </style>
-</resources>

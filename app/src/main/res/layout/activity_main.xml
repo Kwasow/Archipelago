@@ -1,18 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.MainActivity">
 
-    <TextView
+    <com.github.kwasow.archipelago.views.StoppableScrollView
+        android:id="@+id/homeScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at turpis vitae justo interdum elementum commodo id ipsum. Aliquam interdum risus erat, non feugiat sapien molestie eu. Suspendisse dapibus sodales vehicula. Cras vitae suscipit nisi. Mauris sagittis fermentum neque sed facilisis. Vivamus consequat, ipsum in elementum viverra, erat ligula commodo erat, sit amet rutrum felis ipsum at metus. Nulla porttitor sapien sed facilisis condimentum. Vivamus maximus molestie malesuada. Duis efficitur vulputate malesuada. Ut mattis pharetra semper. Integer vel ultrices dui. Nunc ultricies enim vel massa pulvinar rhoncus. Phasellus porttitor, ex sed auctor pharetra, velit arcu rutrum ipsum, sed tristique neque nisi id risus. Fusce non commodo ex, a suscipit nunc. Donec eu commodo mauris.
+
+Vestibulum faucibus urna ante, sit amet aliquam nibh commodo vel. Vestibulum tempus accumsan lacinia. In magna nulla, malesuada eu finibus a, accumsan vitae sem. Nam id commodo nibh. Nullam elementum facilisis velit. Quisque tristique tortor id ante finibus, a eleifend nulla consectetur. Integer dictum tortor elit, at lacinia sapien tincidunt non. Nulla rutrum tortor ut odio pretium, et auctor justo molestie. Sed purus magna, bibendum vitae dui id, vulputate varius ligula. Nulla iaculis lectus vel sapien convallis, a dictum ex dignissim. Ut hendrerit ipsum in egestas commodo. Quisque non lorem neque. Curabitur id condimentum nisl. Nullam suscipit, tortor sit amet mollis pharetra, odio ex facilisis ipsum, et vulputate magna sapien ut ligula. Praesent vulputate dignissim congue.
+
+Aenean neque nibh, consectetur quis lobortis sed, ultricies ut mauris. Quisque at sem ligula. Quisque tincidunt ut nibh non eleifend. Praesent eget metus diam. Nulla facilisi. Sed sit amet metus ipsum. Mauris sodales libero eu nisi accumsan dignissim. Suspendisse convallis, velit non tincidunt vulputate, velit sapien finibus ex, a venenatis enim velit eget tortor. Curabitur vel diam sed sapien dictum sollicitudin sed non eros. Aliquam tincidunt nunc porttitor, ultrices leo quis, dictum urna.
+
+Quisque sodales condimentum diam, at ultricies elit fringilla tincidunt. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer facilisis purus eget nulla vulputate accumsan. Donec commodo eros justo, quis varius diam facilisis id. Pellentesque id dictum quam. Morbi sed pharetra dolor. In vitae ligula lorem. Donec euismod volutpat magna, in tincidunt leo feugiat nec. Mauris ultrices leo eu posuere faucibus. Mauris vehicula ultrices libero, vel commodo mi placerat ac. Donec auctor ex non velit efficitur, ac placerat urna tristique. Nulla eu purus maximus, mattis tellus eget, vestibulum neque. Morbi eu nulla at mauris posuere dapibus quis quis neque. Morbi vulputate lobortis lacus vel ultrices.
+
+Sed fringilla ex quis neque faucibus interdum. In dictum orci vitae enim molestie iaculis. Sed mollis tortor lorem, vitae faucibus odio fringilla posuere. Nam posuere libero nulla, varius fringilla mi iaculis id. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris vitae eleifend ligula. Donec pharetra vulputate ex non tristique. In ultrices, dui quis sollicitudin porta, libero purus dictum neque, elementum luctus nibh lacus a urna. Aliquam condimentum ante quam, a dapibus sem sagittis vitae. Sed et nisl eget lectus feugiat laoreet. Ut posuere sem ut iaculis ornare. Suspendisse sodales ipsum in neque feugiat aliquet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer lectus dui, congue eu lorem eu, rutrum cursus nulla. Nulla eget molestie ex, ut tincidunt lorem. "/>
+
+        </LinearLayout>
+
+    </com.github.kwasow.archipelago.views.StoppableScrollView>
+
+    <LinearLayout
+        android:id="@+id/opacityLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:orientation="horizontal"
+        android:background="@color/black"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/actionButtonStock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/primary_light"
+        android:src="@drawable/ic_graph"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@id/actionButtonInvestment"
+        app:layout_constraintStart_toStartOf="@id/actionButton"
+        app:layout_constraintEnd_toEndOf="@id/actionButton"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fabCardStocks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toStartOf="@id/actionButtonStock"
+        app:layout_constraintTop_toTopOf="@id/actionButtonStock"
+        app:layout_constraintBottom_toBottomOf="@id/actionButtonStock">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stocks"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="4dp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/actionButtonInvestment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/primary_light"
+        android:src="@drawable/ic_percent"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@id/actionButtonSavings"
+        app:layout_constraintStart_toStartOf="@id/actionButton"
+        app:layout_constraintEnd_toEndOf="@id/actionButton"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fabCardInvestment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toStartOf="@id/actionButtonInvestment"
+        app:layout_constraintTop_toTopOf="@id/actionButtonInvestment"
+        app:layout_constraintBottom_toBottomOf="@id/actionButtonInvestment">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/investment"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="4dp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/actionButtonSavings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/primary_light"
+        android:src="@drawable/ic_credit_card"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@id/actionButtonCash"
+        app:layout_constraintStart_toStartOf="@id/actionButton"
+        app:layout_constraintEnd_toEndOf="@id/actionButton"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fabCardSavings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toStartOf="@id/actionButtonSavings"
+        app:layout_constraintTop_toTopOf="@id/actionButtonSavings"
+        app:layout_constraintBottom_toBottomOf="@id/actionButtonSavings">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/savings_account"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="4dp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/actionButtonCash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/primary_light"
+        android:src="@drawable/ic_dollar"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@id/actionButton"
+        app:layout_constraintStart_toStartOf="@id/actionButton"
+        app:layout_constraintEnd_toEndOf="@id/actionButton"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fabCardCash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toStartOf="@id/actionButtonCash"
+        app:layout_constraintTop_toTopOf="@id/actionButtonCash"
+        app:layout_constraintBottom_toBottomOf="@id/actionButtonCash">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cash"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="4dp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/actionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add"
+        android:onClick="fabClick"
+        android:contentDescription="@string/description_add_balance_fab"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
