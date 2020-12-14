@@ -5,6 +5,7 @@
     <string name="savings_account">Savings account</string>
     <string name="investment">Investment</string>
     <string name="stocks">Stocks</string>
+    <string name="dashboard">Dashboard</string>
 
     <!-- Descriptions describe objects on screen for text-to-speech -->
     <string name="description_add_balance_fab">A floating action button to add balance</string>

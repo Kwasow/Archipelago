@@ -15,7 +15,9 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
+        <item name="android:textColor">@color/black</item>
     </style>
 
+    <!-- For API 23-27 -->
     <style name="Theme.Archipelago.App" parent="Theme.Archipelago"/>
 </resources>

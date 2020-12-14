@@ -10,25 +10,87 @@
     <com.github.kwasow.archipelago.views.StoppableScrollView
         android:id="@+id/homeScroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:stickyHeader="@id/titleLayout"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:orientation="vertical"
+            android:padding="6dp"
+            android:paddingBottom="10dp">
 
-            <TextView
+            <View
+                android:id="@+id/placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"/>
+
+            <LinearLayout
+                android:id="@+id/titleLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at turpis vitae justo interdum elementum commodo id ipsum. Aliquam interdum risus erat, non feugiat sapien molestie eu. Suspendisse dapibus sodales vehicula. Cras vitae suscipit nisi. Mauris sagittis fermentum neque sed facilisis. Vivamus consequat, ipsum in elementum viverra, erat ligula commodo erat, sit amet rutrum felis ipsum at metus. Nulla porttitor sapien sed facilisis condimentum. Vivamus maximus molestie malesuada. Duis efficitur vulputate malesuada. Ut mattis pharetra semper. Integer vel ultrices dui. Nunc ultricies enim vel massa pulvinar rhoncus. Phasellus porttitor, ex sed auctor pharetra, velit arcu rutrum ipsum, sed tristique neque nisi id risus. Fusce non commodo ex, a suscipit nunc. Donec eu commodo mauris.
+                android:background="@android:color/background_light"
+                android:orientation="vertical">
 
-Vestibulum faucibus urna ante, sit amet aliquam nibh commodo vel. Vestibulum tempus accumsan lacinia. In magna nulla, malesuada eu finibus a, accumsan vitae sem. Nam id commodo nibh. Nullam elementum facilisis velit. Quisque tristique tortor id ante finibus, a eleifend nulla consectetur. Integer dictum tortor elit, at lacinia sapien tincidunt non. Nulla rutrum tortor ut odio pretium, et auctor justo molestie. Sed purus magna, bibendum vitae dui id, vulputate varius ligula. Nulla iaculis lectus vel sapien convallis, a dictum ex dignissim. Ut hendrerit ipsum in egestas commodo. Quisque non lorem neque. Curabitur id condimentum nisl. Nullam suscipit, tortor sit amet mollis pharetra, odio ex facilisis ipsum, et vulputate magna sapien ut ligula. Praesent vulputate dignissim congue.
+                <TextView
+                    android:id="@+id/dashboardText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:text="@string/dashboard"
+                    android:textSize="32sp"
+                    android:textStyle="bold"/>
 
-Aenean neque nibh, consectetur quis lobortis sed, ultricies ut mauris. Quisque at sem ligula. Quisque tincidunt ut nibh non eleifend. Praesent eget metus diam. Nulla facilisi. Sed sit amet metus ipsum. Mauris sodales libero eu nisi accumsan dignissim. Suspendisse convallis, velit non tincidunt vulputate, velit sapien finibus ex, a venenatis enim velit eget tortor. Curabitur vel diam sed sapien dictum sollicitudin sed non eros. Aliquam tincidunt nunc porttitor, ultrices leo quis, dictum urna.
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:background="@color/black"/>
 
-Quisque sodales condimentum diam, at ultricies elit fringilla tincidunt. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer facilisis purus eget nulla vulputate accumsan. Donec commodo eros justo, quis varius diam facilisis id. Pellentesque id dictum quam. Morbi sed pharetra dolor. In vitae ligula lorem. Donec euismod volutpat magna, in tincidunt leo feugiat nec. Mauris ultrices leo eu posuere faucibus. Mauris vehicula ultrices libero, vel commodo mi placerat ac. Donec auctor ex non velit efficitur, ac placerat urna tristique. Nulla eu purus maximus, mattis tellus eget, vestibulum neque. Morbi eu nulla at mauris posuere dapibus quis quis neque. Morbi vulputate lobortis lacus vel ultrices.
+            </LinearLayout>
 
-Sed fringilla ex quis neque faucibus interdum. In dictum orci vitae enim molestie iaculis. Sed mollis tortor lorem, vitae faucibus odio fringilla posuere. Nam posuere libero nulla, varius fringilla mi iaculis id. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris vitae eleifend ligula. Donec pharetra vulputate ex non tristique. In ultrices, dui quis sollicitudin porta, libero purus dictum neque, elementum luctus nibh lacus a urna. Aliquam condimentum ante quam, a dapibus sem sagittis vitae. Sed et nisl eget lectus feugiat laoreet. Ut posuere sem ut iaculis ornare. Suspendisse sodales ipsum in neque feugiat aliquet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer lectus dui, congue eu lorem eu, rutrum cursus nulla. Nulla eget molestie ex, ut tincidunt lorem. "/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardSummary"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="10dp"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardGoals"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="10dp"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardStocks"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="10dp"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardTips"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="0dp"
+                    app:cardCornerRadius="10dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
