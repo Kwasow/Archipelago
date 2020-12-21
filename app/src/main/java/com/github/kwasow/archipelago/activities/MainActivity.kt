@@ -1,10 +1,12 @@
 package com.github.kwasow.archipelago.activities
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.TransitionDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.github.kwasow.archipelago.R
 import com.github.kwasow.archipelago.animations.FabAnimation
 import com.github.kwasow.archipelago.databinding.ActivityMainBinding
 
@@ -12,6 +14,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val fabList = mutableListOf<View>()
     var fabIsRotated = false
+    private lateinit var colorDrawables: Array<ColorDrawable>
+    private lateinit var transitionDrawable: TransitionDrawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +25,14 @@ class MainActivity : AppCompatActivity() {
         initFab()
 
         setContentView(binding.root)
+    }
+
+    override fun onBackPressed() {
+        if (fabIsRotated) {
+            fabClick(binding.actionButton)
+        } else {
+            super.onBackPressed()
+        }
     }
 
     private fun initFab() {
@@ -39,12 +51,18 @@ class MainActivity : AppCompatActivity() {
             FabAnimation.init(it)
         }
 
-        // Make the opacity layer completely transparent
-        binding.opacityLayout.alpha = 0F
         // Close the FAB menu if user clicks background content
-        binding.opacityLayout.setOnClickListener {
+        binding.coordinator.setOnClickListener {
             fabClick(binding.actionButton)
         }
+
+        // Prepare for animating
+        colorDrawables = arrayOf(
+                ColorDrawable(Color.TRANSPARENT),
+                ColorDrawable(resources.getColor(R.color.black40p))
+        )
+        transitionDrawable = TransitionDrawable(colorDrawables)
+        binding.coordinator.foreground = transitionDrawable
     }
 
     fun fabClick(view: View) {
@@ -57,34 +75,21 @@ class MainActivity : AppCompatActivity() {
                 FabAnimation.showIn(it)
             }
 
-            // Show the opacity layer with an animation
-            binding.opacityLayout.visibility = View.VISIBLE
-            binding.opacityLayout.animate()
-                    .setDuration(250)
-                    .alpha(0.25F)
             // Prevent scrolling on main content
-            binding.homeScroll.scrolling = false
+            binding.homeScroll.scrolling = false;
+            // Animate opacity in
+            transitionDrawable.startTransition(250)
         } else {
             fabList.forEach {
                 FabAnimation.showOut(it)
             }
 
             // Enable scrolling back
-            binding.homeScroll.scrolling = true
-            // Animate the opacity layer out
-            binding.opacityLayout.animate()
-                    .setDuration(250)
-                    .alpha(0F)
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator?) {
-                            super.onAnimationEnd(animation)
-
-                            // Get rid of the opacity layer after the animation is done
-                            if (!fabIsRotated) {
-                                binding.opacityLayout.visibility = View.GONE
-                            }
-                        }
-                    })
+            binding.homeScroll.scrolling = true;
+            // Animate opacity out
+            transitionDrawable.reverseTransition(250)
         }
+
+
     }
 }

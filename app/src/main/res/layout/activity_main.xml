@@ -1,61 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.MainActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.github.kwasow.archipelago.views.StoppableScrollView
-        android:id="@+id/homeScroll"
-        android:layout_width="match_parent"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_height="match_parent"
-        app:stickyHeader="@id/titleLayout"
-        android:scrollbars="none">
+        android:layout_width="match_parent">
 
-        <LinearLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="6dp"
-            android:paddingBottom="10dp">
+            android:layout_height="wrap_content">
 
-            <View
-                android:id="@+id/placeholder"
+            <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
-                android:layout_height="160dp"/>
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                app:title="@string/home"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.github.kwasow.archipelago.views.StoppableScrollView
+            android:id="@+id/homeScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:paddingTop="?attr/actionBarSize">
 
             <LinearLayout
-                android:id="@+id/titleLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/background_light"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/dashboardText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="10dp"
-                    android:text="@string/dashboard"
-                    android:textSize="32sp"
-                    android:textStyle="bold"/>
 
                 <View
-                    android:id="@+id/divider"
+                    android:id="@+id/placeholder"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginHorizontal="4dp"
-                    android:background="@color/black"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                    android:layout_height="250dp"/>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardSummary"
@@ -92,17 +74,9 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        </com.github.kwasow.archipelago.views.StoppableScrollView>
 
-    </com.github.kwasow.archipelago.views.StoppableScrollView>
-
-    <LinearLayout
-        android:id="@+id/opacityLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:orientation="horizontal"
-        android:background="@color/black"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/actionButtonStock"
@@ -111,6 +85,7 @@
         android:layout_margin="10dp"
         android:backgroundTint="@color/primary_light"
         android:src="@drawable/ic_graph"
+        android:contentDescription="@string/description_add_source_stock"
         app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@id/actionButtonInvestment"
         app:layout_constraintStart_toStartOf="@id/actionButton"
@@ -142,6 +117,7 @@
         android:layout_margin="10dp"
         android:backgroundTint="@color/primary_light"
         android:src="@drawable/ic_percent"
+        android:contentDescription="@string/description_add_source_investment"
         app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@id/actionButtonSavings"
         app:layout_constraintStart_toStartOf="@id/actionButton"
@@ -173,6 +149,7 @@
         android:layout_margin="10dp"
         android:backgroundTint="@color/primary_light"
         android:src="@drawable/ic_credit_card"
+        android:contentDescription="@string/description_add_source_savings_account"
         app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@id/actionButtonCash"
         app:layout_constraintStart_toStartOf="@id/actionButton"
@@ -204,6 +181,7 @@
         android:layout_margin="10dp"
         android:backgroundTint="@color/primary_light"
         android:src="@drawable/ic_dollar"
+        android:contentDescription="@string/description_add_source_cash"
         app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@id/actionButton"
         app:layout_constraintStart_toStartOf="@id/actionButton"
@@ -235,7 +213,7 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
         android:onClick="fabClick"
-        android:contentDescription="@string/description_add_balance_fab"
+        android:contentDescription="@string/description_add_savings_source_fab"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
