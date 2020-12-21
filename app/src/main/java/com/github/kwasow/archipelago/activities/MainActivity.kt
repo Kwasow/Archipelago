@@ -1,12 +1,10 @@
 package com.github.kwasow.archipelago.activities
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.TransitionDrawable
-import androidx.appcompat.app.AppCompatActivity
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.View
-import com.github.kwasow.archipelago.R
+import androidx.appcompat.app.AppCompatActivity
 import com.github.kwasow.archipelago.animations.FabAnimation
 import com.github.kwasow.archipelago.databinding.ActivityMainBinding
 
@@ -14,8 +12,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val fabList = mutableListOf<View>()
     var fabIsRotated = false
-    private lateinit var colorDrawables: Array<ColorDrawable>
-    private lateinit var transitionDrawable: TransitionDrawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,17 +48,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Close the FAB menu if user clicks background content
-        binding.coordinator.setOnClickListener {
+        binding.opacity.setOnClickListener {
             fabClick(binding.actionButton)
         }
 
         // Prepare for animating
-        colorDrawables = arrayOf(
-                ColorDrawable(Color.TRANSPARENT),
-                ColorDrawable(resources.getColor(R.color.black40p))
-        )
-        transitionDrawable = TransitionDrawable(colorDrawables)
-        binding.coordinator.foreground = transitionDrawable
+        binding.opacity.alpha = 0F
     }
 
     fun fabClick(view: View) {
@@ -76,20 +67,30 @@ class MainActivity : AppCompatActivity() {
             }
 
             // Prevent scrolling on main content
-            binding.homeScroll.scrolling = false;
+            binding.opacity.visibility = View.VISIBLE
             // Animate opacity in
-            transitionDrawable.startTransition(250)
+            binding.opacity.animate()
+                    .setDuration(250)
+                    .alpha(0.25F)
         } else {
             fabList.forEach {
                 FabAnimation.showOut(it)
             }
 
-            // Enable scrolling back
-            binding.homeScroll.scrolling = true;
             // Animate opacity out
-            transitionDrawable.reverseTransition(250)
+            binding.opacity.animate()
+                    .setDuration(250)
+                    .alpha(0F)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator?) {
+                            super.onAnimationEnd(animation)
+
+                            // Get rid of the view when animation is done and restore scrolling
+                            if (!fabIsRotated) {
+                                binding.opacity.visibility = View.GONE
+                            }
+                        }
+                    })
         }
-
-
     }
 }

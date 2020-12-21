@@ -5,8 +5,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- The main content view -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinator"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
 
@@ -22,7 +22,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.github.kwasow.archipelago.views.StoppableScrollView
+        <ScrollView
             android:id="@+id/homeScroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -74,10 +74,19 @@
 
             </LinearLayout>
 
-        </com.github.kwasow.archipelago.views.StoppableScrollView>
+        </ScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+    <!-- Opacity layer to do stuff -->
+    <View
+        android:id="@+id/opacity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/black"/>
+
+    <!-- Floating action button stuff -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/actionButtonStock"
         android:layout_width="wrap_content"
