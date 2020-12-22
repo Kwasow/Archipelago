@@ -6,4 +6,6 @@ labels: new country
 assignees: ''
 ---
 
+Do you wish to be credited: [no/by GitHub username/by my real name]
+
 Please provide necessary details here or in the comments below, after opening the issue. For details take a look at the Wiki

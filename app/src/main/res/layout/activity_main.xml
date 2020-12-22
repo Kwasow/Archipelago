@@ -15,9 +15,11 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/white"
+                app:menu="@menu/menu_home"
                 app:title="@string/home"/>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -95,6 +97,7 @@
         android:backgroundTint="@color/primary_light"
         android:src="@drawable/ic_graph"
         android:contentDescription="@string/description_add_source_stock"
+        android:onClick="addSource"
         app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@id/actionButtonInvestment"
         app:layout_constraintStart_toStartOf="@id/actionButton"
@@ -127,6 +130,7 @@
         android:backgroundTint="@color/primary_light"
         android:src="@drawable/ic_percent"
         android:contentDescription="@string/description_add_source_investment"
+        android:onClick="addSource"
         app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@id/actionButtonSavings"
         app:layout_constraintStart_toStartOf="@id/actionButton"
@@ -159,6 +163,7 @@
         android:backgroundTint="@color/primary_light"
         android:src="@drawable/ic_credit_card"
         android:contentDescription="@string/description_add_source_savings_account"
+        android:onClick="addSource"
         app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@id/actionButtonCash"
         app:layout_constraintStart_toStartOf="@id/actionButton"
@@ -191,6 +196,7 @@
         android:backgroundTint="@color/primary_light"
         android:src="@drawable/ic_dollar"
         android:contentDescription="@string/description_add_source_cash"
+        android:onClick="addSource"
         app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@id/actionButton"
         app:layout_constraintStart_toStartOf="@id/actionButton"

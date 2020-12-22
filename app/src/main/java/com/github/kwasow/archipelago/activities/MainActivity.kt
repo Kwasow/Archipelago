@@ -2,9 +2,11 @@ package com.github.kwasow.archipelago.activities
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.github.kwasow.archipelago.R
 import com.github.kwasow.archipelago.animations.FabAnimation
 import com.github.kwasow.archipelago.databinding.ActivityMainBinding
 
@@ -19,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         initFab()
+        setupOptionsMenu()
 
         setContentView(binding.root)
     }
@@ -92,5 +95,41 @@ class MainActivity : AppCompatActivity() {
                         }
                     })
         }
+    }
+
+    private fun setupOptionsMenu() {
+        binding.topAppBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menuSettings -> {
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivity(intent)
+
+                }
+            }
+
+            return@setOnMenuItemClickListener true;
+        }
+    }
+
+    fun addSource(view: View) {
+        val intent = Intent(this, AddSourceActivity::class.java)
+
+        /*
+        Pass info about the type of funds being added as an intent extra
+        0 - something went wrong
+        1 - cash
+        2 - savings account
+        3 - investment
+        4 - stocks
+        */
+        when (view) {
+            binding.actionButtonCash -> intent.putExtra("sourceType", 1)
+            binding.actionButtonSavings -> intent.putExtra("sourceType", 2)
+            binding.actionButtonInvestment -> intent.putExtra("sourceType", 3)
+            binding.actionButtonStock -> intent.putExtra("sourceType", 4)
+            else -> intent.putExtra("sourceType", 0)
+        }
+
+        startActivity(intent)
     }
 }

@@ -1,0 +1,39 @@
+{
+  "full name": "Poland",
+  "country code": "PL",
+  "taxes": {
+    "savings": {
+      "taxed": "income",
+      "automatic": true,
+      "brackets": [
+        [
+          0,
+          -1,
+          19
+        ]
+      ]
+    },
+    "investment": {
+      "taxed": "income",
+      "automatic": true,
+      "brackets": [
+        [
+          0,
+          -1,
+          19
+        ]
+      ]
+    },
+    "stock": {
+      "taxed": "income",
+      "automatic": false,
+      "brackets": [
+        [
+          0,
+          -1,
+          19
+        ]
+      ]
+    }
+  }
+}

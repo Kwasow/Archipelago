@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">Archipelago</string>
 
+    <!-- Used on the home screen -->
     <string name="home">Home</string>
     <string name="cash">Cash</string>
     <string name="savings_account">Savings account</string>
     <string name="investment">Investment</string>
     <string name="stocks">Stocks</string>
+    <string name="settings">Settings</string>
 
     <!-- Descriptions describe objects on screen for text-to-speech -->
     <string name="description_add_savings_source_fab">A floating action button to add savings source</string>
