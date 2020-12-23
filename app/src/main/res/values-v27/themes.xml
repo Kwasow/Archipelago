@@ -4,4 +4,8 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightNavigationBar">true</item>
     </style>
+
+    <style name="Theme.Archipelago.App.DarkNotificationBar" parent="Theme.Archipelago.App">
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
 </resources>

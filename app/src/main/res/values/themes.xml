@@ -20,4 +20,8 @@
 
     <!-- For API 23-27 -->
     <style name="Theme.Archipelago.App" parent="Theme.Archipelago"/>
+
+    <style name="Theme.Archipelago.App.DarkNotificationBar" parent="Theme.Archipelago.App">
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
 </resources>

@@ -103,7 +103,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.menuSettings -> {
                     val intent = Intent(this, SettingsActivity::class.java)
                     startActivity(intent)
-
                 }
             }
 
@@ -128,6 +127,11 @@ class MainActivity : AppCompatActivity() {
             binding.actionButtonInvestment -> intent.putExtra("sourceType", 3)
             binding.actionButtonStock -> intent.putExtra("sourceType", 4)
             else -> intent.putExtra("sourceType", 0)
+        }
+
+        // Close fab if it's open (it probably is, just double checking)
+        if (fabIsRotated) {
+            fabClick(binding.actionButton)
         }
 
         startActivity(intent)
