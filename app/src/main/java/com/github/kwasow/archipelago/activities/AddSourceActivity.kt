@@ -37,6 +37,8 @@ class AddSourceActivity : AppCompatActivity() {
             4 -> sourceStock()
         }
 
+        binding.amount.setCurrency("zł")
+
         setContentView(binding.root)
     }
 

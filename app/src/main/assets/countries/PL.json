@@ -1,6 +1,7 @@
 {
   "full name": "Poland",
   "country code": "PL",
+  "currency symbol": "zł",
   "taxes": {
     "savings": {
       "taxed": "income",
