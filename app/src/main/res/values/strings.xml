@@ -18,6 +18,9 @@
     <string name="source_name">Source name</string>
     <string name="country">Country</string>
     <string name="amount">Amount</string>
+    <string name="interest">Interest</string>
+    <string name="capitalization">Capitalization</string>
+    <string name="finish">Finish</string>
 
     <!-- Descriptions describe objects on screen for text-to-speech -->
     <string name="description_add_savings_source_fab">A floating action button to add savings source</string>

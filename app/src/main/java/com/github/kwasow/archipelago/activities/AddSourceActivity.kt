@@ -2,9 +2,7 @@ package com.github.kwasow.archipelago.activities
 
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kwasow.archipelago.R
 import com.github.kwasow.archipelago.databinding.ActivityAddSourceBinding
@@ -23,10 +21,17 @@ class AddSourceActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        val items = listOf("PL", "UK", "DE", "DK")
-        val adapter = ArrayAdapter(this, R.layout.list_item, items)
-        (binding.countrySelect.editText as AutoCompleteTextView)
-                .setAdapter(adapter)
+        // TODO: Get these from assets
+        // This is a placeholder
+        val countries = listOf("PL", "UK", "DE", "DK")
+        val adapter = ArrayAdapter(this, R.layout.list_item, countries)
+        binding.countrySelect.setAdapter(adapter)
+
+        // TODO: Create a list with string resources
+        // This is a placeholder
+        val caps = listOf("Daily", "Weekly", "Monthly", "Bi-yearly", "Yearly", "End of month")
+        val adapter2 = ArrayAdapter(this, R.layout.list_item, caps)
+        binding.capitalization.setAdapter(adapter2)
 
         // Check which source details should be rendered
         when (intent.getIntExtra("sourceType", 0)) {
@@ -42,6 +47,10 @@ class AddSourceActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
+    fun finishAdding(view: View) {
+        // TODO: Write class for adding and managing this data
+    }
+
     private fun somethingWentWrong() {
         binding.photoLeading.setImageResource(R.drawable.ic_ghost)
         binding.title.setText(R.string.something_went_wrong)
@@ -50,6 +59,8 @@ class AddSourceActivity : AppCompatActivity() {
     private fun sourceCash() {
         binding.photoLeading.setImageResource(R.drawable.ic_dollar)
         binding.title.setText(R.string.new_cash_source)
+        binding.interestLayout.visibility = View.GONE
+        binding.capitalizationLayout.visibility = View.GONE
     }
 
     private fun sourceSavings() {

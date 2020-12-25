@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:tools="http://schemas.android.com/tools"
+<!-- Add some spacing -->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -73,7 +75,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintTop_toBottomOf="@id/title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/countrySelect">
+                    app:layout_constraintEnd_toStartOf="@id/countrySelectLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/sourceName"
@@ -84,7 +86,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/countrySelect"
+                    android:id="@+id/countrySelectLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/country"
@@ -93,6 +95,7 @@
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <AutoCompleteTextView
+                        android:id="@+id/countrySelect"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none" />
@@ -100,11 +103,12 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/amountLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/amount"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:layout_constraintTop_toBottomOf="@id/countrySelect"
+                    app:layout_constraintTop_toBottomOf="@id/countrySelectLayout"
                     app:layout_constraintStart_toStartOf="parent">
 
                     <com.github.kwasow.archipelago.views.CurrencyEdit
@@ -114,6 +118,51 @@
                         android:inputType="numberDecimal"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/interestLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="10dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/interest"
+                    app:layout_constraintTop_toBottomOf="@id/amountLayout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/capitalizationLayout">
+
+                    <com.github.kwasow.archipelago.views.CurrencyEdit
+                        android:id="@+id/interest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/capitalizationLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:hint="@string/capitalization"
+                    app:layout_constraintTop_toBottomOf="@id/amountLayout"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/capitalization"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/finishButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="finishAdding"
+                    android:text="@string/finish"
+                    app:layout_constraintTop_toBottomOf="@id/interestLayout"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
