@@ -2,6 +2,7 @@ package com.github.kwasow.archipelago.data
 
 import android.content.Context
 import com.github.kwasow.archipelago.utils.SourceManager
+import java.io.Serializable
 
 data class SourceCash(
         var name: String,
@@ -10,7 +11,7 @@ data class SourceCash(
         var currency: String,
         var amount: Double,
         var transactions: Array<Transaction>
-) {
+) : Serializable {
     fun save(context: Context): Boolean {
         return SourceManager.save(
                 context, name, "/cash", this

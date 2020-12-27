@@ -29,6 +29,11 @@ class SourceManager {
                 return false
             }
 
+            // Create missing directories
+            if (!file.parentFile!!.exists()) {
+                file.parentFile!!.mkdirs()
+            }
+
             val encryptedFile = EncryptedFile.Builder(
                     file,
                     context,

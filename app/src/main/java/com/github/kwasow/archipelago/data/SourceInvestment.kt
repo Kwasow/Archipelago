@@ -2,6 +2,7 @@ package com.github.kwasow.archipelago.data
 
 import android.content.Context
 import com.github.kwasow.archipelago.utils.SourceManager
+import java.io.Serializable
 import java.util.*
 
 data class SourceInvestment(
@@ -14,7 +15,7 @@ data class SourceInvestment(
         val capitalization: SourceManager.Capitalization,
         var start: Date,
         var end: Date
-) {
+) : Serializable {
     fun save(context: Context): Boolean {
         return SourceManager.save(
                 context, name, "/investment", this

@@ -2,6 +2,7 @@ package com.github.kwasow.archipelago.data
 
 import android.content.Context
 import com.github.kwasow.archipelago.utils.SourceManager
+import java.io.Serializable
 
 data class SourceAccount(
         var name: String,
@@ -12,7 +13,7 @@ data class SourceAccount(
         var interest: Double,
         val capitalization: SourceManager.Capitalization,
         var transactions: Array<Transaction>
-) {
+) : Serializable {
     fun save(context: Context): Boolean {
         return SourceManager.save(
                 context, name, "/account", this
