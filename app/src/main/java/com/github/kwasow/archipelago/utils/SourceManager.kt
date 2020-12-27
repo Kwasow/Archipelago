@@ -3,6 +3,7 @@ package com.github.kwasow.archipelago.utils
 import android.content.Context
 import androidx.security.crypto.EncryptedFile
 import androidx.security.crypto.MasterKeys
+import com.github.kwasow.archipelago.R
 import com.github.kwasow.archipelago.data.Transaction
 import java.io.File
 import java.io.ObjectInputStream
@@ -10,8 +11,11 @@ import java.io.ObjectOutputStream
 
 class SourceManager {
 
-    enum class Capitalization {
-        EndOfMonth, EndOfInvestment, Monthly, Yearly
+    enum class Capitalization(val value: Int) {
+        EndOfMonth(R.string.end_of_month),
+        EndOfInvestment(R.string.end_of_investment),
+        Monthly(R.string.monthly),
+        Yearly(R.string.yearly)
     }
 
     companion object {

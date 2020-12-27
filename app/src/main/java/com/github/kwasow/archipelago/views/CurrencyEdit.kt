@@ -69,6 +69,14 @@ class CurrencyEdit : TextInputEditText {
 
             override fun afterTextChanged(editable: Editable) {}
         })
+
+        // To prevent errors with empty strings
+        setText("0")
+    }
+
+    private fun refresh() {
+        val value = getDoubleValue()
+        setText(value.toString())
     }
 
     fun getDoubleValue() : Double {
@@ -81,5 +89,7 @@ class CurrencyEdit : TextInputEditText {
 
     fun setCurrency(currencySymbol: String) {
         currency = currencySymbol
+        // Refresh will add the currency symbol to whatever is written in the textview
+        refresh()
     }
 }

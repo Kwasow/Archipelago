@@ -6,6 +6,8 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kwasow.archipelago.R
 import com.github.kwasow.archipelago.databinding.ActivityAddSourceBinding
+import com.github.kwasow.archipelago.utils.CountryManager
+import com.github.kwasow.archipelago.utils.SourceManager
 
 class AddSourceActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddSourceBinding
@@ -21,17 +23,25 @@ class AddSourceActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        // TODO: Get these from assets
-        // This is a placeholder
-        val countries = listOf("PL", "UK", "DE", "DK")
-        val adapter = ArrayAdapter(this, R.layout.list_item, countries)
-        binding.countrySelect.setAdapter(adapter)
+        val countries = CountryManager.getCountries(this)
+        val countryCodes = mutableListOf<String>()
+        countries.forEach {
+            countryCodes.add(it.code)
+        }
+        val countryAdapter = ArrayAdapter(this, R.layout.list_item, countryCodes)
+        binding.countrySelect.setAdapter(countryAdapter)
+        binding.countrySelect.setOnItemClickListener { _, _, i, _ ->
+            binding.amount.setCurrency(countries[i].currency)
+        }
 
-        // TODO: Create a list with string resources
-        // This is a placeholder
-        val caps = listOf("Daily", "Weekly", "Monthly", "Bi-yearly", "Yearly", "End of month")
-        val adapter2 = ArrayAdapter(this, R.layout.list_item, caps)
-        binding.capitalization.setAdapter(adapter2)
+        val caps = listOf(
+                resources.getString(SourceManager.Capitalization.EndOfMonth.value),
+                resources.getString(SourceManager.Capitalization.EndOfInvestment.value),
+                resources.getString(SourceManager.Capitalization.Monthly.value),
+                resources.getString(SourceManager.Capitalization.Yearly.value)
+        )
+        val capAdapter = ArrayAdapter(this, R.layout.list_item, caps)
+        binding.capitalization.setAdapter(capAdapter)
 
         // Check which source details should be rendered
         when (intent.getIntExtra("sourceType", 0)) {
@@ -41,8 +51,6 @@ class AddSourceActivity : AppCompatActivity() {
             3 -> sourceInvestment()
             4 -> sourceStock()
         }
-
-        binding.amount.setCurrency("zł")
 
         setContentView(binding.root)
     }

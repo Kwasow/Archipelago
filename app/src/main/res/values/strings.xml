@@ -22,6 +22,12 @@
     <string name="capitalization">Capitalization</string>
     <string name="finish">Finish</string>
 
+    <!-- Capitalization types -->
+    <string name="end_of_month">End of month</string>
+    <string name="end_of_investment">End of investment</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
+
     <!-- Descriptions describe objects on screen for text-to-speech -->
     <string name="description_add_savings_source_fab">A floating action button to add savings source</string>
     <string name="description_add_source_cash">A floating action button to add a cash source</string>
