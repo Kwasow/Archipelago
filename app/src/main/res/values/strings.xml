@@ -27,6 +27,10 @@
     <string name="date_start">Date start</string>
     <string name="date_end">Date end</string>
     <string name="finish">Finish</string>
+    <string name="initial_account_state">Initial account state</string>
+    <string name="added_automatically">Added automatically</string>
+    <string name="error_blank">This cannot be blank</string>
+    <string name="error_endDate_before_startDate">End date is before start date</string>
 
     <!-- Capitalization types -->
     <string name="end_of_month">End of month</string>
