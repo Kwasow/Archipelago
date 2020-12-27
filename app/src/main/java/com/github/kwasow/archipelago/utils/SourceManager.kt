@@ -21,13 +21,21 @@ class SourceManager {
     companion object {
         // Different sources run these with their own parameters
         fun save(context: Context, name: String, dir: String, source: Any) : Boolean {
+            var realName = name
             val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 
-            val file = File(context.filesDir.path + dir, name)
+            var file = File(context.filesDir.path + dir, realName)
 
-            if (file.exists()) {
-                return false
-            }
+            // Check if file doesn't yet exist and change filename if necessary
+            var noChanges: Boolean
+            do {
+                noChanges = true
+                if (file.exists()) {
+                    realName += ".1"
+                    file = File(context.filesDir.path + dir, realName)
+                    noChanges = false
+                }
+            } while (noChanges)
 
             // Create missing directories
             if (!file.parentFile!!.exists()) {
