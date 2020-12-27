@@ -8,6 +8,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kwasow.archipelago.R
 import com.github.kwasow.archipelago.animations.FabAnimation
+import com.github.kwasow.archipelago.data.SourceAccount
+import com.github.kwasow.archipelago.data.SourceCash
+import com.github.kwasow.archipelago.data.SourceInvestment
 import com.github.kwasow.archipelago.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +25,8 @@ class MainActivity : AppCompatActivity() {
 
         initFab()
         setupOptionsMenu()
+
+        debugLoadSources()
 
         setContentView(binding.root)
     }
@@ -119,5 +124,23 @@ class MainActivity : AppCompatActivity() {
 
     fun addTransaction(view: View) {
         // TODO: Add transaction popup probably
+    }
+
+    private fun debugLoadSources() {
+        val cash = SourceCash.get(this)
+        val account = SourceAccount.get(this)
+        val investment = SourceInvestment.get(this)
+        var string = ""
+        cash.forEach {
+            string += it.toString() + "\n"
+        }
+        account.forEach {
+            string += it.toString() + "\n"
+        }
+        investment.forEach {
+            string += it.toString() + "\n"
+        }
+
+        binding.debugTextView.text = string
     }
 }

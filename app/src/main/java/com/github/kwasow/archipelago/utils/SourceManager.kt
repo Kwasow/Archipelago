@@ -2,6 +2,7 @@ package com.github.kwasow.archipelago.utils
 
 import android.content.Context
 import androidx.security.crypto.EncryptedFile
+import androidx.security.crypto.MasterKey
 import androidx.security.crypto.MasterKeys
 import com.github.kwasow.archipelago.R
 import com.github.kwasow.archipelago.data.Transaction
@@ -22,20 +23,22 @@ class SourceManager {
         // Different sources run these with their own parameters
         fun save(context: Context, name: String, dir: String, source: Any) : Boolean {
             var realName = name
-            val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-
+            val masterKeyAlias = MasterKey.Builder(
+                    context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                    .build()
             var file = File(context.filesDir.path + dir, realName)
 
             // Check if file doesn't yet exist and change filename if necessary
-            var noChanges: Boolean
+            var changes: Boolean
             do {
-                noChanges = true
+                changes = false
                 if (file.exists()) {
                     realName += ".1"
                     file = File(context.filesDir.path + dir, realName)
-                    noChanges = false
+                    changes = true
                 }
-            } while (noChanges)
+            } while (changes)
 
             // Create missing directories
             if (!file.parentFile!!.exists()) {
@@ -43,8 +46,8 @@ class SourceManager {
             }
 
             val encryptedFile = EncryptedFile.Builder(
-                    file,
                     context,
+                    file,
                     masterKeyAlias,
                     EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
             ).build()
@@ -62,13 +65,17 @@ class SourceManager {
 
             if (directory.exists() && directory.isDirectory) {
                 val files = directory.listFiles()
-                val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+                val masterKeyAlias = MasterKey.Builder(
+                        context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+                        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                        .build()
                 val list = mutableListOf<Any>()
 
                 files?.forEach {
+                    ArchipelagoError.d(it.path)
                     val encryptedFile = EncryptedFile.Builder(
-                            it,
                             context,
+                            it,
                             masterKeyAlias,
                             EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
                     ).build()

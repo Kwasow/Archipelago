@@ -26,10 +26,22 @@ data class SourceCash(
         // This is safe - I promise
         @Suppress("UNCHECKED_CAST")
         fun get(context: Context): Array<SourceCash> {
-            return SourceManager.get(
+            val returnArray = SourceManager.get(
                     context, "/cash"
-            ) as Array<SourceCash>
+            )
+
+            return if (returnArray.isEmpty()) {
+                // Return empty array if array is empty.
+                // This prevents java from converting empty object to source object
+                arrayOf()
+            } else {
+                returnArray as Array<SourceCash>
+            }
         }
+    }
+
+    override fun toString(): String {
+        return "SourceCash{$name}"
     }
 
     // Generated automatically

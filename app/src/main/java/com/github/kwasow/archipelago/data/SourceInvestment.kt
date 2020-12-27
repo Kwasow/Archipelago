@@ -26,9 +26,21 @@ data class SourceInvestment(
         // This is safe - I promise
         @Suppress("UNCHECKED_CAST")
         fun get(context: Context): Array<SourceInvestment> {
-            return SourceManager.get(
+            val returnArray = SourceManager.get(
                     context, "/investment"
-            ) as Array<SourceInvestment>
+            )
+
+            return if (returnArray.isEmpty()) {
+                // Return empty array if array is empty.
+                // This prevents java from converting empty object to source object
+                arrayOf()
+            } else {
+                returnArray  as Array<SourceInvestment>
+            }
         }
+    }
+
+    override fun toString(): String {
+        return "SourceInvestment{$name}"
     }
 }

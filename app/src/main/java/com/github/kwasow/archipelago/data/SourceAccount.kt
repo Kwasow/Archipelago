@@ -28,10 +28,22 @@ data class SourceAccount(
         // This is safe - I promise
         @Suppress("UNCHECKED_CAST")
         fun get(context: Context): Array<SourceAccount> {
-            return SourceManager.get(
+            val returnArray = SourceManager.get(
                     context, "/account"
-            ) as Array<SourceAccount>
+            )
+
+            return if (returnArray.isEmpty()) {
+                // Return empty array if array is empty.
+                // This prevents java from converting empty object to source object
+                arrayOf()
+            } else {
+                returnArray as Array<SourceAccount>
+            }
         }
+    }
+
+    override fun toString(): String {
+        return "SourceAccount{$name}"
     }
 
     // Generated automatically
