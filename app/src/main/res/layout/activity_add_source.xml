@@ -21,7 +21,7 @@
                 android:id="@+id/photoLeading"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
-                android:src="@drawable/ic_dollar"
+                android:src="@drawable/ic_source_add"
                 android:scaleType="fitXY"
                 android:contentDescription="@string/description_image_representing_action"
                 android:layout_gravity="center"
@@ -55,27 +55,51 @@
                 android:background="@drawable/bg_2corners_white"
                 android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/title"
+                <LinearLayout
+                    android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Placeholder"
-                    android:textStyle="bold"
-                    android:textSize="24sp"
-                    android:paddingBottom="10dp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="HardcodedText"/>
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_new"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        android:paddingEnd="20dp"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/sourceTypeLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/source"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/sourceType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/sourceNameLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/source_name"
                     android:paddingEnd="10dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:layout_constraintTop_toBottomOf="@id/title"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayout"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/countrySelectLayout">
+                    app:layout_constraintEnd_toStartOf="@id/countrySelectLayout"
+                    android:visibility="gone">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/sourceName"
@@ -91,8 +115,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/country"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    app:layout_constraintTop_toBottomOf="@id/title"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/linearLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:visibility="gone">
 
                     <AutoCompleteTextView
                         android:id="@+id/countrySelect"
@@ -109,7 +134,8 @@
                     android:hint="@string/amount"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintTop_toBottomOf="@id/countrySelectLayout"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:visibility="gone">
 
                     <com.github.kwasow.archipelago.views.CurrencyEdit
                         android:id="@+id/amount"
@@ -128,7 +154,8 @@
                     android:hint="@string/interest"
                     app:layout_constraintTop_toBottomOf="@id/amountLayout"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/capitalizationLayout">
+                    app:layout_constraintEnd_toStartOf="@id/capitalizationLayout"
+                    android:visibility="gone">
 
                     <com.github.kwasow.archipelago.views.CurrencyEdit
                         android:id="@+id/interest"
@@ -145,7 +172,8 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:hint="@string/capitalization"
                     app:layout_constraintTop_toBottomOf="@id/amountLayout"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:visibility="gone">
 
                     <AutoCompleteTextView
                         android:id="@+id/capitalization"
@@ -155,14 +183,54 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dateStartLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/date_start"
+                    android:paddingEnd="10dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/dateEndLayout"
+                    app:layout_constraintTop_toBottomOf="@id/capitalizationLayout"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dateStart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="date"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dateEndLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/date_end"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/dateStartLayout"
+                    app:layout_constraintTop_toBottomOf="@id/capitalizationLayout"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dateEnd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="date"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/finishButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="finishAdding"
                     android:text="@string/finish"
-                    app:layout_constraintTop_toBottomOf="@id/interestLayout"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/dateEndLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:visibility="gone"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

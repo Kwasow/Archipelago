@@ -8,6 +8,8 @@
     <string name="investment">Investment</string>
     <string name="stocks">Stocks</string>
     <string name="settings">Settings</string>
+    <string name="add_source">New source</string>
+    <string name="add_transaction">New transaction</string>
 
     <!-- Used in adding a new savings source -->
     <string name="something_went_wrong">Uhhh… Someone messed up, if you\'re seeing this</string>
@@ -15,11 +17,15 @@
     <string name="new_savings">New savings account</string>
     <string name="new_investment">New investment</string>
     <string name="new_stock">New stock</string>
+    <string name="add_new">Add new</string>
+    <string name="source">Source</string>
     <string name="source_name">Source name</string>
     <string name="country">Country</string>
     <string name="amount">Amount</string>
     <string name="interest">Interest</string>
     <string name="capitalization">Capitalization</string>
+    <string name="date_start">Date start</string>
+    <string name="date_end">Date end</string>
     <string name="finish">Finish</string>
 
     <!-- Capitalization types -->
@@ -29,10 +35,12 @@
     <string name="yearly">Yearly</string>
 
     <!-- Descriptions describe objects on screen for text-to-speech -->
-    <string name="description_add_savings_source_fab">A floating action button to add savings source</string>
+    <string name="description_add_savings_source_fab">A floating action button to add savings source or transaction</string>
     <string name="description_add_source_cash">A floating action button to add a cash source</string>
     <string name="description_add_source_savings_account">A floating action button to add a savings account source</string>
     <string name="description_add_source_investment">A floating action button to add an investment entry</string>
     <string name="description_add_source_stock">A floating action button to add a stock entry</string>
+    <string name="description_add_source">A floating action button to add a new savings source</string>
+    <string name="description_add_transaction">A floating action button to add a new transaction</string>
     <string name="description_image_representing_action">An image representing the chosen action</string>
 </resources>

@@ -23,6 +23,46 @@ class AddSourceActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        // Set up source chooser
+        val sources = listOf("cash source", "savings account", "investment", "stock")
+        val sourcesAdapter = ArrayAdapter(this, R.layout.list_item, sources)
+        binding.sourceType.setAdapter(sourcesAdapter)
+        // Listen to source selected and show the appropriate views
+        binding.sourceType.setOnItemClickListener { _, _, i, _ ->
+            // Reset to default state in case something was visible that shouldn't be
+            binding.finishButton.isEnabled = true
+            binding.interestLayout.visibility = View.GONE
+            binding.capitalizationLayout.visibility = View.GONE
+            binding.dateStartLayout.visibility = View.GONE
+            binding.dateEndLayout.visibility = View.GONE
+
+            // Things to always show
+            binding.sourceNameLayout.visibility = View.VISIBLE
+            binding.countrySelectLayout.visibility = View.VISIBLE
+            binding.amountLayout.visibility = View.VISIBLE
+            binding.finishButton.visibility = View.VISIBLE
+
+            when (i) {
+                // Cash
+                0 -> {
+                    sourceCash()
+                }
+                // Savings
+                1 -> {
+                    sourceSavings()
+                }
+                // Investment
+                2 -> {
+                    sourceInvestment()
+                }
+                // Stock
+                3 -> {
+                    sourceStock()
+                }
+            }
+        }
+
+        // Set up country chooser
         val countries = CountryManager.getCountries(this)
         val countryCodes = mutableListOf<String>()
         countries.forEach {
@@ -30,10 +70,12 @@ class AddSourceActivity : AppCompatActivity() {
         }
         val countryAdapter = ArrayAdapter(this, R.layout.list_item, countryCodes)
         binding.countrySelect.setAdapter(countryAdapter)
+        // Set currency when country is selected
         binding.countrySelect.setOnItemClickListener { _, _, i, _ ->
             binding.amount.setCurrency(countries[i].currency)
         }
 
+        // Set up possible capitalization options
         val caps = listOf(
                 resources.getString(SourceManager.Capitalization.EndOfMonth.value),
                 resources.getString(SourceManager.Capitalization.EndOfInvestment.value),
@@ -43,48 +85,40 @@ class AddSourceActivity : AppCompatActivity() {
         val capAdapter = ArrayAdapter(this, R.layout.list_item, caps)
         binding.capitalization.setAdapter(capAdapter)
 
-        // Check which source details should be rendered
-        when (intent.getIntExtra("sourceType", 0)) {
-            0 -> somethingWentWrong()
-            1 -> sourceCash()
-            2 -> sourceSavings()
-            3 -> sourceInvestment()
-            4 -> sourceStock()
-        }
+        binding.interest.setCurrency("%")
 
         setContentView(binding.root)
     }
 
     fun finishAdding(view: View) {
-        // TODO: Write class for adding and managing this data
-    }
-
-    private fun somethingWentWrong() {
-        binding.photoLeading.setImageResource(R.drawable.ic_ghost)
-        binding.title.setText(R.string.something_went_wrong)
+        // TODO: Get and save data
     }
 
     private fun sourceCash() {
+        // TODO: Maybe add animation when selecting source
         binding.photoLeading.setImageResource(R.drawable.ic_dollar)
-        binding.title.setText(R.string.new_cash_source)
-        binding.interestLayout.visibility = View.GONE
-        binding.capitalizationLayout.visibility = View.GONE
     }
 
     private fun sourceSavings() {
         binding.photoLeading.setImageResource(R.drawable.ic_credit_card)
-        binding.title.setText(R.string.new_savings)
+
+        binding.interestLayout.visibility = View.VISIBLE
+        binding.capitalizationLayout.visibility = View.VISIBLE
     }
 
     private fun sourceInvestment() {
         binding.photoLeading.setImageResource(R.drawable.ic_percent)
-        binding.title.setText(R.string.new_investment)
+
+        binding.interestLayout.visibility = View.VISIBLE
+        binding.capitalizationLayout.visibility = View.VISIBLE
+        binding.dateStartLayout.visibility = View.VISIBLE
+        binding.dateEndLayout.visibility = View.VISIBLE
     }
 
     private fun sourceStock() {
+        // TODO: Stocks
         binding.photoLeading.setImageResource(R.drawable.ic_graph)
-        binding.title.setText(R.string.new_stock)
 
-        binding.amount.visibility = View.GONE
+        binding.finishButton.isEnabled = false
     }
 }

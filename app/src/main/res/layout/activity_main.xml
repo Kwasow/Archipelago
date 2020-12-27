@@ -90,112 +90,46 @@
 
     <!-- Floating action button stuff -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/actionButtonStock"
+        android:id="@+id/actionButtonTransaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:backgroundTint="@color/primary_light"
-        android:src="@drawable/ic_graph"
-        android:contentDescription="@string/description_add_source_stock"
-        android:onClick="addSource"
+        android:src="@drawable/ic_transaction"
+        android:contentDescription="@string/description_add_transaction"
+        android:onClick="addTransaction"
         app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@id/actionButtonInvestment"
+        app:layout_constraintBottom_toTopOf="@id/actionButtonSource"
         app:layout_constraintStart_toStartOf="@id/actionButton"
         app:layout_constraintEnd_toEndOf="@id/actionButton"/>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/fabCardStocks"
+        android:id="@+id/fabCardTransaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         app:cardCornerRadius="5dp"
-        app:layout_constraintEnd_toStartOf="@id/actionButtonStock"
-        app:layout_constraintTop_toTopOf="@id/actionButtonStock"
-        app:layout_constraintBottom_toBottomOf="@id/actionButtonStock">
+        app:layout_constraintEnd_toStartOf="@id/actionButtonTransaction"
+        app:layout_constraintTop_toTopOf="@id/actionButtonTransaction"
+        app:layout_constraintBottom_toBottomOf="@id/actionButtonTransaction">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/stocks"
+            android:text="@string/add_transaction"
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="4dp" />
 
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/actionButtonInvestment"
+        android:id="@+id/actionButtonSource"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:backgroundTint="@color/primary_light"
-        android:src="@drawable/ic_percent"
-        android:contentDescription="@string/description_add_source_investment"
-        android:onClick="addSource"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@id/actionButtonSavings"
-        app:layout_constraintStart_toStartOf="@id/actionButton"
-        app:layout_constraintEnd_toEndOf="@id/actionButton"/>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/fabCardInvestment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        app:cardCornerRadius="5dp"
-        app:layout_constraintEnd_toStartOf="@id/actionButtonInvestment"
-        app:layout_constraintTop_toTopOf="@id/actionButtonInvestment"
-        app:layout_constraintBottom_toBottomOf="@id/actionButtonInvestment">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/investment"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="4dp" />
-
-    </androidx.cardview.widget.CardView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/actionButtonSavings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:backgroundTint="@color/primary_light"
-        android:src="@drawable/ic_credit_card"
-        android:contentDescription="@string/description_add_source_savings_account"
-        android:onClick="addSource"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@id/actionButtonCash"
-        app:layout_constraintStart_toStartOf="@id/actionButton"
-        app:layout_constraintEnd_toEndOf="@id/actionButton"/>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/fabCardSavings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        app:cardCornerRadius="5dp"
-        app:layout_constraintEnd_toStartOf="@id/actionButtonSavings"
-        app:layout_constraintTop_toTopOf="@id/actionButtonSavings"
-        app:layout_constraintBottom_toBottomOf="@id/actionButtonSavings">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/savings_account"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="4dp" />
-
-    </androidx.cardview.widget.CardView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/actionButtonCash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:backgroundTint="@color/primary_light"
-        android:src="@drawable/ic_dollar"
-        android:contentDescription="@string/description_add_source_cash"
+        android:src="@drawable/ic_source_add"
+        android:contentDescription="@string/description_add_source"
         android:onClick="addSource"
         app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@id/actionButton"
@@ -203,19 +137,19 @@
         app:layout_constraintEnd_toEndOf="@id/actionButton"/>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/fabCardCash"
+        android:id="@+id/fabCardSource"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         app:cardCornerRadius="5dp"
-        app:layout_constraintEnd_toStartOf="@id/actionButtonCash"
-        app:layout_constraintTop_toTopOf="@id/actionButtonCash"
-        app:layout_constraintBottom_toBottomOf="@id/actionButtonCash">
+        app:layout_constraintEnd_toStartOf="@id/actionButtonSource"
+        app:layout_constraintTop_toTopOf="@id/actionButtonSource"
+        app:layout_constraintBottom_toBottomOf="@id/actionButtonSource">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cash"
+            android:text="@string/add_source"
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="4dp" />
 

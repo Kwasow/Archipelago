@@ -36,14 +36,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun initFab() {
         // Add all FAB items to a list for easier animations
-        fabList.add(binding.actionButtonCash)
-        fabList.add(binding.actionButtonSavings)
-        fabList.add(binding.actionButtonInvestment)
-        fabList.add(binding.actionButtonStock)
-        fabList.add(binding.fabCardCash)
-        fabList.add(binding.fabCardSavings)
-        fabList.add(binding.fabCardInvestment)
-        fabList.add(binding.fabCardStocks)
+        fabList.add(binding.actionButtonSource)
+        fabList.add(binding.fabCardSource)
+        fabList.add(binding.actionButtonTransaction)
+        fabList.add(binding.fabCardTransaction)
 
         // Get the items off the screen
         fabList.forEach {
@@ -113,27 +109,15 @@ class MainActivity : AppCompatActivity() {
     fun addSource(view: View) {
         val intent = Intent(this, AddSourceActivity::class.java)
 
-        /*
-        Pass info about the type of funds being added as an intent extra
-        0 - something went wrong
-        1 - cash
-        2 - savings account
-        3 - investment
-        4 - stocks
-        */
-        when (view) {
-            binding.actionButtonCash -> intent.putExtra("sourceType", 1)
-            binding.actionButtonSavings -> intent.putExtra("sourceType", 2)
-            binding.actionButtonInvestment -> intent.putExtra("sourceType", 3)
-            binding.actionButtonStock -> intent.putExtra("sourceType", 4)
-            else -> intent.putExtra("sourceType", 0)
-        }
-
         // Close fab if it's open (it probably is, just double checking)
         if (fabIsRotated) {
             fabClick(binding.actionButton)
         }
 
         startActivity(intent)
+    }
+
+    fun addTransaction(view: View) {
+        // TODO: Add transaction popup probably
     }
 }
