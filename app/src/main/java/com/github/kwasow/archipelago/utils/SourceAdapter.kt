@@ -36,13 +36,15 @@ class SourceAdapter(private val dataSet: Array<*>)
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // TODO: Add calculating monthChange
         when (val sourceObject = dataSet[position]) {
             is SourceCash -> {
                 holder.sourceName.text = sourceObject.name
-                holder.amount.text = "${sourceObject.amount} ${sourceObject.currency}"
+                holder.amount.text = "" +
+                        """${String.format("%.2f", sourceObject.amount)} """ +
+                        sourceObject.currency
 
                 val change = getMonthChange(sourceObject.transactions)
+                // TODO: These colors are awful
                 val plus = if (change >= 0) {
                     holder.monthChange.setTextColor(Color.GREEN)
                     "+"
@@ -51,11 +53,15 @@ class SourceAdapter(private val dataSet: Array<*>)
                     ""
                 }
 
-                holder.monthChange.text = "($plus$change ${sourceObject.currency})"
+                holder.monthChange.text = "($plus" +
+                        """${String.format("%.2f", change)} """ +
+                        "${sourceObject.currency})"
             }
             is SourceAccount -> {
                 holder.sourceName.text = sourceObject.name
-                holder.amount.text = "${sourceObject.amount} ${sourceObject.currency}"
+                holder.amount.text = "" +
+                        """${String.format("%.2f", sourceObject.amount)} """ +
+                        sourceObject.currency
 
                 val change = getMonthChange(sourceObject.transactions)
                 val plus = if (change >= 0) {
@@ -66,17 +72,22 @@ class SourceAdapter(private val dataSet: Array<*>)
                     ""
                 }
 
-                holder.monthChange.text = "($plus$change ${sourceObject.currency})"
+                holder.monthChange.text = "($plus" +
+                        """${String.format("%.2f", change)} """ +
+                        "${sourceObject.currency})"
             }
             is SourceInvestment -> {
                 holder.sourceName.text = sourceObject.name
-                holder.amount.text = "${sourceObject.amount} ${sourceObject.currency}"
+                holder.amount.text = "" +
+                        """${String.format("%.2f", sourceObject.amount)} """ +
+                        sourceObject.currency
 
                 // Don't show monthly change
                 holder.monthChange.visibility = View.GONE
             }
         }
 
+        // TODO: The click animation is a bit weird
         holder.cardView.setOnClickListener {
             Toast.makeText(holder.root.context, "Not implemented", Toast.LENGTH_SHORT)
                     .show()
