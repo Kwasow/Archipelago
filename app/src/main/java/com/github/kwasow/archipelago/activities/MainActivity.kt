@@ -6,12 +6,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kwasow.archipelago.R
 import com.github.kwasow.archipelago.animations.FabAnimation
 import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.SourceInvestment
 import com.github.kwasow.archipelago.databinding.ActivityMainBinding
+import com.github.kwasow.archipelago.utils.SourceAdapter
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         initFab()
         setupOptionsMenu()
 
-        debugLoadSources()
+        setupRecyclers()
 
         setContentView(binding.root)
     }
@@ -111,6 +113,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupRecyclers() {
+        // Set up cash
+        val cashArray = SourceCash.get(this)
+        val cashLayoutManager = LinearLayoutManager(this)
+        val cashAdapter = SourceAdapter(cashArray)
+        binding.cashRecycler.layoutManager = cashLayoutManager
+        binding.cashRecycler.adapter = cashAdapter
+
+        // Set up account
+        val accountArray = SourceAccount.get(this)
+        val accountLayoutManager = LinearLayoutManager(this)
+        val accountAdapter = SourceAdapter(accountArray)
+        binding.accountRecycler.layoutManager = accountLayoutManager
+        binding.accountRecycler.adapter = accountAdapter
+
+        // Set up investment
+        val investmentArray = SourceInvestment.get(this)
+        val investmentLayoutManager = LinearLayoutManager(this)
+        val investmentAdapter = SourceAdapter(investmentArray)
+        binding.investmentRecycler.layoutManager = investmentLayoutManager
+        binding.investmentRecycler.adapter = investmentAdapter
+
+    }
+
     fun addSource(view: View) {
         val intent = Intent(this, AddSourceActivity::class.java)
 
@@ -124,25 +150,5 @@ class MainActivity : AppCompatActivity() {
 
     fun addTransaction(view: View) {
         // TODO: Add transaction popup probably
-    }
-
-    private fun debugLoadSources() {
-        val cash = SourceCash.get(this)
-        val account = SourceAccount.get(this)
-        val investment = SourceInvestment.get(this)
-        var string = "-> Cash:\n"
-        cash.forEach {
-            string += it.toString() + "\n"
-        }
-        string += "-> Account:\n"
-        account.forEach {
-            string += it.toString() + "\n"
-        }
-        string += "-> Investment:\n"
-        investment.forEach {
-            string += it.toString() + "\n"
-        }
-
-        binding.debugTextView.text = string
     }
 }
