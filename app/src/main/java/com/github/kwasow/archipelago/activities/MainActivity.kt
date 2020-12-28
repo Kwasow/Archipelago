@@ -130,13 +130,15 @@ class MainActivity : AppCompatActivity() {
         val cash = SourceCash.get(this)
         val account = SourceAccount.get(this)
         val investment = SourceInvestment.get(this)
-        var string = ""
+        var string = "-> Cash:\n"
         cash.forEach {
             string += it.toString() + "\n"
         }
+        string += "-> Account:\n"
         account.forEach {
             string += it.toString() + "\n"
         }
+        string += "-> Investment:\n"
         investment.forEach {
             string += it.toString() + "\n"
         }

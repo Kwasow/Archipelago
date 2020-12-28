@@ -182,6 +182,7 @@ class AddSourceActivity : AppCompatActivity() {
             }
             // Savings account
             1 -> {
+                val cap = getCapitalization() ?: return
                 SourceAccount(
                         name,
                         country,
@@ -189,14 +190,13 @@ class AddSourceActivity : AppCompatActivity() {
                         currency,
                         amount,
                         binding.interest.getDoubleValue(),
-                        SourceManager.Capitalization.valueOf(
-                                caps[binding.capitalization.listSelection]),
+                        cap,
                         transactions
                 ).save(this)
             }
             // Investment
             2 -> {
-                /*
+                val cap = getCapitalization() ?: return
                 SourceInvestment(
                         name,
                         country,
@@ -204,10 +204,11 @@ class AddSourceActivity : AppCompatActivity() {
                         currency,
                         amount,
                         binding.interest.getDoubleValue(),
-                        SourceManager.Capitalization.valueOf(
-                                caps[binding.capitalization.listSelection]),
-
-                ) */
+                        cap,
+                        // These are not null, because we checked it earlier
+                        startDate!!,
+                        endDate!!
+                ).save(this)
             }
         }
 
@@ -275,5 +276,17 @@ class AddSourceActivity : AppCompatActivity() {
         binding.photoLeading.setImageResource(R.drawable.ic_graph)
 
         binding.finishButton.isEnabled = false
+    }
+
+    private fun getCapitalization() : SourceManager.Capitalization? {
+        val selectedString = binding.capitalization.text.toString()
+
+        SourceManager.Capitalization.values().forEach {
+            if (selectedString == resources.getString(it.value)) {
+                return it
+            }
+        }
+
+        return null
     }
 }

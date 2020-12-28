@@ -26,17 +26,21 @@ data class SourceInvestment(
         // This is safe - I promise
         @Suppress("UNCHECKED_CAST")
         fun get(context: Context): Array<SourceInvestment> {
-            val returnArray = SourceManager.get(
+            val anyArray = SourceManager.get(
                     context, "/investment"
             )
 
-            return if (returnArray.isEmpty()) {
-                // Return empty array if array is empty.
-                // This prevents java from converting empty object to source object
-                arrayOf()
-            } else {
-                returnArray  as Array<SourceInvestment>
+            // Return empty array if empty
+            if (anyArray.isEmpty()) return arrayOf()
+
+            val returnArray = mutableListOf<SourceInvestment>()
+            anyArray.forEach {
+                if (it is SourceInvestment) {
+                    returnArray.add(it)
+                }
             }
+
+            return returnArray.toTypedArray()
         }
     }
 

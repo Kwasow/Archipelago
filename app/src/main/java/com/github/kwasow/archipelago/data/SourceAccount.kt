@@ -28,17 +28,21 @@ data class SourceAccount(
         // This is safe - I promise
         @Suppress("UNCHECKED_CAST")
         fun get(context: Context): Array<SourceAccount> {
-            val returnArray = SourceManager.get(
+            val anyArray = SourceManager.get(
                     context, "/account"
             )
 
-            return if (returnArray.isEmpty()) {
-                // Return empty array if array is empty.
-                // This prevents java from converting empty object to source object
-                arrayOf()
-            } else {
-                returnArray as Array<SourceAccount>
+            // Return empty array if empty
+            if (anyArray.isEmpty()) return arrayOf()
+
+            val returnArray = mutableListOf<SourceAccount>()
+            anyArray.forEach {
+                if (it is SourceAccount) {
+                    returnArray.add(it)
+                }
             }
+
+            return returnArray.toTypedArray()
         }
     }
 

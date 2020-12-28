@@ -1,6 +1,7 @@
 package com.github.kwasow.archipelago.data
 
 import android.content.Context
+import com.github.kwasow.archipelago.utils.ArchipelagoError
 import com.github.kwasow.archipelago.utils.SourceManager
 import java.io.Serializable
 
@@ -26,17 +27,21 @@ data class SourceCash(
         // This is safe - I promise
         @Suppress("UNCHECKED_CAST")
         fun get(context: Context): Array<SourceCash> {
-            val returnArray = SourceManager.get(
+            val anyArray = SourceManager.get(
                     context, "/cash"
             )
 
-            return if (returnArray.isEmpty()) {
-                // Return empty array if array is empty.
-                // This prevents java from converting empty object to source object
-                arrayOf()
-            } else {
-                returnArray as Array<SourceCash>
+            // Return empty array if empty
+            if (anyArray.isEmpty()) return arrayOf()
+
+            val returnArray = mutableListOf<SourceCash>()
+            anyArray.forEach {
+                if (it is SourceCash) {
+                    returnArray.add(it)
+                }
             }
+
+            return returnArray.toTypedArray()
         }
     }
 
