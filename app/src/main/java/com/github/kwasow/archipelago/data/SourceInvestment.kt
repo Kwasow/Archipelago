@@ -22,6 +22,18 @@ data class SourceInvestment(
         )
     }
 
+    fun delete(context: Context) : Boolean {
+        return SourceManager.delete(
+                context, name, "/investment"
+        )
+    }
+
+    fun update(context: Context) {
+        SourceManager.update(
+                context, name, "/investment", this
+        )
+    }
+
     companion object {
         // This is safe - I promise
         @Suppress("UNCHECKED_CAST")

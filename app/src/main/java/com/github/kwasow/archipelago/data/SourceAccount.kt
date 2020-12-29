@@ -24,6 +24,18 @@ data class SourceAccount(
         amount = SourceManager.recalculate(transactions)
     }
 
+    fun delete(context: Context) : Boolean {
+        return SourceManager.delete(
+                context, name, "/account"
+        )
+    }
+
+    fun update(context: Context) {
+        SourceManager.update(
+                context, name, "/account", this
+        )
+    }
+
     companion object {
         // This is safe - I promise
         @Suppress("UNCHECKED_CAST")

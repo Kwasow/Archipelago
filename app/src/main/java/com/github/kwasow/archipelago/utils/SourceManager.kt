@@ -22,25 +22,17 @@ class SourceManager {
         // Different sources run these with their own parameters
         fun save(context: Context, name: String, dir: String, source: Any) : Boolean {
             // Remove path separators
-            var realName = name
-                    .replace("/", "")
-                    .replace("\\", "")
+            val realName = prepareName(name)
             val masterKey = MasterKey.Builder(
                     context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                     .build()
-            var file = File(context.filesDir.path + dir, realName)
+            val file = File(context.filesDir.path + dir, realName)
 
-            // Check if file doesn't yet exist and change filename if necessary
-            var changes: Boolean
-            do {
-                changes = false
-                if (file.exists()) {
-                    realName += ".1"
-                    file = File(context.filesDir.path + dir, realName)
-                    changes = true
-                }
-            } while (changes)
+            // Check if file doesn't yet exist
+            if (file.exists()) {
+                return false
+            }
 
             // Create missing directories
             if (!file.parentFile!!.exists()) {
@@ -113,6 +105,31 @@ class SourceManager {
             }
 
             return sum
+        }
+
+        fun update(context: Context, name: String, dir: String, source: Any) {
+            // I felt smart when I wrote this
+            rename(context, name, name, dir, source)
+        }
+
+        fun rename(context: Context, oldName: String, newName: String, dir: String, source: Any) {
+            // TODO: Read the object being deleted for safety and then check if saved successfully
+
+            delete(context, oldName, dir)
+            save(context, newName, dir, source)
+        }
+
+        fun delete(context: Context, name: String, dir: String) : Boolean {
+            val realName = prepareName(name)
+            val file = File(context.filesDir.path + dir, realName)
+
+            return file.delete()
+        }
+
+        private fun prepareName(name: String) : String {
+            return name
+                    .replace("/", "")
+                    .replace("\\", "")
         }
     }
 }

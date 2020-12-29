@@ -167,6 +167,7 @@ class AddSourceActivity : AppCompatActivity() {
                 )
         ).toTypedArray()
 
+        // TODO: Check if save succeeded
         // Specific stuff
         when (currentSource) {
             // Cash

@@ -1,7 +1,6 @@
 package com.github.kwasow.archipelago.data
 
 import android.content.Context
-import com.github.kwasow.archipelago.utils.ArchipelagoError
 import com.github.kwasow.archipelago.utils.SourceManager
 import java.io.Serializable
 
@@ -21,6 +20,18 @@ data class SourceCash(
 
     fun recalculate() {
         amount = SourceManager.recalculate(transactions)
+    }
+
+    fun delete(context: Context) : Boolean {
+        return SourceManager.delete(
+                context, name, "/cash"
+        )
+    }
+
+    fun update(context: Context) {
+        SourceManager.update(
+                context, name, "/cash", this
+        )
     }
 
     companion object {
