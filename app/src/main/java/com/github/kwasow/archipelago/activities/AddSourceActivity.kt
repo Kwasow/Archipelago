@@ -36,7 +36,7 @@ class AddSourceActivity : AppCompatActivity() {
         }
 
         // Set up source picker
-        val sources = listOf("cash source", "savings account", "investment", "stock")
+        val sources = listOf("cash source", "savings account", "investment")
         val sourcesAdapter = ArrayAdapter(this, R.layout.list_item, sources)
         binding.sourceType.setAdapter(sourcesAdapter)
         // Listen to source selected and show the appropriate views
@@ -61,8 +61,6 @@ class AddSourceActivity : AppCompatActivity() {
                 1 -> sourceSavings()
                 // Investment
                 2 -> sourceInvestment()
-                // Stock
-                3 -> sourceStock()
             }
         }
 
@@ -267,15 +265,6 @@ class AddSourceActivity : AppCompatActivity() {
         binding.capitalizationLayout.visibility = View.VISIBLE
         binding.dateStartLayout.visibility = View.VISIBLE
         binding.dateEndLayout.visibility = View.VISIBLE
-    }
-
-    private fun sourceStock() {
-        currentSource = 3
-
-        // TODO: Stocks
-        binding.photoLeading.setImageResource(R.drawable.ic_graph)
-
-        binding.finishButton.isEnabled = false
     }
 
     private fun getCapitalization() : SourceManager.Capitalization? {

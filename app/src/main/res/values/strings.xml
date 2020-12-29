@@ -10,6 +10,7 @@
     <string name="settings">Settings</string>
     <string name="add_source">New source</string>
     <string name="add_transaction">New transaction</string>
+    <string name="buy_sell_stocks">Buy/sell stocks</string>
 
     <!-- Used in adding a new savings source -->
     <string name="something_went_wrong">Uhhh… Someone messed up, if you\'re seeing this</string>
@@ -47,4 +48,5 @@
     <string name="description_add_source">A floating action button to add a new savings source</string>
     <string name="description_add_transaction">A floating action button to add a new transaction</string>
     <string name="description_image_representing_action">An image representing the chosen action</string>
+    <string name="description_buy_or_sell_stocks">Buy or sell stocks</string>
 </resources>

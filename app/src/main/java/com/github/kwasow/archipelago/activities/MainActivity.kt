@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kwasow.archipelago.R
@@ -47,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         fabList.add(binding.fabCardSource)
         fabList.add(binding.actionButtonTransaction)
         fabList.add(binding.fabCardTransaction)
+        fabList.add(binding.actionButtonStock)
+        fabList.add(binding.fabCardStock)
 
         // Get the items off the screen
         fabList.forEach {
@@ -150,5 +153,13 @@ class MainActivity : AppCompatActivity() {
 
     fun addTransaction(view: View) {
         // TODO: Add transaction popup probably
+        Toast.makeText(applicationContext, "Not implemented", Toast.LENGTH_SHORT)
+                .show()
+    }
+
+    fun buySellStocks(view: View) {
+        // TODO: Buy and sell stocks
+        Toast.makeText(applicationContext, "Not implemented", Toast.LENGTH_SHORT)
+                .show()
     }
 }
