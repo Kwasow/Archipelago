@@ -1,8 +1,10 @@
 package com.github.kwasow.archipelago.activities
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.DatePicker
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kwasow.archipelago.R
 import com.github.kwasow.archipelago.data.*
@@ -215,29 +217,51 @@ class AddSourceActivity : AppCompatActivity() {
 
     // TODO: Look into pickers - they seem slow
     fun dateStart(view: View) {
-        val picker = MaterialDatePicker.Builder.datePicker().build()
-        picker.addOnPositiveButtonClickListener {
-            val date = Date(it)
-            val dateFormat = SimpleDateFormat.getDateInstance()
-            binding.dateStart.setText(
-                    dateFormat.format(date)
-            )
-            startDate = date
-        }
-        picker.show(supportFragmentManager, picker.toString())
+        val calendar = Calendar.getInstance()
+
+        DatePickerDialog(
+                this,
+                { _, year, month, dayOfMonth ->
+                    val selection = Calendar.getInstance()
+                    selection.set(Calendar.YEAR, year)
+                    selection.set(Calendar.MONTH, month)
+                    selection.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                    val date = selection.time
+                    val dateFormat = SimpleDateFormat.getDateInstance()
+                    binding.dateStart.setText(
+                            dateFormat.format(date)
+                    )
+                    startDate = date
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     fun dateEnd(view: View) {
-        val picker = MaterialDatePicker.Builder.datePicker().build()
-        picker.addOnPositiveButtonClickListener {
-            val date = Date(it)
-            val dateFormat = SimpleDateFormat.getDateInstance()
-            binding.dateEnd.setText(
-                    dateFormat.format(date)
-            )
-            endDate = date
-        }
-        picker.show(supportFragmentManager, picker.toString())
+        val calendar = Calendar.getInstance()
+
+        DatePickerDialog(
+                this,
+                { _, year, month, dayOfMonth ->
+                    val selection = Calendar.getInstance()
+                    selection.set(Calendar.YEAR, year)
+                    selection.set(Calendar.MONTH, month)
+                    selection.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                    val date = selection.time
+                    val dateFormat = SimpleDateFormat.getDateInstance()
+                    binding.dateEnd.setText(
+                            dateFormat.format(date)
+                    )
+                    endDate = date
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     private fun sourceCash() {
