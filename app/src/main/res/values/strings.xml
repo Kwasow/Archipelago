@@ -33,6 +33,11 @@
     <string name="error_blank">This cannot be blank</string>
     <string name="error_endDate_before_startDate">End date is before start date</string>
 
+    <!-- Transactions -->
+    <string name="top_up">Top up</string>
+    <string name="take_out">Take out</string>
+    <string name="select_source">Select source</string>
+
     <!-- Capitalization types -->
     <string name="end_of_month">End of month</string>
     <string name="end_of_investment">End of investment</string>

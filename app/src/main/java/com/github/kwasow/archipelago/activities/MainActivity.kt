@@ -15,6 +15,7 @@ import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.SourceInvestment
 import com.github.kwasow.archipelago.databinding.ActivityMainBinding
 import com.github.kwasow.archipelago.utils.SourceAdapter
+import com.github.kwasow.archipelago.views.AddTransactionDialog
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -152,9 +153,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addTransaction(view: View) {
-        // TODO: Add transaction popup probably
-        Toast.makeText(applicationContext, "Not implemented", Toast.LENGTH_SHORT)
-                .show()
+        fabClick(binding.actionButton)
+        AddTransactionDialog(this).show()
     }
 
     fun buySellStocks(view: View) {
