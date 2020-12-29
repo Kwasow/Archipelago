@@ -44,12 +44,11 @@ class SourceAdapter(private val dataSet: Array<*>)
                         sourceObject.currency
 
                 val change = getMonthChange(sourceObject.transactions)
-                // TODO: These colors are awful
                 val plus = if (change >= 0) {
-                    holder.monthChange.setTextColor(Color.GREEN)
+                    holder.monthChange.setTextColor(MaterialColors.LIGHT_GREEN)
                     "+"
                 } else {
-                    holder.monthChange.setTextColor(Color.RED)
+                    holder.monthChange.setTextColor(MaterialColors.RED)
                     ""
                 }
 
@@ -65,10 +64,10 @@ class SourceAdapter(private val dataSet: Array<*>)
 
                 val change = getMonthChange(sourceObject.transactions)
                 val plus = if (change >= 0) {
-                    holder.monthChange.setTextColor(Color.GREEN)
+                    holder.monthChange.setTextColor(MaterialColors.LIGHT_GREEN)
                     "+"
                 } else {
-                    holder.monthChange.setTextColor(Color.RED)
+                    holder.monthChange.setTextColor(MaterialColors.RED)
                     ""
                 }
 
