@@ -43,8 +43,8 @@
                     android:text="@string/cash"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:padding="16dp"
-                    android:paddingBottom="8dp"/>
+                    android:paddingTop="16dp"
+                    android:paddingStart="28dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/cashRecycler"
@@ -58,8 +58,8 @@
                     android:text="@string/savings_account"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:padding="16dp"
-                    android:paddingBottom="8dp"/>
+                    android:paddingTop="16dp"
+                    android:paddingStart="28dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/accountRecycler"
@@ -73,8 +73,8 @@
                     android:text="@string/investment"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:padding="16dp"
-                    android:paddingBottom="8dp"/>
+                    android:paddingTop="16dp"
+                    android:paddingStart="28dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/investmentRecycler"
