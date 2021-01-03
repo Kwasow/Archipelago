@@ -37,22 +37,22 @@ data class SourceInvestment(
     companion object {
         // This is safe - I promise
         @Suppress("UNCHECKED_CAST")
-        fun get(context: Context): Array<SourceInvestment> {
-            val anyArray = SourceManager.get(
+        fun get(context: Context): List<SourceInvestment> {
+            val anyList = SourceManager.get(
                     context, "/investment"
             )
 
-            // Return empty array if empty
-            if (anyArray.isEmpty()) return arrayOf()
+            // Return empty list if empty
+            if (anyList.isEmpty()) return listOf()
 
-            val returnArray = mutableListOf<SourceInvestment>()
-            anyArray.forEach {
+            val returnList = mutableListOf<SourceInvestment>()
+            anyList.forEach {
                 if (it is SourceInvestment) {
-                    returnArray.add(it)
+                    returnList.add(it)
                 }
             }
 
-            return returnArray.toTypedArray()
+            return returnList
         }
     }
 

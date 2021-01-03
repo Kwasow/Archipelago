@@ -60,7 +60,7 @@ class SourceManager {
         }
 
         // Same here
-        fun get(context: Context, dir: String) : Array<Any> {
+        fun get(context: Context, dir: String) : List<Any> {
             val directory = File(context.filesDir.path + dir)
 
             if (directory.exists() && directory.isDirectory) {
@@ -90,14 +90,14 @@ class SourceManager {
                     encryptedInputStream.close()
                 }
 
-                return list.toTypedArray()
+                return list
             } else {
-                return arrayOf()
+                return listOf()
             }
         }
 
         // And here
-        fun recalculate(transactions: Array<Transaction>) : Double {
+        fun recalculate(transactions: List<Transaction>) : Double {
             var sum = 0.0
 
             transactions.forEach {

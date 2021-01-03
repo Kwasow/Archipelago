@@ -14,7 +14,7 @@ import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.ViewSourceCardBinding
 import java.util.*
 
-class SourceAdapter(private val dataSet: Array<*>)
+class SourceAdapter(private val dataSet: List<*>)
     : RecyclerView.Adapter<SourceAdapter.ViewHolder>() {
 
     class ViewHolder(binding: ViewSourceCardBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -95,7 +95,7 @@ class SourceAdapter(private val dataSet: Array<*>)
 
     override fun getItemCount(): Int = dataSet.size
 
-    private fun getMonthChange(transactions: Array<Transaction>) : Double {
+    private fun getMonthChange(transactions: List<Transaction>) : Double {
         val calendar = Calendar.getInstance()
         calendar.time = Date()
         // Set calendar to beginning of this month

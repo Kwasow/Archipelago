@@ -158,14 +158,14 @@ class AddSourceActivity : AppCompatActivity() {
         val currency = countryTmp.currency
         val amount = binding.amount.getDoubleValue()
 
-        val transactions = listOf(
+        val transactions = mutableListOf(
                 Transaction(
                         Date(),
                         resources.getString(R.string.initial_account_state),
                         amount,
                         resources.getString(R.string.added_automatically)
                 )
-        ).toTypedArray()
+        )
 
         // TODO: Check if save succeeded
         // Specific stuff
