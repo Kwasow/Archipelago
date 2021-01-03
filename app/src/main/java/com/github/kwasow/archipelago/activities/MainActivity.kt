@@ -119,25 +119,34 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRecyclers() {
         // Set up cash
-        val cashArray = SourceCash.get(this)
+        val cashList = SourceCash.get(this)
         val cashLayoutManager = LinearLayoutManager(this)
-        val cashAdapter = SourceAdapter(cashArray)
+        val cashAdapter = SourceAdapter(cashList)
         binding.cashRecycler.layoutManager = cashLayoutManager
         binding.cashRecycler.adapter = cashAdapter
+        if (cashList.isEmpty()) {
+            binding.cashEmpty.visibility = View.VISIBLE
+        }
 
         // Set up account
-        val accountArray = SourceAccount.get(this)
+        val accountList = SourceAccount.get(this)
         val accountLayoutManager = LinearLayoutManager(this)
-        val accountAdapter = SourceAdapter(accountArray)
+        val accountAdapter = SourceAdapter(accountList)
         binding.accountRecycler.layoutManager = accountLayoutManager
         binding.accountRecycler.adapter = accountAdapter
+        if (accountList.isEmpty()) {
+            binding.accountEmpty.visibility = View.VISIBLE
+        }
 
         // Set up investment
-        val investmentArray = SourceInvestment.get(this)
+        val investmentList = SourceInvestment.get(this)
         val investmentLayoutManager = LinearLayoutManager(this)
-        val investmentAdapter = SourceAdapter(investmentArray)
+        val investmentAdapter = SourceAdapter(investmentList)
         binding.investmentRecycler.layoutManager = investmentLayoutManager
         binding.investmentRecycler.adapter = investmentAdapter
+        if (investmentList.isEmpty()) {
+            binding.investmentEmpty.visibility = View.VISIBLE
+        }
 
     }
 

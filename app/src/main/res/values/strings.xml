@@ -11,6 +11,7 @@
     <string name="add_source">New source</string>
     <string name="add_transaction">New transaction</string>
     <string name="buy_sell_stocks">Buy/sell stocks</string>
+    <string name="nothing_to_show">Nothing to show</string>
 
     <!-- Used in adding a new savings source -->
     <string name="something_went_wrong">Uhhh… Someone messed up, if you\'re seeing this</string>
