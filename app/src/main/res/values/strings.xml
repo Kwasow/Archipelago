@@ -14,7 +14,8 @@
     <string name="nothing_to_show">Nothing to show</string>
 
     <!-- Used in adding a new savings source -->
-    <string name="something_went_wrong">Uhhh… Someone messed up, if you\'re seeing this</string>
+    <string name="something_went_wrong_joke">Uhhh… Someone messed up, if you\'re seeing this</string>
+    <string name="something_went_wrong">Something went wrong</string>
     <string name="new_cash_source">New cash source</string>
     <string name="new_savings">New savings account</string>
     <string name="new_investment">New investment</string>

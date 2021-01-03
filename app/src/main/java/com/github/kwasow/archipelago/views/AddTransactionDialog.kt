@@ -10,7 +10,7 @@ import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.DialogAddTransactionBinding
-import com.github.kwasow.archipelago.utils.ArchipelagoError
+import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
 class AddTransactionDialog(context: Context) : AlertDialog(context) {
@@ -128,19 +128,32 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
                 binding.details.text.toString()
         )
 
-        // TODO: Check if updated successfully
         if (currentSelection > cashSources.size) {
             // Then it's from the accountSources list
             val source = accountSources[currentSelection - cashSources.size]
             source.transactions.add(transaction)
             source.recalculate()
-            source.update(context)
+            // Check if transaction added successfully
+            if (!source.update(context)) {
+                Snackbar.make(
+                        binding.root,
+                        R.string.something_went_wrong,
+                        Snackbar.LENGTH_SHORT).show()
+                return
+            }
         } else {
             // It's form cash sources
             val source = cashSources[currentSelection]
             source.transactions.add(transaction)
             source.recalculate()
-            source.update(context)
+            // Check if transaction added successfully
+            if (!source.update(context)) {
+                Snackbar.make(
+                        binding.root,
+                        R.string.something_went_wrong,
+                        Snackbar.LENGTH_SHORT).show()
+                return
+            }
         }
 
         dismiss()

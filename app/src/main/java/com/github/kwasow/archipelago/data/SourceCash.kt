@@ -22,14 +22,14 @@ data class SourceCash(
         amount = SourceManager.recalculate(transactions)
     }
 
-    fun delete(context: Context) : Boolean {
+    fun delete(context: Context): Boolean {
         return SourceManager.delete(
                 context, name, "/cash"
         )
     }
 
-    fun update(context: Context) {
-        SourceManager.update(
+    fun update(context: Context): Boolean {
+        return SourceManager.update(
                 context, name, "/cash", this
         )
     }

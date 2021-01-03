@@ -20,7 +20,7 @@ class SourceManager {
 
     companion object {
         // Different sources run these with their own parameters
-        fun save(context: Context, name: String, dir: String, source: Any) : Boolean {
+        fun save(context: Context, name: String, dir: String, source: Any): Boolean {
             // Remove path separators
             val realName = prepareName(name)
             val masterKey = MasterKey.Builder(
@@ -60,7 +60,7 @@ class SourceManager {
         }
 
         // Same here
-        fun get(context: Context, dir: String) : List<Any> {
+        fun get(context: Context, dir: String): List<Any> {
             val directory = File(context.filesDir.path + dir)
 
             if (directory.exists() && directory.isDirectory) {
@@ -97,7 +97,7 @@ class SourceManager {
         }
 
         // And here
-        fun recalculate(transactions: List<Transaction>) : Double {
+        fun recalculate(transactions: List<Transaction>): Double {
             var sum = 0.0
 
             transactions.forEach {
@@ -108,26 +108,54 @@ class SourceManager {
             return "%.2f".format(sum).toDouble()
         }
 
-        fun update(context: Context, name: String, dir: String, source: Any) {
+        fun update(context: Context, name: String, dir: String, source: Any): Boolean {
             // I felt smart when I wrote this
-            rename(context, name, name, dir, source)
+            return rename(context, name, name, dir, source)
         }
 
-        fun rename(context: Context, oldName: String, newName: String, dir: String, source: Any) {
-            // TODO: Read the object being deleted for safety and then check if saved successfully
+        fun rename(context: Context, oldName: String, newName: String, dir: String, source: Any):
+                Boolean {
+            // Read the object for safety
+            val file = File(context.filesDir.path + dir, prepareName(oldName))
+            val masterKey = MasterKey.Builder(
+                    context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                    .build()
 
-            delete(context, oldName, dir)
-            save(context, newName, dir, source)
+            val encryptedFile = EncryptedFile.Builder(
+                    context,
+                    file,
+                    masterKey,
+                    EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+            ).build()
+
+            val encryptedInputStream = encryptedFile.openFileInput()
+            val objectInputStream = ObjectInputStream(encryptedInputStream)
+            val sourceObject = objectInputStream.readObject()
+
+            // Try renaming and revert if failed
+            return if (delete(context, oldName, dir)) {
+                if (!save(context, newName, dir, source)) {
+                    // If delete succeeded and save failed
+                    save(context, oldName, dir, sourceObject)
+                    // Actually I don't know if this will succeed when the previous one failed,
+                    // but who knows
+                } else {
+                    true
+                }
+            } else {
+                false
+            }
         }
 
-        fun delete(context: Context, name: String, dir: String) : Boolean {
+        fun delete(context: Context, name: String, dir: String): Boolean {
             val realName = prepareName(name)
             val file = File(context.filesDir.path + dir, realName)
 
             return file.delete()
         }
 
-        private fun prepareName(name: String) : String {
+        private fun prepareName(name: String): String {
             return name
                     .replace("/", "")
                     .replace("\\", "")

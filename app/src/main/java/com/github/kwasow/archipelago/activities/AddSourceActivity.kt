@@ -4,14 +4,13 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.DatePicker
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kwasow.archipelago.R
 import com.github.kwasow.archipelago.data.*
 import com.github.kwasow.archipelago.databinding.ActivityAddSourceBinding
 import com.github.kwasow.archipelago.utils.CountryManager
 import com.github.kwasow.archipelago.utils.SourceManager
-import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -167,24 +166,31 @@ class AddSourceActivity : AppCompatActivity() {
                 )
         )
 
-        // TODO: Check if save succeeded
-        // Specific stuff
+        // Specific stuff (+checking if succeeded)
         when (currentSource) {
             // Cash
             0 -> {
-                SourceCash(
+                if (!SourceCash(
                         name,
                         country,
                         countryCode,
                         currency,
                         amount,
                         transactions
-                ).save(this)
+                ).save(this)) {
+                    // TODO: Error should be more specific in the future
+                    // TODO: Maybe add report issue button to this
+                    Snackbar.make(
+                            binding.root,
+                            R.string.something_went_wrong,
+                            Snackbar.LENGTH_SHORT).show()
+                    return
+                }
             }
             // Savings account
             1 -> {
                 val cap = getCapitalization() ?: return
-                SourceAccount(
+                if (!SourceAccount(
                         name,
                         country,
                         countryCode,
@@ -193,12 +199,18 @@ class AddSourceActivity : AppCompatActivity() {
                         binding.interest.getDoubleValue(),
                         cap,
                         transactions
-                ).save(this)
+                ).save(this)) {
+                    Snackbar.make(
+                            binding.root,
+                            R.string.something_went_wrong,
+                            Snackbar.LENGTH_SHORT).show()
+                    return
+                }
             }
             // Investment
             2 -> {
                 val cap = getCapitalization() ?: return
-                SourceInvestment(
+                if (!SourceInvestment(
                         name,
                         country,
                         countryCode,
@@ -209,7 +221,13 @@ class AddSourceActivity : AppCompatActivity() {
                         // These are not null, because we checked it earlier
                         startDate!!,
                         endDate!!
-                ).save(this)
+                ).save(this)) {
+                    Snackbar.make(
+                            binding.root,
+                            R.string.something_went_wrong,
+                            Snackbar.LENGTH_SHORT).show()
+                    return
+                }
             }
         }
 
