@@ -14,14 +14,15 @@ import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.SourceInvestment
 import com.github.kwasow.archipelago.databinding.ActivityMainBinding
-import com.github.kwasow.archipelago.utils.ArchipelagoError
 import com.github.kwasow.archipelago.utils.SourceAdapter
 import com.github.kwasow.archipelago.views.AddTransactionDialog
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val fabList = mutableListOf<View>()
     var fabIsRotated = false
+    var noSources = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -150,6 +151,9 @@ class MainActivity : AppCompatActivity() {
             binding.accountEmpty.visibility = View.GONE
         }
 
+        // Check if there are any sources that allow for adding transactions
+        noSources = cashList.isEmpty() && accountList.isEmpty()
+
         // Set up investment
         val investmentList = SourceInvestment.get(this)
         val investmentLayoutManager = LinearLayoutManager(this)
@@ -176,13 +180,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addTransaction(view: View) {
-        fabClick(binding.actionButton)
-        val dialog = AddTransactionDialog(this)
-        dialog.onAddListener = {
-            // Reload home screen if transaction added
-            onResume()
+        if (noSources) {
+            // TODO: Maybe raise fab when snackbar is visible
+            Snackbar.make(
+                    binding.root,
+                    R.string.add_sources_to_add_transactions,
+                    Snackbar.LENGTH_SHORT).show()
+        } else {
+            fabClick(binding.actionButton)
+            val dialog = AddTransactionDialog(this)
+            dialog.onAddListener = {
+                // Reload home screen if transaction added
+                onResume()
+            }
+            dialog.show()
         }
-        dialog.show()
     }
 
     fun buySellStocks(view: View) {

@@ -234,7 +234,6 @@ class AddSourceActivity : AppCompatActivity() {
         finish()
     }
 
-    // TODO: Look into pickers - they seem slow
     fun dateStart(view: View) {
         val calendar = Calendar.getInstance()
 
