@@ -103,21 +103,21 @@ class AddSourceActivity : AppCompatActivity() {
             binding.sourceNameLayout.error = resources.getString(R.string.error_blank)
             error = true
         } else {
-            binding.sourceNameLayout.error = ""
+            binding.sourceNameLayout.error = null
         }
 
         if (!countryChosen) {
             binding.countrySelectLayout.error = resources.getString(R.string.error_blank)
             error = true
         } else {
-            binding.countrySelectLayout.error = ""
+            binding.countrySelectLayout.error = null
         }
 
         if ((currentSource == 1 || currentSource == 2) && !capChosen) {
             binding.capitalizationLayout.error = resources.getString(R.string.error_blank)
             error = true
         } else {
-            binding.capitalizationLayout.error = ""
+            binding.capitalizationLayout.error = null
         }
 
         if (currentSource == 2) {
@@ -125,14 +125,14 @@ class AddSourceActivity : AppCompatActivity() {
                 binding.dateStartLayout.error = resources.getString(R.string.error_blank)
                 error = true
             } else {
-                binding.dateStartLayout.error = ""
+                binding.dateStartLayout.error = null
             }
 
             if (binding.dateEnd.text.toString().isBlank()) {
                 binding.dateEndLayout.error = resources.getString(R.string.error_blank)
                 error = true
             } else {
-                binding.dateEndLayout.error = ""
+                binding.dateEndLayout.error = null
             }
 
             if (endDate != null && startDate != null) {
@@ -140,7 +140,7 @@ class AddSourceActivity : AppCompatActivity() {
                     binding.dateEndLayout.error = resources.getString(R.string.error_endDate_before_startDate)
                     error = true
                 } else if (startDate!!.before(endDate)) {
-                    binding.dateEndLayout.error = ""
+                    binding.dateEndLayout.error = null
                 }
             }
 

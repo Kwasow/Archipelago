@@ -37,7 +37,10 @@
     <!-- Transactions -->
     <string name="top_up">Top up</string>
     <string name="take_out">Take out</string>
+    <string name="transaction_name">Transaction name</string>
     <string name="select_source">Select source</string>
+    <string name="other_details_optional">Other details (optional)</string>
+    <string name="choose_option">Choose option</string>
 
     <!-- Capitalization types -->
     <string name="end_of_month">End of month</string>

@@ -8,17 +8,23 @@ import android.widget.ArrayAdapter
 import com.github.kwasow.archipelago.R
 import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
+import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.DialogAddTransactionBinding
 import com.github.kwasow.archipelago.utils.ArchipelagoError
+import java.util.*
 
 class AddTransactionDialog(context: Context) : AlertDialog(context) {
     private lateinit var binding: DialogAddTransactionBinding
+    var onAddListener = {}
+
+    private var currentSelection: Int = -1
+    private lateinit var cashSources: List<SourceCash>
+    private lateinit var accountSources: List<SourceAccount>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DialogAddTransactionBinding.inflate(layoutInflater)
-        ArchipelagoError.d("onCreate")
 
         setupSources()
         setupKeyboard()
@@ -30,14 +36,14 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
     private fun setupSources() {
         val sources = mutableListOf<String>()
 
-        val cashSources = SourceCash.get(this.context)
+        cashSources = SourceCash.get(this.context)
         cashSources.forEach {
             sources.add(
                     "${it.name} (${it.amount} ${it.currency})"
             )
         }
 
-        val accountSources = SourceAccount.get(this.context)
+        accountSources = SourceAccount.get(this.context)
         accountSources.forEach {
             sources.add(
                     "${it.name} (${it.amount} ${it.currency})"
@@ -47,6 +53,8 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
         val sourcesAdapter = ArrayAdapter(this.context, R.layout.list_item, sources)
         binding.sourceSelect.setAdapter(sourcesAdapter)
         binding.sourceSelect.setOnItemClickListener { _, _, i, _ ->
+            currentSelection = i
+
             if (i > cashSources.size) {
                 // Then it's from the accountSources list
                 binding.amount.setCurrency(
@@ -76,6 +84,66 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
     }
 
     private fun addTransaction() {
+        var error = false
+
+        // Check if name given
+        if (binding.transactionName.text.toString().isBlank()) {
+            binding.transactionNameLayout.error = context.getString(R.string.error_blank)
+            error = true
+        } else {
+            binding.transactionNameLayout.error = null
+        }
+
+        // Check if source selected
+        if (currentSelection == -1) {
+            binding.sourceSelectLayout.error = context.getString(R.string.error_blank)
+            error = true
+        } else {
+            binding.sourceSelectLayout.error = null
+        }
+
+        // If neither is selected
+        // TODO: Error is different color than rest of material components
+        if (binding.radioGroup.checkedRadioButtonId == -1) {
+            binding.radioButtonTakeOut.error = context.getString(R.string.choose_option)
+            error = true
+        } else {
+            binding.radioButtonTakeOut.error = null
+        }
+
+        // Return if errors
+        if (error) return
+
+        // Get the details
+        val amount = if (binding.radioGroup.checkedRadioButtonId == R.id.radioButtonTakeOut) {
+            -binding.amount.getDoubleValue()
+        } else {
+            binding.amount.getDoubleValue()
+        }
+
+        val transaction = Transaction(
+                Date(),
+                binding.transactionName.text.toString(),
+                amount,
+                binding.details.text.toString()
+        )
+
+        // TODO: Check if updated successfully
+        if (currentSelection > cashSources.size) {
+            // Then it's from the accountSources list
+            val source = accountSources[currentSelection - cashSources.size]
+            source.transactions.add(transaction)
+            source.recalculate()
+            source.update(context)
+        } else {
+            // It's form cash sources
+            val source = cashSources[currentSelection]
+            source.transactions.add(transaction)
+            source.recalculate()
+            source.update(context)
+        }
+
         dismiss()
+        onAddListener()
     }
 }

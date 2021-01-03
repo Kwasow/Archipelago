@@ -104,7 +104,8 @@ class SourceManager {
                 sum += it.amount
             }
 
-            return sum
+            // Round to two decimal places
+            return "%.2f".format(sum).toDouble()
         }
 
         fun update(context: Context, name: String, dir: String, source: Any) {

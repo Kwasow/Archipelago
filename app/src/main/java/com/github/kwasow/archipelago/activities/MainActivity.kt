@@ -14,6 +14,7 @@ import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.SourceInvestment
 import com.github.kwasow.archipelago.databinding.ActivityMainBinding
+import com.github.kwasow.archipelago.utils.ArchipelagoError
 import com.github.kwasow.archipelago.utils.SourceAdapter
 import com.github.kwasow.archipelago.views.AddTransactionDialog
 
@@ -33,6 +34,13 @@ class MainActivity : AppCompatActivity() {
         setupRecyclers()
 
         setContentView(binding.root)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Reload sources list
+        setupRecyclers()
     }
 
     override fun onBackPressed() {
@@ -126,6 +134,8 @@ class MainActivity : AppCompatActivity() {
         binding.cashRecycler.adapter = cashAdapter
         if (cashList.isEmpty()) {
             binding.cashEmpty.visibility = View.VISIBLE
+        } else {
+            binding.cashEmpty.visibility = View.GONE
         }
 
         // Set up account
@@ -136,6 +146,8 @@ class MainActivity : AppCompatActivity() {
         binding.accountRecycler.adapter = accountAdapter
         if (accountList.isEmpty()) {
             binding.accountEmpty.visibility = View.VISIBLE
+        } else {
+            binding.accountEmpty.visibility = View.GONE
         }
 
         // Set up investment
@@ -146,6 +158,8 @@ class MainActivity : AppCompatActivity() {
         binding.investmentRecycler.adapter = investmentAdapter
         if (investmentList.isEmpty()) {
             binding.investmentEmpty.visibility = View.VISIBLE
+        } else {
+            binding.investmentEmpty.visibility = View.GONE
         }
 
     }
@@ -163,7 +177,12 @@ class MainActivity : AppCompatActivity() {
 
     fun addTransaction(view: View) {
         fabClick(binding.actionButton)
-        AddTransactionDialog(this).show()
+        val dialog = AddTransactionDialog(this)
+        dialog.onAddListener = {
+            // Reload home screen if transaction added
+            onResume()
+        }
+        dialog.show()
     }
 
     fun buySellStocks(view: View) {
