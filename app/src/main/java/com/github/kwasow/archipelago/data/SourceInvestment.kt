@@ -16,19 +16,19 @@ data class SourceInvestment(
         var start: Date,
         var end: Date
 ) : Serializable {
-    fun save(context: Context): Boolean {
+    fun save(context: Context) : Boolean {
         return SourceManager.save(
                 context, name, "/investment", this
         )
     }
 
-    fun delete(context: Context): Boolean {
+    fun delete(context: Context) : Boolean {
         return SourceManager.delete(
                 context, name, "/investment"
         )
     }
 
-    fun update(context: Context): Boolean {
+    fun update(context: Context) : Boolean {
         return SourceManager.update(
                 context, name, "/investment", this
         )
@@ -37,7 +37,7 @@ data class SourceInvestment(
     companion object {
         // This is safe - I promise
         @Suppress("UNCHECKED_CAST")
-        fun get(context: Context): List<SourceInvestment> {
+        fun get(context: Context) : List<SourceInvestment> {
             val anyList = SourceManager.get(
                     context, "/investment"
             )
@@ -56,7 +56,7 @@ data class SourceInvestment(
         }
     }
 
-    override fun toString(): String {
+    override fun toString() : String {
         return "SourceInvestment{$name}"
     }
 }

@@ -14,7 +14,7 @@ data class SourceAccount(
         val capitalization: SourceManager.Capitalization,
         var transactions: MutableList<Transaction>
 ) : Serializable {
-    fun save(context: Context): Boolean {
+    fun save(context: Context) : Boolean {
         return SourceManager.save(
                 context, name, "/account", this
         )
@@ -24,13 +24,13 @@ data class SourceAccount(
         amount = SourceManager.recalculate(transactions)
     }
 
-    fun delete(context: Context): Boolean {
+    fun delete(context: Context) : Boolean {
         return SourceManager.delete(
                 context, name, "/account"
         )
     }
 
-    fun update(context: Context): Boolean {
+    fun update(context: Context) : Boolean {
         return SourceManager.update(
                 context, name, "/account", this
         )
@@ -39,7 +39,7 @@ data class SourceAccount(
     companion object {
         // This is safe - I promise
         @Suppress("UNCHECKED_CAST")
-        fun get(context: Context): List<SourceAccount> {
+        fun get(context: Context) : List<SourceAccount> {
             val anyList = SourceManager.get(
                     context, "/account"
             )
@@ -58,7 +58,7 @@ data class SourceAccount(
         }
     }
 
-    override fun toString(): String {
+    override fun toString() : String {
         return "SourceAccount{$name}"
     }
 }

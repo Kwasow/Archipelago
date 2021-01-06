@@ -13,6 +13,7 @@
     <string name="buy_sell_stocks">Buy/sell stocks</string>
     <string name="nothing_to_show">Nothing to show</string>
     <string name="add_sources_to_add_transactions">Add sources before adding transactions</string>
+    <string name="month_change">Month change</string>
 
     <!-- Used in adding a new savings source -->
     <string name="something_went_wrong_joke">Uhhh… Someone messed up, if you\'re seeing this</string>

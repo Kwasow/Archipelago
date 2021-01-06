@@ -22,13 +22,13 @@ data class SourceCash(
         amount = SourceManager.recalculate(transactions)
     }
 
-    fun delete(context: Context): Boolean {
+    fun delete(context: Context) : Boolean {
         return SourceManager.delete(
                 context, name, "/cash"
         )
     }
 
-    fun update(context: Context): Boolean {
+    fun update(context: Context) : Boolean {
         return SourceManager.update(
                 context, name, "/cash", this
         )
@@ -37,7 +37,7 @@ data class SourceCash(
     companion object {
         // This is safe - I promise
         @Suppress("UNCHECKED_CAST")
-        fun get(context: Context): List<SourceCash> {
+        fun get(context: Context) : List<SourceCash> {
             val anyList = SourceManager.get(
                     context, "/cash"
             )
@@ -56,7 +56,7 @@ data class SourceCash(
         }
     }
 
-    override fun toString(): String {
+    override fun toString() : String {
         return "SourceCash{$name}"
     }
 }
