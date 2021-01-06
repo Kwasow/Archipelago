@@ -1,5 +1,6 @@
 # Archipelago
 ![Android CI](https://github.com/Kwasow/Archipelago/workflows/Android%20CI/badge.svg)
+<a href="https://ktlint.github.io/"><img src="https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg" alt="ktlint"></a>
 
 A simple app that will allow you to manage different savings sources.
 
