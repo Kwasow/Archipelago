@@ -6,13 +6,18 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kwasow.archipelago.R
-import com.github.kwasow.archipelago.data.*
+import com.github.kwasow.archipelago.data.Country
+import com.github.kwasow.archipelago.data.SourceAccount
+import com.github.kwasow.archipelago.data.SourceCash
+import com.github.kwasow.archipelago.data.SourceInvestment
+import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.ActivityAddSourceBinding
 import com.github.kwasow.archipelago.utils.CountryManager
 import com.github.kwasow.archipelago.utils.SourceManager
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 class AddSourceActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddSourceBinding
@@ -81,10 +86,10 @@ class AddSourceActivity : AppCompatActivity() {
 
         // Set up possible capitalization options
         caps = listOf(
-                resources.getString(SourceManager.Capitalization.EndOfMonth.value),
-                resources.getString(SourceManager.Capitalization.EndOfInvestment.value),
-                resources.getString(SourceManager.Capitalization.Monthly.value),
-                resources.getString(SourceManager.Capitalization.Yearly.value)
+            resources.getString(SourceManager.Capitalization.EndOfMonth.value),
+            resources.getString(SourceManager.Capitalization.EndOfInvestment.value),
+            resources.getString(SourceManager.Capitalization.Monthly.value),
+            resources.getString(SourceManager.Capitalization.Yearly.value)
         )
         val capAdapter = ArrayAdapter(this, R.layout.list_item, caps)
         binding.capitalization.setAdapter(capAdapter)
@@ -142,8 +147,6 @@ class AddSourceActivity : AppCompatActivity() {
                     binding.dateEndLayout.error = null
                 }
             }
-
-
         }
         // Don't continue if any errors were found
         if (error) return
@@ -151,81 +154,87 @@ class AddSourceActivity : AppCompatActivity() {
         // Get common source attributes
         val name = binding.sourceName.text.toString()
         val countryTmp = CountryManager
-                .getCountyByCode(this, binding.countrySelect.text.toString())
+            .getCountyByCode(this, binding.countrySelect.text.toString())
         val country = countryTmp.name
         val countryCode = countryTmp.code
         val currency = countryTmp.currency
         val amount = binding.amount.getDoubleValue()
 
         val transactions = mutableListOf(
-                Transaction(
-                        Date(),
-                        resources.getString(R.string.initial_account_state),
-                        amount,
-                        resources.getString(R.string.added_automatically)
-                )
+            Transaction(
+                Date(),
+                resources.getString(R.string.initial_account_state),
+                amount,
+                resources.getString(R.string.added_automatically)
+            )
         )
 
         // Specific stuff (+checking if succeeded)
         when (currentSource) {
             // Cash
             0 -> {
-                if (!SourceCash(
-                        name,
-                        country,
-                        countryCode,
-                        currency,
-                        amount,
-                        transactions
-                ).save(this)) {
+                val source = SourceCash(
+                    name,
+                    country,
+                    countryCode,
+                    currency,
+                    amount,
+                    transactions
+                )
+                if (!source.save(this)) {
                     // TODO: Error should be more specific in the future
                     // TODO: Maybe add report issue button to this
                     Snackbar.make(
-                            binding.root,
-                            R.string.something_went_wrong,
-                            Snackbar.LENGTH_SHORT).show()
+                        binding.root,
+                        R.string.something_went_wrong,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                     return
                 }
             }
             // Savings account
             1 -> {
                 val cap = getCapitalization() ?: return
-                if (!SourceAccount(
-                        name,
-                        country,
-                        countryCode,
-                        currency,
-                        amount,
-                        binding.interest.getDoubleValue(),
-                        cap,
-                        transactions
-                ).save(this)) {
+                val source = SourceAccount(
+                    name,
+                    country,
+                    countryCode,
+                    currency,
+                    amount,
+                    binding.interest.getDoubleValue(),
+                    cap,
+                    transactions
+                )
+                if (!source.save(this)) {
                     Snackbar.make(
-                            binding.root,
-                            R.string.something_went_wrong,
-                            Snackbar.LENGTH_SHORT).show()
+                        binding.root,
+                        R.string.something_went_wrong,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                     return
                 }
             }
             // Investment
             2 -> {
                 val cap = getCapitalization() ?: return
-                if (!SourceInvestment(
-                        name,
-                        country,
-                        countryCode,
-                        currency,
-                        amount,
-                        binding.interest.getDoubleValue(),
-                        cap,
-                        // These are not null, because we checked it earlier
-                        startDate!!,
-                        endDate!!
-                ).save(this)) {
+                val source = SourceInvestment(
+                    name,
+                    country,
+                    countryCode,
+                    currency,
+                    amount,
+                    binding.interest.getDoubleValue(),
+                    cap,
+                    // These are not null, because we checked it earlier
+                    startDate!!,
+                    endDate!!
+                )
+                if (!source.save(this)) {
                     Snackbar.make(
-                            binding.root,
-                            R.string.something_went_wrong,
-                            Snackbar.LENGTH_SHORT).show()
+                        binding.root,
+                        R.string.something_went_wrong,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                     return
                 }
             }
@@ -238,23 +247,23 @@ class AddSourceActivity : AppCompatActivity() {
         val calendar = Calendar.getInstance()
 
         DatePickerDialog(
-                this,
-                { _, year, month, dayOfMonth ->
-                    val selection = Calendar.getInstance()
-                    selection.set(Calendar.YEAR, year)
-                    selection.set(Calendar.MONTH, month)
-                    selection.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            this,
+            { _, year, month, dayOfMonth ->
+                val selection = Calendar.getInstance()
+                selection.set(Calendar.YEAR, year)
+                selection.set(Calendar.MONTH, month)
+                selection.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-                    val date = selection.time
-                    val dateFormat = SimpleDateFormat.getDateInstance()
-                    binding.dateStart.setText(
-                            dateFormat.format(date)
-                    )
-                    startDate = date
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
+                val date = selection.time
+                val dateFormat = SimpleDateFormat.getDateInstance()
+                binding.dateStart.setText(
+                    dateFormat.format(date)
+                )
+                startDate = date
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
         ).show()
     }
 
@@ -262,23 +271,23 @@ class AddSourceActivity : AppCompatActivity() {
         val calendar = Calendar.getInstance()
 
         DatePickerDialog(
-                this,
-                { _, year, month, dayOfMonth ->
-                    val selection = Calendar.getInstance()
-                    selection.set(Calendar.YEAR, year)
-                    selection.set(Calendar.MONTH, month)
-                    selection.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            this,
+            { _, year, month, dayOfMonth ->
+                val selection = Calendar.getInstance()
+                selection.set(Calendar.YEAR, year)
+                selection.set(Calendar.MONTH, month)
+                selection.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-                    val date = selection.time
-                    val dateFormat = SimpleDateFormat.getDateInstance()
-                    binding.dateEnd.setText(
-                            dateFormat.format(date)
-                    )
-                    endDate = date
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
+                val date = selection.time
+                val dateFormat = SimpleDateFormat.getDateInstance()
+                binding.dateEnd.setText(
+                    dateFormat.format(date)
+                )
+                endDate = date
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
         ).show()
     }
 
@@ -309,7 +318,7 @@ class AddSourceActivity : AppCompatActivity() {
         binding.dateEndLayout.visibility = View.VISIBLE
     }
 
-    private fun getCapitalization() : SourceManager.Capitalization? {
+    private fun getCapitalization(): SourceManager.Capitalization? {
         val selectedString = binding.capitalization.text.toString()
 
         SourceManager.Capitalization.values().forEach {

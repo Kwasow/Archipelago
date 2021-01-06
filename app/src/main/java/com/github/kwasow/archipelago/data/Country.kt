@@ -1,12 +1,12 @@
 package com.github.kwasow.archipelago.data
 
 data class Country(
-        val name: String,
-        val code: String,
-        val currency: String,
-        val taxAccount: Array<Tax>,
-        val taxInvestment: Array<Tax>,
-        val taxStock: Array<Tax>
+    val name: String,
+    val code: String,
+    val currency: String,
+    val taxAccount: Array<Tax>,
+    val taxInvestment: Array<Tax>,
+    val taxStock: Array<Tax>
 ) {
     override fun toString(): String {
         return "Country{$name, $code, $currency, $taxAccount, $taxInvestment, $taxStock}"

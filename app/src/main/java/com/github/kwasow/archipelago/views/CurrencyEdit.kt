@@ -29,10 +29,10 @@ class CurrencyEdit : TextInputEditText {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int)
-            : super(context, attrs, defStyleAttr) {
-        init()
-    }
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) :
+        super(context, attrs, defStyleAttr) {
+            init()
+        }
 
     private fun init() {
         addTextChangedListener(object : TextWatcher {
@@ -79,13 +79,13 @@ class CurrencyEdit : TextInputEditText {
         setText(value.toString())
     }
 
-    fun getDoubleValue() : Double {
+    fun getDoubleValue(): Double {
         return editText.text.toString().trim { it <= ' ' }
             .replace("[$,]".toRegex(), "").replace(currency.toRegex(), "").toDouble()
     }
 
     // This will fail if value exceeds integer limit
-    fun getIntValue() : Int = getDoubleValue().roundToInt()
+    fun getIntValue(): Int = getDoubleValue().roundToInt()
 
     fun setCurrency(currencySymbol: String) {
         currency = currencySymbol

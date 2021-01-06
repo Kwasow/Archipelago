@@ -11,7 +11,7 @@ import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.DialogAddTransactionBinding
 import com.google.android.material.snackbar.Snackbar
-import java.util.*
+import java.util.Date
 
 class AddTransactionDialog(context: Context) : AlertDialog(context) {
     private lateinit var binding: DialogAddTransactionBinding
@@ -39,14 +39,14 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
         cashSources = SourceCash.get(this.context)
         cashSources.forEach {
             sources.add(
-                    "${it.name} (${it.amount} ${it.currency})"
+                "${it.name} (${it.amount} ${it.currency})"
             )
         }
 
         accountSources = SourceAccount.get(this.context)
         accountSources.forEach {
             sources.add(
-                    "${it.name} (${it.amount} ${it.currency})"
+                "${it.name} (${it.amount} ${it.currency})"
             )
         }
 
@@ -58,12 +58,12 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
             if (i > cashSources.size) {
                 // Then it's from the accountSources list
                 binding.amount.setCurrency(
-                        accountSources[i - cashSources.size].currency
+                    accountSources[i - cashSources.size].currency
                 )
             } else {
                 // It's form cash sources
                 binding.amount.setCurrency(
-                        cashSources[i].currency
+                    cashSources[i].currency
                 )
             }
         }
@@ -71,14 +71,14 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
 
     private fun setupKeyboard() {
         window?.clearFlags(
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
+        )
         binding.amount.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
             } else {
                 window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-
             }
         }
     }
@@ -122,10 +122,10 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
         }
 
         val transaction = Transaction(
-                Date(),
-                binding.transactionName.text.toString(),
-                amount,
-                binding.details.text.toString()
+            Date(),
+            binding.transactionName.text.toString(),
+            amount,
+            binding.details.text.toString()
         )
 
         if (currentSelection > cashSources.size) {
@@ -136,9 +136,10 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
             // Check if transaction added successfully
             if (!source.update(context)) {
                 Snackbar.make(
-                        binding.root,
-                        R.string.something_went_wrong,
-                        Snackbar.LENGTH_SHORT).show()
+                    binding.root,
+                    R.string.something_went_wrong,
+                    Snackbar.LENGTH_SHORT
+                ).show()
                 return
             }
         } else {
@@ -149,9 +150,10 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
             // Check if transaction added successfully
             if (!source.update(context)) {
                 Snackbar.make(
-                        binding.root,
-                        R.string.something_went_wrong,
-                        Snackbar.LENGTH_SHORT).show()
+                    binding.root,
+                    R.string.something_went_wrong,
+                    Snackbar.LENGTH_SHORT
+                ).show()
                 return
             }
         }

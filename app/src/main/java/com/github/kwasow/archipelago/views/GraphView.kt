@@ -30,10 +30,10 @@ class GraphView : View {
         init(attrs)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int)
-            : super(context, attrs, defStyleAttr) {
-        init(attrs)
-    }
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) :
+        super(context, attrs, defStyleAttr) {
+            init(attrs)
+        }
 
     private fun init(attrs: AttributeSet?) {
         // Read values if any present
@@ -41,9 +41,9 @@ class GraphView : View {
             val ta = context.obtainStyledAttributes(attrs, R.styleable.GraphView)
 
             colorPositive =
-                    ta.getColor(R.styleable.GraphView_color_positive, MaterialColors.LIGHT_GREEN)
+                ta.getColor(R.styleable.GraphView_color_positive, MaterialColors.LIGHT_GREEN)
             colorNegative =
-                    ta.getColor(R.styleable.GraphView_color_negative, MaterialColors.RED)
+                ta.getColor(R.styleable.GraphView_color_negative, MaterialColors.RED)
 
             // Clean up
             ta.recycle()
@@ -51,17 +51,17 @@ class GraphView : View {
 
         // Calculate line width (1dp)
         val axisWidth = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                1F,
-                resources.displayMetrics
+            TypedValue.COMPLEX_UNIT_DIP,
+            1F,
+            resources.displayMetrics
         )
         axisPaint.color = MaterialColors.BLACK
         axisPaint.strokeWidth = axisWidth
 
         val lineWidth = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                2F,
-                resources.displayMetrics
+            TypedValue.COMPLEX_UNIT_DIP,
+            2F,
+            resources.displayMetrics
         )
         linePaint.strokeWidth = lineWidth
     }
@@ -74,10 +74,14 @@ class GraphView : View {
 
         // Draw axis
         val axisList = floatArrayOf(
-                0F, (height*0.95).toFloat(),                // Start of x axis
-                width.toFloat(), (height*0.95).toFloat(),   // End of x axis
-                (width*0.05).toFloat(), height.toFloat(),   // Start of y axis
-                (width*0.05).toFloat(), 0F                  // End of y axis
+            // Start of x axis
+            0F, (height * 0.95).toFloat(),
+            // End of x axis
+            width.toFloat(), (height * 0.95).toFloat(),
+            // Start of y axis
+            (width * 0.05).toFloat(), height.toFloat(),
+            // End of y axis
+            (width * 0.05).toFloat(), 0F
         )
         canvas.drawLines(axisList, axisPaint)
         // Draw graph
@@ -101,9 +105,9 @@ class GraphView : View {
         } else {
             FloatArray((data.size - 1) * 4)
         }
-        val x00 = (width*0.05).toFloat()
+        val x00 = (width * 0.05).toFloat()
         // We want a 5% padding on the bottom
-        val y00 = (height*0.9).toFloat()
+        val y00 = (height * 0.9).toFloat()
         // Find minimum and maximum value
         var maxY = Double.MIN_VALUE
         var minY = Double.MAX_VALUE
@@ -154,13 +158,13 @@ class GraphView : View {
         // Now when everything is set up, let's put it into our graphLines array
         for (i in 0..(data.size - 2)) {
             // x start
-            graphLines[i*4] = x00 + data[i][0].toFloat()
+            graphLines[i * 4] = x00 + data[i][0].toFloat()
             // y start
-            graphLines[i*4 + 1] = y00 - data[i][1].toFloat()
+            graphLines[i * 4 + 1] = y00 - data[i][1].toFloat()
             // x end
-            graphLines[i*4 + 2] = x00 + data[i+1][0].toFloat()
+            graphLines[i * 4 + 2] = x00 + data[i + 1][0].toFloat()
             // y end
-            graphLines[i*4 + 3] = y00 - data[i+1][1].toFloat()
+            graphLines[i * 4 + 3] = y00 - data[i + 1][1].toFloat()
         }
 
         // Set up line color
@@ -175,7 +179,7 @@ class GraphView : View {
     }
 
     companion object {
-        fun graphArrayFromTransactions(transactions: List<Transaction>) : Array<Array<Double>> {
+        fun graphArrayFromTransactions(transactions: List<Transaction>): Array<Array<Double>> {
             val returnList = mutableListOf<Array<Double>>()
 
             // Make sure transactions are sorted by date
@@ -190,17 +194,17 @@ class GraphView : View {
                 val amount = if (i == 0) {
                     transactions[0].amount
                 } else {
-                    returnList[i-1][1] + transactions[i].amount
+                    returnList[i - 1][1] + transactions[i].amount
                 }
 
                 returnList.add(
-                        arrayOf(date, amount)
+                    arrayOf(date, amount)
                 )
 
                 // So there are at least two points
                 if (i == transactions.size - 1 && returnList.size == 1) {
                     returnList.add(
-                            arrayOf(date + 1, amount)
+                        arrayOf(date + 1, amount)
                     )
                 }
             }

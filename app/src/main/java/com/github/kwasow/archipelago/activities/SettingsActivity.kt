@@ -1,7 +1,6 @@
 package com.github.kwasow.archipelago.activities
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kwasow.archipelago.databinding.ActivitySettingsBinding
 
@@ -19,5 +18,4 @@ class SettingsActivity : AppCompatActivity() {
 
         setContentView(binding.root)
     }
-
 }

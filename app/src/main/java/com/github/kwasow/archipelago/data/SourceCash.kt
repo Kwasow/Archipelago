@@ -5,16 +5,16 @@ import com.github.kwasow.archipelago.utils.SourceManager
 import java.io.Serializable
 
 data class SourceCash(
-        var name: String,
-        var country: String,
-        var countryCode: String,
-        var currency: String,
-        var amount: Double,
-        var transactions: MutableList<Transaction>
+    var name: String,
+    var country: String,
+    var countryCode: String,
+    var currency: String,
+    var amount: Double,
+    var transactions: MutableList<Transaction>
 ) : Serializable {
     fun save(context: Context): Boolean {
         return SourceManager.save(
-                context, name, "/cash", this
+            context, name, "/cash", this
         )
     }
 
@@ -22,24 +22,24 @@ data class SourceCash(
         amount = SourceManager.recalculate(transactions)
     }
 
-    fun delete(context: Context) : Boolean {
+    fun delete(context: Context): Boolean {
         return SourceManager.delete(
-                context, name, "/cash"
+            context, name, "/cash"
         )
     }
 
-    fun update(context: Context) : Boolean {
+    fun update(context: Context): Boolean {
         return SourceManager.update(
-                context, name, "/cash", this
+            context, name, "/cash", this
         )
     }
 
     companion object {
         // This is safe - I promise
         @Suppress("UNCHECKED_CAST")
-        fun get(context: Context) : List<SourceCash> {
+        fun get(context: Context): List<SourceCash> {
             val anyList = SourceManager.get(
-                    context, "/cash"
+                context, "/cash"
             )
 
             // Return empty list if empty
@@ -56,7 +56,7 @@ data class SourceCash(
         }
     }
 
-    override fun toString() : String {
+    override fun toString(): String {
         return "SourceCash{$name}"
     }
 }

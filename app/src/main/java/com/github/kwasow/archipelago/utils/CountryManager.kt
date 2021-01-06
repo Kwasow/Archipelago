@@ -9,23 +9,23 @@ import java.nio.charset.Charset
 
 class CountryManager {
     companion object {
-        fun getCountries(context: Context) : Array<Country> {
+        fun getCountries(context: Context): Array<Country> {
             val list = mutableListOf<Country>()
 
             context.assets.list("countries/")?.forEach {
                 list.add(
-                        getCountry(context, "countries/$it")
+                    getCountry(context, "countries/$it")
                 )
             }
 
             return list.toTypedArray()
         }
 
-        fun getCountyByCode(context: Context, code: String) : Country {
+        fun getCountyByCode(context: Context, code: String): Country {
             return getCountry(context, "countries/$code.json")
         }
 
-        private fun getCountry(context: Context, filePath: String) : Country {
+        private fun getCountry(context: Context, filePath: String): Country {
             val inputStream = context.assets.open(filePath)
             val jsonString = inputStream.readTextAndClose()
             val jsonObject = JSONObject(jsonString)
@@ -35,14 +35,14 @@ class CountryManager {
             val taxStock = getTaxBrackets(jsonObject, "stock")
 
             return Country(
-                    jsonObject.getString("full name"),
-                    jsonObject.getString("country code"),
-                    jsonObject.getString("currency symbol"),
-                    taxAccount, taxInvestment, taxStock
+                jsonObject.getString("full name"),
+                jsonObject.getString("country code"),
+                jsonObject.getString("currency symbol"),
+                taxAccount, taxInvestment, taxStock
             )
         }
 
-        private fun getTaxBrackets(jsonObject: JSONObject, source: String) : Array<Tax>{
+        private fun getTaxBrackets(jsonObject: JSONObject, source: String): Array<Tax> {
             val list = mutableListOf<Tax>()
             val sourceObject = jsonObject.getJSONObject("taxes").getJSONObject(source)
 
@@ -58,13 +58,13 @@ class CountryManager {
                 val bracketDetails = bracketsArray.getJSONArray(i)
 
                 list.add(
-                        Tax(
-                                taxed,
-                                automatic,
-                                bracketDetails.getInt(0),
-                                bracketDetails.getInt(1),
-                                bracketDetails.getInt(2)
-                        )
+                    Tax(
+                        taxed,
+                        automatic,
+                        bracketDetails.getInt(0),
+                        bracketDetails.getInt(1),
+                        bracketDetails.getInt(2)
+                    )
                 )
             }
 

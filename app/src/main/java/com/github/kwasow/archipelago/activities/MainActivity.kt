@@ -89,8 +89,8 @@ class MainActivity : AppCompatActivity() {
             binding.opacity.visibility = View.VISIBLE
             // Animate opacity in
             binding.opacity.animate()
-                    .setDuration(250)
-                    .alpha(0.25F)
+                .setDuration(250)
+                .alpha(0.25F)
         } else {
             fabList.forEach {
                 FabAnimation.showOut(it)
@@ -98,18 +98,18 @@ class MainActivity : AppCompatActivity() {
 
             // Animate opacity out
             binding.opacity.animate()
-                    .setDuration(250)
-                    .alpha(0F)
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator?) {
-                            super.onAnimationEnd(animation)
+                .setDuration(250)
+                .alpha(0F)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        super.onAnimationEnd(animation)
 
-                            // Get rid of the view when animation is done and restore scrolling
-                            if (!fabIsRotated) {
-                                binding.opacity.visibility = View.GONE
-                            }
+                        // Get rid of the view when animation is done and restore scrolling
+                        if (!fabIsRotated) {
+                            binding.opacity.visibility = View.GONE
                         }
-                    })
+                    }
+                })
         }
     }
 
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            return@setOnMenuItemClickListener true;
+            return@setOnMenuItemClickListener true
         }
     }
 
@@ -165,7 +165,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.investmentEmpty.visibility = View.GONE
         }
-
     }
 
     fun addSource(view: View) {
@@ -183,9 +182,10 @@ class MainActivity : AppCompatActivity() {
         if (noSources) {
             // TODO: Maybe raise fab when snackbar is visible
             Snackbar.make(
-                    binding.root,
-                    R.string.add_sources_to_add_transactions,
-                    Snackbar.LENGTH_SHORT).show()
+                binding.root,
+                R.string.add_sources_to_add_transactions,
+                Snackbar.LENGTH_SHORT
+            ).show()
         } else {
             fabClick(binding.actionButton)
             val dialog = AddTransactionDialog(this)
@@ -200,6 +200,6 @@ class MainActivity : AppCompatActivity() {
     fun buySellStocks(view: View) {
         // TODO: Buy and sell stocks
         Toast.makeText(applicationContext, "Not implemented", Toast.LENGTH_SHORT)
-                .show()
+            .show()
     }
 }

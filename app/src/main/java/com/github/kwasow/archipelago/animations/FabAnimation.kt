@@ -15,12 +15,12 @@ class FabAnimation {
         }
 
         // Rotate the icon on the main FAB
-        fun rotate(view: View, rotate: Boolean) : Boolean {
+        fun rotate(view: View, rotate: Boolean): Boolean {
             view.animate()
-                    .setDuration(250)
-                    .rotation(if (rotate) 135F else 0F)
+                .setDuration(250)
+                .rotation(if (rotate) 135F else 0F)
 
-            return rotate;
+            return rotate
         }
 
         // Animate mini FABs and their descriptions onto the screen
@@ -29,11 +29,10 @@ class FabAnimation {
             view.alpha = 0F
             view.translationY = view.height.toFloat()
             view.animate()
-                    .setDuration(250)
-                    .translationY(0F)
-                    .alpha(1F)
-                    .start()
-
+                .setDuration(250)
+                .translationY(0F)
+                .alpha(1F)
+                .start()
         }
 
         // Animate mini FABs and their descriptions off the screen
@@ -42,12 +41,10 @@ class FabAnimation {
             view.alpha = 1F
             view.translationY = 0F
             view.animate()
-                    .setDuration(250)
-                    .translationY(view.height.toFloat())
-                    .alpha(0F)
-                    .start()
+                .setDuration(250)
+                .translationY(view.height.toFloat())
+                .alpha(0F)
+                .start()
         }
-
     }
-
 }
