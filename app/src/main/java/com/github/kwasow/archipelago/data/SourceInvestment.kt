@@ -2,7 +2,6 @@ package com.github.kwasow.archipelago.data
 
 import android.content.Context
 import com.github.kwasow.archipelago.utils.SourceManager
-import java.io.Serializable
 import java.util.Date
 
 data class SourceInvestment(

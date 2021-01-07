@@ -49,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:text="100879.90 zł"
                 app:layout_constraintTop_toTopOf="@id/amountLabel"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/monthChangeLabel"
@@ -66,7 +67,8 @@
                 android:text="+480.79 zł"
                 android:textColor="@color/green_500"
                 app:layout_constraintTop_toTopOf="@id/monthChangeLabel"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="HardcodedText" />
 
             <com.github.kwasow.archipelago.views.GraphView
                 android:id="@+id/graph"

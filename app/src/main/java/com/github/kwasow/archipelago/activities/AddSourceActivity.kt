@@ -80,7 +80,7 @@ class AddSourceActivity : AppCompatActivity() {
         binding.countrySelect.setAdapter(countryAdapter)
         // Set currency when country is selected
         binding.countrySelect.setOnItemClickListener { _, _, i, _ ->
-            binding.amount.setCurrency(countries[i].currency)
+            binding.amount.currency = countries[i].currency
             countryChosen = true
         }
 
@@ -95,7 +95,7 @@ class AddSourceActivity : AppCompatActivity() {
         binding.capitalization.setAdapter(capAdapter)
         binding.capitalization.setOnItemClickListener { _, _, _, _ -> capChosen = true }
 
-        binding.interest.setCurrency("%")
+        binding.interest.currency = "%"
 
         setContentView(binding.root)
     }

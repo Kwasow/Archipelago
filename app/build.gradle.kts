@@ -3,7 +3,7 @@ plugins {
     kotlin("android")
 }
 
-fun versionCode() : Int {
+fun versionCode(): Int {
     val secondsSinceEpoch = System.currentTimeMillis() / 1000
     // This will fail eventually, but well… It's the best we have
     return secondsSinceEpoch.toInt()
@@ -24,9 +24,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile(
-                    "proguard-android-optimize.txt"),
-                    "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 

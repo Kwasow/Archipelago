@@ -8,9 +8,9 @@ import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.ViewTransactionItemBinding
 
 class TransactionsAdapter(
-        private val dataSet: List<Transaction>,
-        private val currency: String
-    ) : RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
+    private val dataSet: List<Transaction>,
+    private val currency: String
+) : RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
 
     class ViewHolder(binding: ViewTransactionItemBinding) : RecyclerView.ViewHolder(binding.root) {
         // Set up all children views
@@ -21,7 +21,7 @@ class TransactionsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ViewTransactionItemBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
+            LayoutInflater.from(parent.context), parent, false
         )
 
         return ViewHolder(binding)
@@ -41,9 +41,9 @@ class TransactionsAdapter(
             holder.transactionValue.setTextColor(MaterialColors.RED)
             ""
         }
-        holder.transactionValue.text =  "($plus" +
-                """${String.format("%.2f", transaction.amount)} """ +
-                "${currency})"
+        holder.transactionValue.text = "($plus" +
+            """${String.format("%.2f", transaction.amount)} """ +
+            "$currency)"
     }
 
     override fun getItemCount(): Int = dataSet.size

@@ -16,10 +16,16 @@ import kotlin.math.roundToInt
 
 class CurrencyEdit : TextInputEditText {
     private var current = ""
-    private val editText = this
+    private var currencyChanged = false
 
     // Properties
-    private var currency = ""
+    var currency = ""
+        set(value) {
+            field = value
+            // Refresh will add the currency symbol to whatever is written in the textview
+            currencyChanged = true
+            setText(current)
+        }
 
     constructor(context: Context) : super(context) {
         init()
@@ -39,8 +45,9 @@ class CurrencyEdit : TextInputEditText {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(s: CharSequence, i: Int, i1: Int, i2: Int) {
-                if (s.toString() != current) {
-                    editText.removeTextChangedListener(this)
+                if (s.toString() != current || currencyChanged) {
+                    removeTextChangedListener(this)
+                    currencyChanged = false
 
                     val cleanString = s.toString()
                         .replace("[$,.]".toRegex(), "")
@@ -48,22 +55,16 @@ class CurrencyEdit : TextInputEditText {
                         .replace("\\s+".toRegex(), "")
 
                     if (cleanString.isNotEmpty()) {
-                        val currencyFormat = "$currency "
-                        val formatted: String
-                        val parsed: Double = cleanString.toDouble()
-                        formatted = NumberFormat.getCurrencyInstance().format(
-                            parsed / 100
-                        ).replace(
-                            NumberFormat.getCurrencyInstance().currency.symbol,
-                            currencyFormat
-                        )
+                        val parsed: Double = cleanString.toDouble() / 100
+                        val formatted = formatDouble(parsed, currency)
+
                         current = formatted
 
-                        editText.setText(formatted)
-                        editText.setSelection(formatted.length)
+                        setText(formatted)
+                        setSelection(formatted.length)
                     }
 
-                    editText.addTextChangedListener(this)
+                    addTextChangedListener(this)
                 }
             }
 
@@ -74,22 +75,25 @@ class CurrencyEdit : TextInputEditText {
         setText("0")
     }
 
-    private fun refresh() {
-        val value = getDoubleValue()
-        setText(value.toString())
-    }
-
     fun getDoubleValue(): Double {
-        return editText.text.toString().trim { it <= ' ' }
-            .replace("[$,]".toRegex(), "").replace(currency.toRegex(), "").toDouble()
+        return text.toString().trim { it <= ' ' }
+            .replace("[$,]".toRegex(), "")
+            .replace(currency.toRegex(), "")
+            .toDouble()
     }
 
     // This will fail if value exceeds integer limit
     fun getIntValue(): Int = getDoubleValue().roundToInt()
 
-    fun setCurrency(currencySymbol: String) {
-        currency = currencySymbol
-        // Refresh will add the currency symbol to whatever is written in the textview
-        refresh()
+    companion object {
+
+        fun formatDouble(value: Double, currency: String): String {
+            return NumberFormat.getCurrencyInstance().format(
+                value
+            ).replace(
+                NumberFormat.getCurrencyInstance().currency?.symbol.orEmpty(),
+                currency
+            )
+        }
     }
 }
