@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".activities.AddSourceActivity"/>
         <activity android:name=".activities.SettingsActivity"/>
+        <activity android:name=".activities.SourceDetailsActivity"/>
     </application>
 
 </manifest>

@@ -2,16 +2,15 @@ package com.github.kwasow.archipelago.data
 
 import android.content.Context
 import com.github.kwasow.archipelago.utils.SourceManager
-import java.io.Serializable
 
 data class SourceCash(
-    var name: String,
-    var country: String,
-    var countryCode: String,
-    var currency: String,
-    var amount: Double,
-    var transactions: MutableList<Transaction>
-) : Serializable {
+    override var name: String,
+    override var country: String,
+    override var countryCode: String,
+    override var currency: String,
+    override var amount: Double,
+    override var transactions: MutableList<Transaction>
+) : Source {
     fun save(context: Context): Boolean {
         return SourceManager.save(
             context, name, "/cash", this

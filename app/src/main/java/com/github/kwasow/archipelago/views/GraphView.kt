@@ -99,6 +99,9 @@ class GraphView : View {
             }
         }
 
+        // Don't continue if there is nothing to take care of
+        if (data.isEmpty()) return
+
         // We need 4 elements for every line (there are n-1 lines -> unless it's one point)
         graphLines = if (data.size == 1) {
             FloatArray(4)
@@ -107,7 +110,7 @@ class GraphView : View {
         }
         val x00 = (width * 0.05).toFloat()
         // We want a 5% padding on the bottom
-        val y00 = (height * 0.9).toFloat()
+        val y00 = (height * 0.80).toFloat()
         // Find minimum and maximum value
         var maxY = Double.MIN_VALUE
         var minY = Double.MAX_VALUE
@@ -138,7 +141,7 @@ class GraphView : View {
         // on the X axis:
         //  - we want the maximum to become 0.95*width (because we have empty space at the beginning
         // on the Y axis:
-        //  - we want the maximum to become 0.85*height
+        //  - we want the maximum to become 0.75*height
         data.forEach {
             it[0] = (it[0] - minX)
             if (maxX != 0.0) {
@@ -146,7 +149,7 @@ class GraphView : View {
             }
             it[1] = (it[1] - minY)
             if (maxY != 0.0) {
-                it[1] *= (0.85 * height / maxY)
+                it[1] *= (0.75 * height / maxY)
             }
         }
 

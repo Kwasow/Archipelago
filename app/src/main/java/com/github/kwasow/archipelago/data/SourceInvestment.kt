@@ -6,16 +6,18 @@ import java.io.Serializable
 import java.util.Date
 
 data class SourceInvestment(
-    var name: String,
-    var country: String,
-    var countryCode: String,
-    var currency: String,
-    var amount: Double,
+    override var name: String,
+    override var country: String,
+    override var countryCode: String,
+    override var currency: String,
+    override var amount: Double,
     var interest: Double,
     val capitalization: SourceManager.Capitalization,
     var start: Date,
     var end: Date
-) : Serializable {
+) : Source {
+    override var transactions: MutableList<Transaction> = mutableListOf()
+
     fun save(context: Context): Boolean {
         return SourceManager.save(
             context, name, "/investment", this
