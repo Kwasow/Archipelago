@@ -95,5 +95,14 @@ class CurrencyEdit : TextInputEditText {
                 currency
             )
         }
+
+        fun formatDouble(value: Double): String {
+            return NumberFormat.getCurrencyInstance().format(
+                    value
+            ).replace(
+                    NumberFormat.getCurrencyInstance().currency?.symbol.orEmpty(),
+                    ""
+            )
+        }
     }
 }

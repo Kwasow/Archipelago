@@ -6,10 +6,18 @@ import org.junit.Test
 
 class CurrencyEditTest {
     @Test
-    fun formatDouble() {
+    fun formatDoubleCurrency() {
         assertEquals(
-            "zł 25,809.63",
+            "zł25,809.63",
             CurrencyEdit.formatDouble(25809.63, "zł")
+        )
+    }
+
+    @Test
+    fun formatDoubleNoCurrency() {
+        assertEquals(
+            "1,435,230.00",
+            CurrencyEdit.formatDouble(1435230.00)
         )
     }
 }
