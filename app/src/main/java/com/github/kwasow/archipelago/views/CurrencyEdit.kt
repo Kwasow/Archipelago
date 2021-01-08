@@ -4,7 +4,9 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import com.github.kwasow.archipelago.utils.ArchipelagoError
 import com.google.android.material.textfield.TextInputEditText
+import java.math.BigDecimal
 import java.text.NumberFormat
 import kotlin.math.roundToInt
 
@@ -49,14 +51,19 @@ class CurrencyEdit : TextInputEditText {
                     removeTextChangedListener(this)
                     currencyChanged = false
 
-                    val cleanString = s.toString()
+                    var cleanString = s.toString()
                         .replace("[$,.]".toRegex(), "")
                         .replace(currency.toRegex(), "")
                         .replace("\\s+".toRegex(), "")
+                    val addDot = cleanString.toCharArray().toMutableList()
+                    if (addDot.lastIndex - 1 >= 0) {
+                        addDot.add(addDot.lastIndex - 1, '.')
+                    }
+                    cleanString = String(addDot.toCharArray())
 
                     if (cleanString.isNotEmpty()) {
-                        val parsed: Double = cleanString.toDouble() / 100
-                        val formatted = formatDouble(parsed, currency)
+                        val parsed = BigDecimal(cleanString)
+                        val formatted = formatBigDecimal(parsed, currency)
 
                         current = formatted
 
@@ -75,15 +82,19 @@ class CurrencyEdit : TextInputEditText {
         setText("0")
     }
 
-    fun getDoubleValue(): Double {
-        return text.toString().trim { it <= ' ' }
-            .replace("[$,]".toRegex(), "")
-            .replace(currency.toRegex(), "")
-            .toDouble()
+    fun getBigDecimalValue(): BigDecimal {
+        return BigDecimal(
+            text.toString()
+                .replace("[$,]".toRegex(), "")
+                .replace(currency.toRegex(), "")
+                .replace("\\s+".toRegex(), "")
+        )
     }
 
+    fun getDoubleValue(): Double = getBigDecimalValue().toDouble()
+
     // This will fail if value exceeds integer limit
-    fun getIntValue(): Int = getDoubleValue().roundToInt()
+    fun getIntValue(): Int = getBigDecimalValue().toInt()
 
     companion object {
 
@@ -97,12 +108,20 @@ class CurrencyEdit : TextInputEditText {
         }
 
         fun formatDouble(value: Double): String {
+            return formatDouble(value, "")
+        }
+
+        fun formatBigDecimal(value: BigDecimal, currency: String): String {
             return NumberFormat.getCurrencyInstance().format(
                     value
             ).replace(
                     NumberFormat.getCurrencyInstance().currency?.symbol.orEmpty(),
-                    ""
+                    currency
             )
+        }
+
+        fun formatBigDecimal(value: BigDecimal): String {
+            return formatBigDecimal(value, "")
         }
     }
 }

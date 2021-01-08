@@ -12,6 +12,7 @@ import com.github.kwasow.archipelago.databinding.ActivitySourceDetailsBinding
 import com.github.kwasow.archipelago.utils.MaterialColors
 import com.github.kwasow.archipelago.utils.TransactionsAdapter
 import com.github.kwasow.archipelago.views.GraphView
+import java.math.BigDecimal
 
 class SourceDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySourceDetailsBinding
@@ -37,7 +38,7 @@ class SourceDetailsActivity : AppCompatActivity() {
                 // Month change
                 // Set month change
                 val change = Source.getMonthChange(someObject.transactions)
-                val plus = if (change >= 0) {
+                val plus = if (change >= BigDecimal.ZERO) {
                     binding.monthChange.setTextColor(MaterialColors.LIGHT_GREEN)
                     "+"
                 } else {

@@ -158,7 +158,7 @@ class AddSourceActivity : AppCompatActivity() {
         val country = countryTmp.name
         val countryCode = countryTmp.code
         val currency = countryTmp.currency
-        val amount = binding.amount.getDoubleValue()
+        val amount = binding.amount.getBigDecimalValue()
 
         val transactions = mutableListOf(
             Transaction(
@@ -201,7 +201,7 @@ class AddSourceActivity : AppCompatActivity() {
                     countryCode,
                     currency,
                     amount,
-                    binding.interest.getDoubleValue(),
+                    (binding.interest.getDoubleValue()*100).toInt(),
                     cap,
                     transactions
                 )
@@ -223,7 +223,7 @@ class AddSourceActivity : AppCompatActivity() {
                     countryCode,
                     currency,
                     amount,
-                    binding.interest.getDoubleValue(),
+                    (binding.interest.getDoubleValue()*100).toInt(),
                     cap,
                     // These are not null, because we checked it earlier
                     startDate!!,

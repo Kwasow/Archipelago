@@ -4,6 +4,7 @@ import com.github.kwasow.archipelago.data.Source
 import com.github.kwasow.archipelago.data.Transaction
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.math.BigDecimal
 import java.util.Date
 
 class SourceInterfaceTest {
@@ -14,7 +15,7 @@ class SourceInterfaceTest {
             Transaction(
                 Date(),
                 "Test 1",
-                1500.0,
+                BigDecimal(1500.0),
                 "None"
             )
         )
@@ -22,7 +23,7 @@ class SourceInterfaceTest {
             Transaction(
                 Date(),
                 "Test 1",
-                -500.0,
+                BigDecimal(-500.0),
                 "None"
             )
         )
@@ -31,7 +32,7 @@ class SourceInterfaceTest {
             Transaction(
                 Date(0),
                 "Test 1",
-                -200.0,
+                BigDecimal(-200.0),
                 "None"
             )
         )
@@ -39,11 +40,11 @@ class SourceInterfaceTest {
             Transaction(
                 Date(),
                 "Test 1",
-                300.0,
+                BigDecimal(300.0),
                 "None"
             )
         )
 
-        assertEquals(1300.0, Source.getMonthChange(list), 0.0)
+        assertEquals(BigDecimal(1300.0).toString(), Source.getMonthChange(list).toString())
     }
 }

@@ -36,6 +36,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <com.github.kwasow.archipelago.views.GraphViewCircular
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"/>
+
                 <TextView
                     android:id="@+id/textCash"
                     android:layout_width="match_parent"

@@ -2,14 +2,15 @@ package com.github.kwasow.archipelago.data
 
 import android.content.Context
 import com.github.kwasow.archipelago.utils.SourceManager
+import java.math.BigDecimal
 
 data class SourceAccount(
     override var name: String,
     override var country: String,
     override var countryCode: String,
     override var currency: String,
-    override var amount: Double,
-    var interest: Double,
+    override var amount: BigDecimal,
+    var interest: Int,
     val capitalization: SourceManager.Capitalization,
     override var transactions: MutableList<Transaction>
 ) : Source {
@@ -17,10 +18,6 @@ data class SourceAccount(
         return SourceManager.save(
             context, name, "/account", this
         )
-    }
-
-    fun recalculate() {
-        amount = SourceManager.recalculate(transactions)
     }
 
     fun delete(context: Context): Boolean {

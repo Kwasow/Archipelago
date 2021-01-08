@@ -8,6 +8,7 @@ import com.github.kwasow.archipelago.data.Transaction
 import java.io.File
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
+import java.math.BigDecimal
 
 class SourceManager {
 
@@ -92,18 +93,6 @@ class SourceManager {
             } else {
                 return listOf()
             }
-        }
-
-        // And here
-        fun recalculate(transactions: List<Transaction>): Double {
-            var sum = 0.0
-
-            transactions.forEach {
-                sum += it.amount
-            }
-
-            // Round to two decimal places
-            return "%.2f".format(sum).toDouble()
         }
 
         fun update(context: Context, name: String, dir: String, source: Any): Boolean {

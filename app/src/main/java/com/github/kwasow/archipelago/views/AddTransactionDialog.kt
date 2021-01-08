@@ -112,9 +112,9 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
 
         // Get the details
         val amount = if (binding.radioGroup.checkedRadioButtonId == R.id.radioButtonTakeOut) {
-            -binding.amount.getDoubleValue()
+            -binding.amount.getBigDecimalValue()
         } else {
-            binding.amount.getDoubleValue()
+            binding.amount.getBigDecimalValue()
         }
 
         val transaction = Transaction(

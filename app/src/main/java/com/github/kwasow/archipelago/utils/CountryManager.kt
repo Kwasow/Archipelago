@@ -42,7 +42,7 @@ class CountryManager {
             )
         }
 
-        private fun getTaxBrackets(jsonObject: JSONObject, source: String): Array<Tax> {
+        private fun getTaxBrackets(jsonObject: JSONObject, source: String): List<Tax> {
             val list = mutableListOf<Tax>()
             val sourceObject = jsonObject.getJSONObject("taxes").getJSONObject(source)
 
@@ -68,7 +68,7 @@ class CountryManager {
                 )
             }
 
-            return list.toTypedArray()
+            return list
         }
     }
 }

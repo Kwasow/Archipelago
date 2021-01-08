@@ -14,6 +14,7 @@ import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.SourceInvestment
 import com.github.kwasow.archipelago.databinding.ViewSourceCardBinding
 import com.github.kwasow.archipelago.views.GraphView
+import java.math.BigDecimal
 
 class SourceAdapter(private val dataSet: List<Source>) :
     RecyclerView.Adapter<SourceAdapter.ViewHolder>() {
@@ -49,7 +50,7 @@ class SourceAdapter(private val dataSet: List<Source>) :
 
                 // Set month change
                 val change = getMonthChange(sourceObject.transactions)
-                val plus = if (change >= 0) {
+                val plus = if (change >= BigDecimal.ZERO) {
                     holder.monthChange.setTextColor(MaterialColors.LIGHT_GREEN)
                     "+"
                 } else {
