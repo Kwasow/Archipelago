@@ -4,11 +4,9 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import com.github.kwasow.archipelago.utils.ArchipelagoError
 import com.google.android.material.textfield.TextInputEditText
 import java.math.BigDecimal
 import java.text.NumberFormat
-import kotlin.math.roundToInt
 
 /**
  * Created by AbhinayMe on 01/01/2019.
@@ -113,10 +111,10 @@ class CurrencyEdit : TextInputEditText {
 
         fun formatBigDecimal(value: BigDecimal, currency: String): String {
             return NumberFormat.getCurrencyInstance().format(
-                    value
+                value
             ).replace(
-                    NumberFormat.getCurrencyInstance().currency?.symbol.orEmpty(),
-                    currency
+                NumberFormat.getCurrencyInstance().currency?.symbol.orEmpty(),
+                currency
             )
         }
 

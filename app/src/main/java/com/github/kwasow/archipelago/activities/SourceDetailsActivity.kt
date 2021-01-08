@@ -11,6 +11,7 @@ import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.ActivitySourceDetailsBinding
 import com.github.kwasow.archipelago.utils.MaterialColors
 import com.github.kwasow.archipelago.utils.TransactionsAdapter
+import com.github.kwasow.archipelago.views.CurrencyEdit
 import com.github.kwasow.archipelago.views.GraphView
 import java.math.BigDecimal
 
@@ -31,9 +32,8 @@ class SourceDetailsActivity : AppCompatActivity() {
 
                 // Name and amount
                 binding.sourceName.text = someObject.name
-                binding.amount.text = "" +
-                    """${String.format("%.2f", someObject.amount)} """ +
-                    someObject.currency
+                binding.amount.text =
+                    CurrencyEdit.formatBigDecimal(someObject.amount, someObject.currency)
 
                 // Month change
                 // Set month change
@@ -45,10 +45,8 @@ class SourceDetailsActivity : AppCompatActivity() {
                     binding.monthChange.setTextColor(MaterialColors.RED)
                     ""
                 }
-                binding.monthChange.text = "($plus" +
-                    """${String.format("%.2f", change)} """ +
-                    "${someObject.currency})"
-
+                binding.monthChange.text = plus +
+                    CurrencyEdit.formatBigDecimal(change, someObject.currency)
                 // Graph data
                 binding.graph.data =
                     GraphView.graphArrayFromTransactions(transactions)

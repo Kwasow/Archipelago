@@ -16,16 +16,14 @@ class GraphViewCircular : View {
     }
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) :
-            super(context, attrs, defStyleAttr) {
-        init()
-    }
+        super(context, attrs, defStyleAttr) {
+            init()
+        }
 
     private fun init() {
-
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
     }
-
 }

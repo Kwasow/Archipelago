@@ -4,11 +4,9 @@ import android.content.Context
 import androidx.security.crypto.EncryptedFile
 import androidx.security.crypto.MasterKey
 import com.github.kwasow.archipelago.R
-import com.github.kwasow.archipelago.data.Transaction
 import java.io.File
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
-import java.math.BigDecimal
 
 class SourceManager {
 

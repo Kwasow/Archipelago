@@ -6,15 +6,15 @@ import java.math.BigDecimal
 import java.util.Date
 
 data class SourceInvestment(
-        override var name: String,
-        override var country: String,
-        override var countryCode: String,
-        override var currency: String,
-        override var amount: BigDecimal,
-        var interest: Int,
-        val capitalization: SourceManager.Capitalization,
-        var start: Date,
-        var end: Date
+    override var name: String,
+    override var country: String,
+    override var countryCode: String,
+    override var currency: String,
+    override var amount: BigDecimal,
+    var interest: Int,
+    val capitalization: SourceManager.Capitalization,
+    var start: Date,
+    var end: Date
 ) : Source {
     override var transactions: MutableList<Transaction> = mutableListOf()
     override fun recalculate() {

@@ -26,8 +26,8 @@ class CurrencyEditTest {
     fun formatBigDecimalCurrency() {
         val bigDecimal = BigDecimal(983654.97)
         assertEquals(
-                "zł983,654.97",
-                CurrencyEdit.formatBigDecimal(bigDecimal, "zł")
+            "zł983,654.97",
+            CurrencyEdit.formatBigDecimal(bigDecimal, "zł")
         )
     }
 
@@ -35,8 +35,8 @@ class CurrencyEditTest {
     fun formatBigDecimalNoCurrency() {
         val bigDecimal = BigDecimal(9854.90)
         assertEquals(
-                "9,854.90",
-                CurrencyEdit.formatBigDecimal(bigDecimal)
+            "9,854.90",
+            CurrencyEdit.formatBigDecimal(bigDecimal)
         )
     }
 }

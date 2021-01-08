@@ -201,7 +201,7 @@ class AddSourceActivity : AppCompatActivity() {
                     countryCode,
                     currency,
                     amount,
-                    (binding.interest.getDoubleValue()*100).toInt(),
+                    (binding.interest.getDoubleValue() * 100).toInt(),
                     cap,
                     transactions
                 )
@@ -223,7 +223,7 @@ class AddSourceActivity : AppCompatActivity() {
                     countryCode,
                     currency,
                     amount,
-                    (binding.interest.getDoubleValue()*100).toInt(),
+                    (binding.interest.getDoubleValue() * 100).toInt(),
                     cap,
                     // These are not null, because we checked it earlier
                     startDate!!,

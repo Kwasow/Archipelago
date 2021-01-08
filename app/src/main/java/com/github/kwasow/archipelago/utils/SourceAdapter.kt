@@ -13,6 +13,7 @@ import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.SourceInvestment
 import com.github.kwasow.archipelago.databinding.ViewSourceCardBinding
+import com.github.kwasow.archipelago.views.CurrencyEdit
 import com.github.kwasow.archipelago.views.GraphView
 import java.math.BigDecimal
 
@@ -44,9 +45,8 @@ class SourceAdapter(private val dataSet: List<Source>) :
             is SourceCash, is SourceAccount -> {
                 // Set name and amount
                 holder.sourceName.text = sourceObject.name
-                holder.amount.text = "" +
-                    """${String.format("%.2f", sourceObject.amount)} """ +
-                    sourceObject.currency
+                holder.amount.text =
+                    CurrencyEdit.formatBigDecimal(sourceObject.amount, sourceObject.currency)
 
                 // Set month change
                 val change = getMonthChange(sourceObject.transactions)
@@ -58,9 +58,8 @@ class SourceAdapter(private val dataSet: List<Source>) :
                     ""
                 }
 
-                holder.monthChange.text = "($plus" +
-                    """${String.format("%.2f", change)} """ +
-                    "${sourceObject.currency})"
+                holder.monthChange.text = plus +
+                    CurrencyEdit.formatBigDecimal(change, sourceObject.currency)
 
                 // Set up graph
                 holder.graph.data =
