@@ -10,6 +10,7 @@ import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.DialogAddTransactionBinding
+import com.github.kwasow.archipelago.utils.ArchipelagoError
 import com.google.android.material.snackbar.Snackbar
 import java.util.Date
 
@@ -55,7 +56,7 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
         binding.sourceSelect.setOnItemClickListener { _, _, i, _ ->
             currentSelection = i
 
-            if (i > cashSources.size) {
+            if (i >= cashSources.size) {
                 // Then it's from the accountSources list
                 binding.amount.currency = accountSources[i - cashSources.size].currency
             } else {
