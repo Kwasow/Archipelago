@@ -14,6 +14,7 @@ import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.SourceInvestment
 import com.github.kwasow.archipelago.databinding.ActivityMainBinding
+import com.github.kwasow.archipelago.utils.NoScrollLinearLayoutManager
 import com.github.kwasow.archipelago.utils.SourceAdapter
 import com.github.kwasow.archipelago.views.AddTransactionDialog
 import com.google.android.material.snackbar.Snackbar
@@ -129,7 +130,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupRecyclers() {
         // Set up cash
         val cashList = SourceCash.get(this)
-        val cashLayoutManager = LinearLayoutManager(this)
+        val cashLayoutManager = NoScrollLinearLayoutManager(this)
         val cashAdapter = SourceAdapter(cashList)
         binding.cashRecycler.layoutManager = cashLayoutManager
         binding.cashRecycler.adapter = cashAdapter
@@ -141,7 +142,7 @@ class MainActivity : AppCompatActivity() {
 
         // Set up account
         val accountList = SourceAccount.get(this)
-        val accountLayoutManager = LinearLayoutManager(this)
+        val accountLayoutManager = NoScrollLinearLayoutManager(this)
         val accountAdapter = SourceAdapter(accountList)
         binding.accountRecycler.layoutManager = accountLayoutManager
         binding.accountRecycler.adapter = accountAdapter
@@ -156,7 +157,7 @@ class MainActivity : AppCompatActivity() {
 
         // Set up investment
         val investmentList = SourceInvestment.get(this)
-        val investmentLayoutManager = LinearLayoutManager(this)
+        val investmentLayoutManager = NoScrollLinearLayoutManager(this)
         val investmentAdapter = SourceAdapter(investmentList)
         binding.investmentRecycler.layoutManager = investmentLayoutManager
         binding.investmentRecycler.adapter = investmentAdapter

@@ -10,6 +10,7 @@ import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.ActivitySourceDetailsBinding
 import com.github.kwasow.archipelago.utils.MaterialColors
+import com.github.kwasow.archipelago.utils.NoScrollLinearLayoutManager
 import com.github.kwasow.archipelago.utils.TransactionsAdapter
 import com.github.kwasow.archipelago.views.CurrencyEdit
 import com.github.kwasow.archipelago.views.GraphView
@@ -52,7 +53,7 @@ class SourceDetailsActivity : AppCompatActivity() {
                     GraphView.graphArrayFromTransactions(transactions)
 
                 // Recycler
-                val layoutManager = LinearLayoutManager(this)
+                val layoutManager = NoScrollLinearLayoutManager(this)
                 val adapter = TransactionsAdapter(transactions, someObject.currency)
                 binding.transactionsRecycler.layoutManager = layoutManager
                 binding.transactionsRecycler.adapter = adapter
