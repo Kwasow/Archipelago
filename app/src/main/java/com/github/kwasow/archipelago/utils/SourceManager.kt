@@ -3,23 +3,15 @@ package com.github.kwasow.archipelago.utils
 import android.content.Context
 import androidx.security.crypto.EncryptedFile
 import androidx.security.crypto.MasterKey
-import com.github.kwasow.archipelago.R
+import org.json.JSONObject
 import java.io.File
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
 
 class SourceManager {
 
-    enum class Capitalization(val value: Int) {
-        EndOfMonth(R.string.end_of_month),
-        EndOfInvestment(R.string.end_of_investment),
-        Monthly(R.string.monthly),
-        Yearly(R.string.yearly)
-    }
-
     companion object {
-        // Different sources run these with their own parameters
-        fun save(context: Context, name: String, dir: String, source: Any): Boolean {
+
+        // TODO: Read about abstract functions and maybe add this to source class
+        fun save(context: Context, name: String, dir: String, jsonObject: JSONObject): Boolean {
             // Remove path separators
             val realName = prepareName(name)
             val masterKey = MasterKey.Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
@@ -45,20 +37,19 @@ class SourceManager {
             ).build()
 
             val encryptedOutputStream = encryptedFile.openFileOutput()
-            val objectOutputStream = ObjectOutputStream(encryptedOutputStream)
-            objectOutputStream.writeObject(source)
+            val jsonString = jsonObject.toString()
+            encryptedOutputStream.write(
+                jsonString.encodeToByteArray()
+            )
 
-            // Added this
             // Close streams
-            objectOutputStream.close()
             encryptedOutputStream.flush()
             encryptedOutputStream.close()
 
             return true
         }
 
-        // Same here
-        fun get(context: Context, dir: String): List<Any> {
+        fun get(context: Context, dir: String): List<JSONObject> {
             val directory = File(context.filesDir.path + dir)
 
             if (directory.exists() && directory.isDirectory) {
@@ -66,9 +57,9 @@ class SourceManager {
                 val masterKey = MasterKey.Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                     .build()
-                val list = mutableListOf<Any>()
+                val list = mutableListOf<JSONObject>()
 
-                files?.forEach {
+                files?.forEach { it ->
                     val encryptedFile = EncryptedFile.Builder(
                         context,
                         it,
@@ -77,13 +68,14 @@ class SourceManager {
                     ).build()
 
                     val encryptedInputStream = encryptedFile.openFileInput()
-                    val objectInputStream = ObjectInputStream(encryptedInputStream)
-                    val sourceObject = objectInputStream.readObject()
+                    val jsonString = encryptedInputStream.bufferedReader().use { reader ->
+                        reader.readText()
+                    }
 
-                    list.add(sourceObject)
+                    // Add object to list
+                    list.add(JSONObject(jsonString))
 
                     // Close streams
-                    objectInputStream.close()
                     encryptedInputStream.close()
                 }
 
@@ -93,12 +85,12 @@ class SourceManager {
             }
         }
 
-        fun update(context: Context, name: String, dir: String, source: Any): Boolean {
+        fun update(context: Context, name: String, dir: String, jsonObject: JSONObject): Boolean {
             // I felt smart when I wrote this
-            return rename(context, name, name, dir, source)
+            return rename(context, name, name, dir, jsonObject)
         }
 
-        fun rename(context: Context, oldName: String, newName: String, dir: String, source: Any):
+        fun rename(context: Context, oldName: String, newName: String, dir: String, jsonObject: JSONObject):
             Boolean {
                 // Read the object for safety
                 val file = File(context.filesDir.path + dir, prepareName(oldName))
@@ -114,14 +106,15 @@ class SourceManager {
                 ).build()
 
                 val encryptedInputStream = encryptedFile.openFileInput()
-                val objectInputStream = ObjectInputStream(encryptedInputStream)
-                val sourceObject = objectInputStream.readObject()
+                val jsonString = encryptedInputStream.bufferedReader().use { reader ->
+                    reader.readText()
+                }
 
                 // Try renaming and revert if failed
                 return if (delete(context, oldName, dir)) {
-                    if (!save(context, newName, dir, source)) {
+                    if (!save(context, newName, dir, jsonObject)) {
                         // If delete succeeded and save failed
-                        save(context, oldName, dir, sourceObject)
+                        save(context, oldName, dir, JSONObject(jsonString))
                         // Actually I don't know if this will succeed when the previous one failed,
                         // but who knows
                     } else {

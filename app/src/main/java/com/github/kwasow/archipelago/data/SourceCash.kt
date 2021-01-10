@@ -2,6 +2,7 @@ package com.github.kwasow.archipelago.data
 
 import android.content.Context
 import com.github.kwasow.archipelago.utils.SourceManager
+import org.json.JSONObject
 import java.math.BigDecimal
 
 data class SourceCash(
@@ -14,7 +15,7 @@ data class SourceCash(
 ) : Source {
     fun save(context: Context): Boolean {
         return SourceManager.save(
-            context, name, "/cash", this
+            context, name, "/cash", toJsonObject()
         )
     }
 
@@ -26,7 +27,7 @@ data class SourceCash(
 
     fun update(context: Context): Boolean {
         return SourceManager.update(
-            context, name, "/cash", this
+            context, name, "/cash", toJsonObject()
         )
     }
 
@@ -43,12 +44,16 @@ data class SourceCash(
 
             val returnList = mutableListOf<SourceCash>()
             anyList.forEach {
-                if (it is SourceCash) {
-                    returnList.add(it)
-                }
+                returnList.add(fromJsonObject(it))
             }
 
             return returnList
+        }
+
+        private fun fromJsonObject(jsonObject: JSONObject): SourceCash {
+            val genericSource = Source.fromJsonObject(jsonObject)
+
+            return genericSource as SourceCash
         }
     }
 

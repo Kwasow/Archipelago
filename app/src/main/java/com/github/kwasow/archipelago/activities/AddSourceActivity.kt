@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kwasow.archipelago.R
+import com.github.kwasow.archipelago.data.Capitalization
 import com.github.kwasow.archipelago.data.Country
 import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
@@ -13,7 +14,6 @@ import com.github.kwasow.archipelago.data.SourceInvestment
 import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.ActivityAddSourceBinding
 import com.github.kwasow.archipelago.utils.CountryManager
-import com.github.kwasow.archipelago.utils.SourceManager
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -86,10 +86,10 @@ class AddSourceActivity : AppCompatActivity() {
 
         // Set up possible capitalization options
         caps = listOf(
-            resources.getString(SourceManager.Capitalization.EndOfMonth.value),
-            resources.getString(SourceManager.Capitalization.EndOfInvestment.value),
-            resources.getString(SourceManager.Capitalization.Monthly.value),
-            resources.getString(SourceManager.Capitalization.Yearly.value)
+            resources.getString(Capitalization.EndOfMonth.value),
+            resources.getString(Capitalization.EndOfInvestment.value),
+            resources.getString(Capitalization.Monthly.value),
+            resources.getString(Capitalization.Yearly.value)
         )
         val capAdapter = ArrayAdapter(this, R.layout.list_item, caps)
         binding.capitalization.setAdapter(capAdapter)
@@ -318,10 +318,10 @@ class AddSourceActivity : AppCompatActivity() {
         binding.dateEndLayout.visibility = View.VISIBLE
     }
 
-    private fun getCapitalization(): SourceManager.Capitalization? {
+    private fun getCapitalization(): Capitalization? {
         val selectedString = binding.capitalization.text.toString()
 
-        SourceManager.Capitalization.values().forEach {
+        Capitalization.values().forEach {
             if (selectedString == resources.getString(it.value)) {
                 return it
             }
