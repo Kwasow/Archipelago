@@ -5,6 +5,12 @@ import android.graphics.Color
 class MaterialColors {
     companion object {
         val BLACK = Color.parseColor("#FF000000")
+        val BLACK12 = Color.parseColor("#1F000000")
+        val BLACK26 = Color.parseColor("#42000000")
+        val BLACK38 = Color.parseColor("#61000000")
+        val BLACK45 = Color.parseColor("#73000000")
+        val BLACK54 = Color.parseColor("#8A000000")
+        val BLACK87 = Color.parseColor("#DD000000")
         val BLUE = Color.parseColor("#FF2196F3")
         val BROWN = Color.parseColor("#FF795548")
         val CYAN = Color.parseColor("#FF00BCD4")

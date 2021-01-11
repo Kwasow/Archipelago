@@ -27,6 +27,7 @@ class SourceAdapter(private val dataSet: List<Source>) :
         val graph = binding.graph
         val sourceName = binding.sourceName
         val amount = binding.amount
+        val monthChangeLabel = binding.monthChangeLabel
         val monthChange = binding.monthChange
     }
 
@@ -68,12 +69,13 @@ class SourceAdapter(private val dataSet: List<Source>) :
             is SourceInvestment -> {
                 // Set name and amount
                 holder.sourceName.text = sourceObject.name
-                holder.amount.text = "" +
-                    """${String.format("%.2f", sourceObject.amount)} """ +
-                    sourceObject.currency
+                holder.amount.text =
+                    CurrencyEdit.formatBigDecimal(sourceObject.amount, sourceObject.currency)
 
                 // Don't show monthly change
+                holder.monthChangeLabel.visibility = View.GONE
                 holder.monthChange.visibility = View.GONE
+                holder.graph.visibility = View.GONE
             }
         }
 

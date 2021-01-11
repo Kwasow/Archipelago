@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kwasow.archipelago.R
 import com.github.kwasow.archipelago.animations.FabAnimation
 import com.github.kwasow.archipelago.data.SourceAccount
@@ -139,6 +138,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.cashEmpty.visibility = View.GONE
         }
+        var sumCash = 0
+        cashList.forEach {
+            sumCash += it.amount.toInt()
+        }
 
         // Set up account
         val accountList = SourceAccount.get(this)
@@ -150,6 +153,10 @@ class MainActivity : AppCompatActivity() {
             binding.accountEmpty.visibility = View.VISIBLE
         } else {
             binding.accountEmpty.visibility = View.GONE
+        }
+        var sumAccount = 0
+        accountList.forEach {
+            sumAccount += it.amount.toInt()
         }
 
         // Check if there are any sources that allow for adding transactions
@@ -166,6 +173,16 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.investmentEmpty.visibility = View.GONE
         }
+        var sumInvestment = 0
+        investmentList.forEach {
+            sumInvestment += it.amount.toInt()
+        }
+
+        // Set up summary graph
+        binding.circularGraph.setData(
+            listOf(sumCash, sumAccount, sumInvestment),
+            "zł"
+        )
     }
 
     fun addSource(view: View) {

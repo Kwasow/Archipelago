@@ -10,7 +10,6 @@ import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.DialogAddTransactionBinding
-import com.github.kwasow.archipelago.utils.ArchipelagoError
 import com.google.android.material.snackbar.Snackbar
 import java.util.Date
 
