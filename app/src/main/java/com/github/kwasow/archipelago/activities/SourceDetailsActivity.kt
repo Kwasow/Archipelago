@@ -32,7 +32,7 @@ class SourceDetailsActivity : AppCompatActivity() {
                 // Name and amount
                 binding.sourceName.text = sourceObject.name
                 binding.amount.text =
-                        Money.of(sourceObject.amount.number, sourceObject.currencyCode).toString()
+                    Money.of(sourceObject.amount.number, sourceObject.currencyCode).toString()
 
                 // Month change
                 // Set month change

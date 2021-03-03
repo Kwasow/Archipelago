@@ -10,7 +10,6 @@ import android.util.AttributeSet
 import android.view.View
 import com.github.kwasow.archipelago.utils.MaterialColors
 import org.javamoney.moneta.Money
-import kotlin.math.roundToInt
 
 class GraphViewCircular : View {
     private val paintCash = Paint(Paint.ANTI_ALIAS_FLAG)

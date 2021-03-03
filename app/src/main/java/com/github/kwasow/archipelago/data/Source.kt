@@ -52,8 +52,10 @@ interface Source : Serializable {
             val jsonCountry = jsonObject.getString(JSON_COUNTRY)
             val jsonCountryCode = jsonObject.getString(JSON_COUNTRY_CODE)
             val jsonCurrencyCode = jsonObject.getString(JSON_CURRENCY)
-            val jsonAmount = Money.of(BigDecimal(
-                jsonObject.getString(JSON_AMOUNT)), jsonCurrencyCode)
+            val jsonAmount = Money.of(
+                BigDecimal(jsonObject.getString(JSON_AMOUNT)),
+                jsonCurrencyCode
+            )
 
             // Get transactions
             val jsonTransactions = mutableListOf<Transaction>()

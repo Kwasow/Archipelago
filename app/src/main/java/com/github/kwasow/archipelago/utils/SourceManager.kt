@@ -13,8 +13,8 @@ class SourceManager {
         // TODO: Read about abstract functions and maybe add this to source class
         fun save(context: Context, name: String, dir: String, jsonObject: JSONObject): Boolean {
             val file = File(
-                    context.filesDir.path + dir,
-                    removeIllegalFileSymbols(name)
+                context.filesDir.path + dir,
+                removeIllegalFileSymbols(name)
             )
 
             // Check if file doesn't yet exist
@@ -55,8 +55,8 @@ class SourceManager {
             Boolean {
                 // Read the object for safety
                 val file = File(
-                        context.filesDir.path + dir,
-                        removeIllegalFileSymbols(oldName)
+                    context.filesDir.path + dir,
+                    removeIllegalFileSymbols(oldName)
                 )
                 val backupJsonObject = readFileAsJsonObject(context, file)
 
@@ -77,8 +77,8 @@ class SourceManager {
 
         fun delete(context: Context, name: String, dir: String): Boolean {
             val file = File(
-                    context.filesDir.path + dir,
-                    removeIllegalFileSymbols(name)
+                context.filesDir.path + dir,
+                removeIllegalFileSymbols(name)
             )
 
             return file.delete()
@@ -92,8 +92,8 @@ class SourceManager {
 
         private fun getMasterEncryptionKey(context: Context): MasterKey {
             return MasterKey.Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
-                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-                    .build()
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                .build()
         }
 
         private fun saveJsonObjectToFile(context: Context, file: File, jsonObject: JSONObject) {
@@ -107,7 +107,7 @@ class SourceManager {
             val encryptedOutputStream = encryptedFile.openFileOutput()
             val jsonString = jsonObject.toString()
             encryptedOutputStream.write(
-                    jsonString.encodeToByteArray()
+                jsonString.encodeToByteArray()
             )
 
             // Close streams
@@ -130,10 +130,10 @@ class SourceManager {
 
         private fun buildEncryptedFile(context: Context, file: File): EncryptedFile {
             return EncryptedFile.Builder(
-                    context,
-                    file,
-                    getMasterEncryptionKey(context),
-                    EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+                context,
+                file,
+                getMasterEncryptionKey(context),
+                EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
             ).build()
         }
     }
