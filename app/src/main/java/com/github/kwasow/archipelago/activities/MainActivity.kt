@@ -17,6 +17,7 @@ import com.github.kwasow.archipelago.utils.NoScrollLinearLayoutManager
 import com.github.kwasow.archipelago.utils.SourceAdapter
 import com.github.kwasow.archipelago.views.AddTransactionDialog
 import com.google.android.material.snackbar.Snackbar
+import org.javamoney.moneta.Money
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -138,9 +139,9 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.cashEmpty.visibility = View.GONE
         }
-        var sumCash = 0
+        var sumCash = Money.of(0.0, "PLN")
         cashList.forEach {
-            sumCash += it.amount.number.toInt()
+            sumCash = sumCash.add(it.amount)
         }
 
         // Set up account
@@ -154,9 +155,9 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.accountEmpty.visibility = View.GONE
         }
-        var sumAccount = 0
+        var sumAccount = Money.of(0.0, "PLN")
         accountList.forEach {
-            sumAccount += it.amount.number.toInt()
+            sumAccount = sumAccount.add(it.amount)
         }
 
         // Check if there are any sources that allow for adding transactions
@@ -173,13 +174,13 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.investmentEmpty.visibility = View.GONE
         }
-        var sumInvestment = 0
+        var sumInvestment = Money.of(0.0, "PLN")
         investmentList.forEach {
-            sumInvestment += it.amount.number.toInt()
+            sumInvestment = sumInvestment.add(it.amount)
         }
 
         // Set up summary graph
-        // TODO: This cannot be hardcoded
+        // TODO: This should not be hardcoded
         binding.circularGraph.setData(
             listOf(sumCash, sumAccount, sumInvestment),
             "PLN"

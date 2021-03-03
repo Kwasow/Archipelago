@@ -36,10 +36,10 @@ interface Source : Serializable {
             val beginning = calendar.time
 
             // Calculate change
-            val change = Money.of(0, currencyCode)
+            var change = Money.of(0, currencyCode)
             transactions.forEach {
                 if (it.date.after(beginning)) {
-                    change.add(it.amount)
+                    change = change.add(it.amount)
                 }
             }
 
@@ -77,10 +77,10 @@ interface Source : Serializable {
     }
 
     fun recalculate() {
-        amount = Money.of(0, "")
+        amount = Money.of(0, currencyCode)
 
         transactions.forEach {
-            amount.add(it.amount)
+            amount = amount.add(it.amount)
         }
     }
 

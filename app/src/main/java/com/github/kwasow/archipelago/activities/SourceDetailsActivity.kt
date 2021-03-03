@@ -37,7 +37,7 @@ class SourceDetailsActivity : AppCompatActivity() {
                 // Month change
                 // Set month change
                 val change = Source.getMonthChange(sourceObject.transactions, sourceObject.currencyCode)
-                val plus = if (change.isPositive) {
+                val plus = if (change.isPositiveOrZero) {
                     binding.monthChange.setTextColor(MaterialColors.LIGHT_GREEN)
                     "+"
                 } else {

@@ -45,6 +45,9 @@ class SourceInterfaceTest {
             )
         )
 
-        assertEquals("PLN 1300.00", Source.getMonthChange(list, "PLN"))
+        assertEquals(
+            "PLN 1300.00",
+            Source.getMonthChange(list, "PLN").toString()
+        )
     }
 }

@@ -23,7 +23,8 @@ class GraphViewCircular : View {
     private val oval = RectF()
 
     private var currencyCode = ""
-    private var sum = 0
+    // TODO: Cannot be hardcoded
+    private var sum = Money.of(0, "PLN")
     private val sumPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     private val percents = mutableListOf<Int>()
@@ -90,30 +91,30 @@ class GraphViewCircular : View {
         )
 
         // Write what the sum is
-        val sumString = Money.of(sum, currencyCode).toString()
-        dynamicTextSize(sumPaint, (0.5 * height).toFloat(), sumString)
+        dynamicTextSize(sumPaint, (0.5 * height).toFloat(), sum.toString())
         val cx = (width * 0.5).toFloat()
         val cy = (height) / 2 - (sumPaint.descent() + sumPaint.ascent()) / 2
         canvas.drawText(
-            sumString,
+            sum.toString(),
             cx, cy,
             sumPaint
         )
     }
 
-    fun setData(data: List<Int>, currencyCode: String = "") {
+    fun setData(data: List<Money>, currencyCode: String = "") {
         percents.clear()
         this.currencyCode = currencyCode
 
-        sum = 0
+        sum = Money.of(0, currencyCode)
         data.forEach {
-            sum += it
+            sum = sum.add(it)
         }
+        println(Money.of(548.98, "PLN"))
 
         var percentsSum = 0
         for (i in data.indices) {
-            if (i != data.lastIndex && sum != 0) {
-                val percent = (data[i] * 100) / sum
+            if (i != data.lastIndex && !sum.isZero) {
+                val percent = (data[i].number.toInt() * 100) / sum.number.toInt()
                 percents.add(percent)
                 percentsSum += percent
             } else {
