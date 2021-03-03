@@ -41,6 +41,7 @@ class AddSourceActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        // TODO: Load from resource strings
         // Set up source picker
         val sources = listOf("cash source", "savings account", "investment")
         val sourcesAdapter = ArrayAdapter(this, R.layout.list_item, sources)
@@ -80,7 +81,7 @@ class AddSourceActivity : AppCompatActivity() {
         binding.countrySelect.setAdapter(countryAdapter)
         // Set currency when country is selected
         binding.countrySelect.setOnItemClickListener { _, _, i, _ ->
-            binding.amount.currency = countries[i].currency
+            binding.amount.currencyCode = countries[i].currencyCode
             countryChosen = true
         }
 
@@ -157,8 +158,8 @@ class AddSourceActivity : AppCompatActivity() {
             .getCountyByCode(this, binding.countrySelect.text.toString())
         val country = countryTmp.name
         val countryCode = countryTmp.code
-        val currency = countryTmp.currency
-        val amount = binding.amount.getBigDecimalValue()
+        val currency = countryTmp.currencyCode
+        val amount = binding.amount.getMoneyValue()
 
         val transactions = mutableListOf(
             Transaction(

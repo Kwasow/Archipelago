@@ -195,9 +195,9 @@ class GraphView : View {
                 // Space data evenly
                 val date = (i + 1).toDouble()
                 val amount = if (i == 0) {
-                    transactions[0].amount.toDouble()
+                    transactions[0].amount.number.toDouble()
                 } else {
-                    returnList[i - 1][1] + transactions[i].amount.toDouble()
+                    returnList[i - 1][1] + transactions[i].amount.number.toDouble()
                 }
 
                 returnList.add(

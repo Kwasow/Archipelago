@@ -9,6 +9,10 @@ import java.nio.charset.Charset
 
 class CountryManager {
     companion object {
+        private const val JSON_SAVINGS_TAX = "savings"
+        private const val JSON_INVESTMENT_TAX = "investment"
+        private const val JSON_STOCK_TAX = "stock"
+
         fun getCountries(context: Context): Array<Country> {
             val list = mutableListOf<Country>()
 
@@ -30,14 +34,14 @@ class CountryManager {
             val jsonString = inputStream.readTextAndClose()
             val jsonObject = JSONObject(jsonString)
 
-            val taxAccount = getTaxBrackets(jsonObject, "savings")
-            val taxInvestment = getTaxBrackets(jsonObject, "investment")
-            val taxStock = getTaxBrackets(jsonObject, "stock")
+            val taxAccount = getTaxBrackets(jsonObject, JSON_SAVINGS_TAX)
+            val taxInvestment = getTaxBrackets(jsonObject, JSON_INVESTMENT_TAX)
+            val taxStock = getTaxBrackets(jsonObject, JSON_STOCK_TAX)
 
             return Country(
                 jsonObject.getString("full name"),
                 jsonObject.getString("country code"),
-                jsonObject.getString("currency symbol"),
+                jsonObject.getString("currency code"),
                 taxAccount, taxInvestment, taxStock
             )
         }

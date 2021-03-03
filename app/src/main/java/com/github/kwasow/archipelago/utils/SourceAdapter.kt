@@ -13,9 +13,8 @@ import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.SourceInvestment
 import com.github.kwasow.archipelago.databinding.ViewSourceCardBinding
-import com.github.kwasow.archipelago.views.CurrencyEdit
 import com.github.kwasow.archipelago.views.GraphView
-import java.math.BigDecimal
+import org.javamoney.moneta.Money
 
 class SourceAdapter(private val dataSet: List<Source>) :
     RecyclerView.Adapter<SourceAdapter.ViewHolder>() {
@@ -47,11 +46,11 @@ class SourceAdapter(private val dataSet: List<Source>) :
                 // Set name and amount
                 holder.sourceName.text = sourceObject.name
                 holder.amount.text =
-                    CurrencyEdit.formatBigDecimal(sourceObject.amount, sourceObject.currency)
+                    Money.of(sourceObject.amount.number, sourceObject.currencyCode).toString()
 
                 // Set month change
-                val change = getMonthChange(sourceObject.transactions)
-                val plus = if (change >= BigDecimal.ZERO) {
+                val change = getMonthChange(sourceObject.transactions, sourceObject.currencyCode)
+                val plus = if (change.isPositiveOrZero) {
                     holder.monthChange.setTextColor(MaterialColors.LIGHT_GREEN)
                     "+"
                 } else {
@@ -60,7 +59,7 @@ class SourceAdapter(private val dataSet: List<Source>) :
                 }
 
                 holder.monthChange.text = plus +
-                    CurrencyEdit.formatBigDecimal(change, sourceObject.currency)
+                    Money.of(change.number, sourceObject.currencyCode)
 
                 // Set up graph
                 holder.graph.data =
@@ -70,7 +69,7 @@ class SourceAdapter(private val dataSet: List<Source>) :
                 // Set name and amount
                 holder.sourceName.text = sourceObject.name
                 holder.amount.text =
-                    CurrencyEdit.formatBigDecimal(sourceObject.amount, sourceObject.currency)
+                    Money.of(sourceObject.amount.number, sourceObject.currencyCode).toString()
 
                 // Don't show monthly change
                 holder.monthChangeLabel.visibility = View.GONE

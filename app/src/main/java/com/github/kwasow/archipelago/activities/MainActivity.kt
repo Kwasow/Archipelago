@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity() {
         }
         var sumCash = 0
         cashList.forEach {
-            sumCash += it.amount.toInt()
+            sumCash += it.amount.number.toInt()
         }
 
         // Set up account
@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity() {
         }
         var sumAccount = 0
         accountList.forEach {
-            sumAccount += it.amount.toInt()
+            sumAccount += it.amount.number.toInt()
         }
 
         // Check if there are any sources that allow for adding transactions
@@ -175,13 +175,14 @@ class MainActivity : AppCompatActivity() {
         }
         var sumInvestment = 0
         investmentList.forEach {
-            sumInvestment += it.amount.toInt()
+            sumInvestment += it.amount.number.toInt()
         }
 
         // Set up summary graph
+        // TODO: This cannot be hardcoded
         binding.circularGraph.setData(
             listOf(sumCash, sumAccount, sumInvestment),
-            "zł"
+            "PLN"
         )
     }
 

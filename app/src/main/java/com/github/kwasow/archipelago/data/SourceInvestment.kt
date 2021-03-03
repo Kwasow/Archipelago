@@ -2,16 +2,16 @@ package com.github.kwasow.archipelago.data
 
 import android.content.Context
 import com.github.kwasow.archipelago.utils.SourceManager
+import org.javamoney.moneta.Money
 import org.json.JSONObject
-import java.math.BigDecimal
 import java.util.Date
 
 data class SourceInvestment(
     override var name: String,
     override var country: String,
     override var countryCode: String,
-    override var currency: String,
-    override var amount: BigDecimal,
+    override var currencyCode: String,
+    override var amount: Money,
     var interest: Int,
     val capitalization: Capitalization,
     var start: Date,
@@ -57,7 +57,7 @@ data class SourceInvestment(
                 genericSource.name,
                 genericSource.country,
                 genericSource.countryCode,
-                genericSource.currency,
+                genericSource.currencyCode,
                 genericSource.amount,
                 jsonInterest,
                 jsonCapitalization,

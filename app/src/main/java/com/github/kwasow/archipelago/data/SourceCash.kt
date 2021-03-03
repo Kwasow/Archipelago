@@ -2,15 +2,15 @@ package com.github.kwasow.archipelago.data
 
 import android.content.Context
 import com.github.kwasow.archipelago.utils.SourceManager
+import org.javamoney.moneta.Money
 import org.json.JSONObject
-import java.math.BigDecimal
 
 data class SourceCash(
     override var name: String,
     override var country: String,
     override var countryCode: String,
-    override var currency: String,
-    override var amount: BigDecimal,
+    override var currencyCode: String,
+    override var amount: Money,
     override var transactions: MutableList<Transaction>
 ) : Source {
     fun save(context: Context): Boolean {

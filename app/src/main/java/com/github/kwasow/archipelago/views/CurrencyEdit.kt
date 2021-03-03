@@ -5,8 +5,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import com.google.android.material.textfield.TextInputEditText
+import org.javamoney.moneta.Money
 import java.math.BigDecimal
 import java.text.NumberFormat
+import javax.money.Monetary
 
 /**
  * Created by AbhinayMe on 01/01/2019.
@@ -25,6 +27,11 @@ class CurrencyEdit : TextInputEditText {
             // Refresh will add the currency symbol to whatever is written in the textview
             currencyChanged = true
             setText(current)
+        }
+    var currencyCode = ""
+        set(value) {
+            field = value
+            currency = Monetary.getCurrency(value).toString()
         }
 
     constructor(context: Context) : super(context) {
@@ -80,7 +87,7 @@ class CurrencyEdit : TextInputEditText {
         setText("0")
     }
 
-    fun getBigDecimalValue(): BigDecimal {
+    private fun getBigDecimalValue(): BigDecimal {
         return BigDecimal(
             text.toString()
                 .replace("[$,]".toRegex(), "")
@@ -91,24 +98,10 @@ class CurrencyEdit : TextInputEditText {
 
     fun getDoubleValue(): Double = getBigDecimalValue().toDouble()
 
-    // This will fail if value exceeds integer limit
-    fun getIntValue(): Int = getBigDecimalValue().toInt()
+    fun getMoneyValue(): Money = Money.of(getBigDecimalValue(), currencyCode)
 
+    @Deprecated("Remove these functions")
     companion object {
-
-        fun formatDouble(value: Double, currency: String): String {
-            return NumberFormat.getCurrencyInstance().format(
-                value
-            ).replace(
-                NumberFormat.getCurrencyInstance().currency?.symbol.orEmpty(),
-                currency
-            )
-        }
-
-        fun formatDouble(value: Double): String {
-            return formatDouble(value, "")
-        }
-
         fun formatBigDecimal(value: BigDecimal, currency: String): String {
             return NumberFormat.getCurrencyInstance().format(
                 value

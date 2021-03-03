@@ -9,6 +9,7 @@ import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
 import com.github.kwasow.archipelago.utils.MaterialColors
+import org.javamoney.moneta.Money
 
 class GraphViewCircular : View {
     private val paintCash = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -21,7 +22,7 @@ class GraphViewCircular : View {
     private var investmentAngle = 0F
     private val oval = RectF()
 
-    private var currency = ""
+    private var currencyCode = ""
     private var sum = 0
     private val sumPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
@@ -89,7 +90,7 @@ class GraphViewCircular : View {
         )
 
         // Write what the sum is
-        val sumString = CurrencyEdit.formatDouble(sum.toDouble(), currency)
+        val sumString = Money.of(sum, currencyCode).toString()
         dynamicTextSize(sumPaint, (0.5 * height).toFloat(), sumString)
         val cx = (width * 0.5).toFloat()
         val cy = (height) / 2 - (sumPaint.descent() + sumPaint.ascent()) / 2
@@ -100,9 +101,9 @@ class GraphViewCircular : View {
         )
     }
 
-    fun setData(data: List<Int>, dataCurrency: String = "") {
+    fun setData(data: List<Int>, currencyCode: String = "") {
         percents.clear()
-        currency = dataCurrency.orEmpty()
+        this.currencyCode = currencyCode
 
         sum = 0
         data.forEach {
@@ -111,7 +112,7 @@ class GraphViewCircular : View {
 
         var percentsSum = 0
         for (i in data.indices) {
-            if (i != data.lastIndex) {
+            if (i != data.lastIndex && sum != 0) {
                 val percent = (data[i] * 100) / sum
                 percents.add(percent)
                 percentsSum += percent

@@ -39,14 +39,14 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
         cashSources = SourceCash.get(this.context)
         cashSources.forEach {
             sources.add(
-                "${it.name} (${it.amount} ${it.currency})"
+                "${it.name} (${it.amount} ${it.currencyCode})"
             )
         }
 
         accountSources = SourceAccount.get(this.context)
         accountSources.forEach {
             sources.add(
-                "${it.name} (${it.amount} ${it.currency})"
+                "${it.name} (${it.amount} ${it.currencyCode})"
             )
         }
 
@@ -57,10 +57,10 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
 
             if (i >= cashSources.size) {
                 // Then it's from the accountSources list
-                binding.amount.currency = accountSources[i - cashSources.size].currency
+                binding.amount.currency = accountSources[i - cashSources.size].currencyCode
             } else {
                 // It's form cash sources
-                binding.amount.currency = cashSources[i].currency
+                binding.amount.currency = cashSources[i].currencyCode
             }
         }
     }
@@ -112,9 +112,9 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
 
         // Get the details
         val amount = if (binding.radioGroup.checkedRadioButtonId == R.id.radioButtonTakeOut) {
-            -binding.amount.getBigDecimalValue()
+            binding.amount.getMoneyValue().negate()
         } else {
-            binding.amount.getBigDecimalValue()
+            binding.amount.getMoneyValue()
         }
 
         val transaction = Transaction(

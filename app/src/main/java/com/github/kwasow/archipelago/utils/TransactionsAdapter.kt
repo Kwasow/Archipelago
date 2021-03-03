@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.ViewTransactionItemBinding
-import com.github.kwasow.archipelago.views.CurrencyEdit
-import java.math.BigDecimal
+import org.javamoney.moneta.Money
 
 class TransactionsAdapter(
     private val dataSet: List<Transaction>,
@@ -36,7 +35,7 @@ class TransactionsAdapter(
         holder.transactionName.text = transaction.name
 
         // Transaction value
-        val plus = if (transaction.amount >= BigDecimal.ZERO) {
+        val plus = if (transaction.amount.isPositiveOrZero) {
             holder.transactionValue.setTextColor(MaterialColors.LIGHT_GREEN)
             "+"
         } else {
@@ -44,7 +43,7 @@ class TransactionsAdapter(
             ""
         }
         holder.transactionValue.text = plus +
-            CurrencyEdit.formatBigDecimal(transaction.amount, currency)
+            Money.of(transaction.amount.number, currency)
     }
 
     override fun getItemCount(): Int = dataSet.size

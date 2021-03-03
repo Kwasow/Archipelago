@@ -11,9 +11,8 @@ import com.github.kwasow.archipelago.databinding.ActivitySourceDetailsBinding
 import com.github.kwasow.archipelago.utils.MaterialColors
 import com.github.kwasow.archipelago.utils.NoScrollLinearLayoutManager
 import com.github.kwasow.archipelago.utils.TransactionsAdapter
-import com.github.kwasow.archipelago.views.CurrencyEdit
 import com.github.kwasow.archipelago.views.GraphView
-import java.math.BigDecimal
+import org.javamoney.moneta.Money
 
 class SourceDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySourceDetailsBinding
@@ -21,24 +20,24 @@ class SourceDetailsActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val someObject = intent.getSerializableExtra(Source.INTENT_PUT_NAME)
+        val sourceObject = intent.getSerializableExtra(Source.INTENT_PUT_NAME)
         val transactions: List<Transaction>
 
         binding = ActivitySourceDetailsBinding.inflate(layoutInflater)
 
-        when (someObject) {
+        when (sourceObject) {
             is SourceCash, is SourceAccount -> {
-                transactions = (someObject as Source).transactions
+                transactions = (sourceObject as Source).transactions
 
                 // Name and amount
-                binding.sourceName.text = someObject.name
+                binding.sourceName.text = sourceObject.name
                 binding.amount.text =
-                    CurrencyEdit.formatBigDecimal(someObject.amount, someObject.currency)
+                        Money.of(sourceObject.amount.number, sourceObject.currencyCode).toString()
 
                 // Month change
                 // Set month change
-                val change = Source.getMonthChange(someObject.transactions)
-                val plus = if (change >= BigDecimal.ZERO) {
+                val change = Source.getMonthChange(sourceObject.transactions, sourceObject.currencyCode)
+                val plus = if (change.isPositive) {
                     binding.monthChange.setTextColor(MaterialColors.LIGHT_GREEN)
                     "+"
                 } else {
@@ -46,14 +45,14 @@ class SourceDetailsActivity : AppCompatActivity() {
                     ""
                 }
                 binding.monthChange.text = plus +
-                    CurrencyEdit.formatBigDecimal(change, someObject.currency)
+                    Money.of(change.number, sourceObject.currencyCode)
                 // Graph data
                 binding.graph.data =
                     GraphView.graphArrayFromTransactions(transactions)
 
                 // Recycler
                 val layoutManager = NoScrollLinearLayoutManager(this)
-                val adapter = TransactionsAdapter(transactions, someObject.currency)
+                val adapter = TransactionsAdapter(transactions, sourceObject.currencyCode)
                 binding.transactionsRecycler.layoutManager = layoutManager
                 binding.transactionsRecycler.adapter = adapter
             }
