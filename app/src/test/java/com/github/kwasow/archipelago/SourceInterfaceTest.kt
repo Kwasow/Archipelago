@@ -2,9 +2,9 @@ package com.github.kwasow.archipelago
 
 import com.github.kwasow.archipelago.data.Source
 import com.github.kwasow.archipelago.data.Transaction
+import org.javamoney.moneta.Money
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.math.BigDecimal
 import java.util.Date
 
 class SourceInterfaceTest {
@@ -15,7 +15,7 @@ class SourceInterfaceTest {
             Transaction(
                 Date(),
                 "Test 1",
-                BigDecimal(1500.0),
+                Money.of(1500.0, "PLN"),
                 "None"
             )
         )
@@ -23,7 +23,7 @@ class SourceInterfaceTest {
             Transaction(
                 Date(),
                 "Test 1",
-                BigDecimal(-500.0),
+                Money.of(-500.0, "PLN"),
                 "None"
             )
         )
@@ -32,7 +32,7 @@ class SourceInterfaceTest {
             Transaction(
                 Date(0),
                 "Test 1",
-                BigDecimal(-200.0),
+                Money.of(-200.0, "PLN"),
                 "None"
             )
         )
@@ -40,11 +40,11 @@ class SourceInterfaceTest {
             Transaction(
                 Date(),
                 "Test 1",
-                BigDecimal(300.0),
+                Money.of(300.0, "PLN"),
                 "None"
             )
         )
 
-        assertEquals(BigDecimal(1300.0).toString(), Source.getMonthChange(list).toString())
+        assertEquals("PLN 1300.00", Source.getMonthChange(list, "PLN"))
     }
 }

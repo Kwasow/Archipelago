@@ -6,21 +6,6 @@ import org.junit.Test
 import java.math.BigDecimal
 
 class CurrencyEditTest {
-    @Test
-    fun formatDoubleCurrency() {
-        assertEquals(
-            "zł25,809.63",
-            CurrencyEdit.formatDouble(25809.63, "zł")
-        )
-    }
-
-    @Test
-    fun formatDoubleNoCurrency() {
-        assertEquals(
-            "1,435,230.00",
-            CurrencyEdit.formatDouble(1435230.00)
-        )
-    }
 
     @Test
     fun formatBigDecimalCurrency() {
