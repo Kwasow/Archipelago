@@ -57,10 +57,10 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
 
             if (i >= cashSources.size) {
                 // Then it's from the accountSources list
-                binding.amount.currency = accountSources[i - cashSources.size].currencyCode
+                binding.amount.currencyCode = accountSources[i - cashSources.size].currencyCode
             } else {
                 // It's form cash sources
-                binding.amount.currency = cashSources[i].currencyCode
+                binding.amount.currencyCode = cashSources[i].currencyCode
             }
         }
     }
