@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.github.kwasow.archipelago.utils.MaterialColors
 import org.javamoney.moneta.Money
+import kotlin.math.roundToInt
 
 class GraphViewCircular : View {
     private val paintCash = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -27,7 +28,7 @@ class GraphViewCircular : View {
     private var sum = Money.of(0, "PLN")
     private val sumPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-    private val percents = mutableListOf<Int>()
+    private val percents = mutableListOf<Double>()
 
     constructor(context: Context) : super(context) {
         init()
@@ -109,23 +110,26 @@ class GraphViewCircular : View {
         data.forEach {
             sum = sum.add(it)
         }
-        println(Money.of(548.98, "PLN"))
 
-        var percentsSum = 0
+        var percentsSum = 0.0
         for (i in data.indices) {
             if (i != data.lastIndex && !sum.isZero) {
-                val percent = (data[i].number.toInt() * 100) / sum.number.toInt()
+                val percent = (data[i].number.toDouble() * 100) / sum.number.toDouble()
                 percents.add(percent)
                 percentsSum += percent
             } else {
                 // We want everything to add up to 100%
-                percents.add(100 - percentsSum)
+                percents.add(100.0 - percentsSum)
             }
         }
 
         cashAngle = (360.0 * (percents[0] / 100.0)).toFloat()
         accountAngle = (360.0 * (percents[1] / 100.0)).toFloat()
         investmentAngle = (360.0 - cashAngle - accountAngle).toFloat()
+
+        percents.forEach {
+            println(it)
+        }
 
         // Redraw the view
         postInvalidate()
