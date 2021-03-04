@@ -35,6 +35,17 @@
           19
         ]
       ]
+    },
+    "crypto": {
+      "taxed": "income",
+      "automatic": false,
+      "brackets": [
+        [
+          0,
+          -1,
+          19
+        ]
+      ]
     }
   }
 }
