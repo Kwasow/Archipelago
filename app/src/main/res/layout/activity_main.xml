@@ -10,26 +10,11 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/white"
-                app:menu="@menu/menu_home"
-                app:title="@string/home"/>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
         <ScrollView
             android:id="@+id/homeScroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:paddingTop="?attr/actionBarSize">
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -120,6 +105,13 @@
 
         </ScrollView>
 
+        <com.github.kwasow.archipelago.views.CustomBottomNavigation
+            android:id="@+id/navigationBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="start|bottom"
+            app:menu="@menu/menu_bottom_navigation_bar"/>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- Opacity layer to do stuff -->
@@ -131,6 +123,7 @@
         android:background="@color/black"/>
 
     <!-- Floating action button stuff -->
+    <!--
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/actionButtonStock"
         android:layout_width="wrap_content"
@@ -238,7 +231,8 @@
         android:src="@drawable/ic_add"
         android:onClick="fabClick"
         android:contentDescription="@string/description_add_savings_source_fab"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/navigationBar"
         app:layout_constraintEnd_toEndOf="parent"/>
+    -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ class CountryManager {
         private const val JSON_SAVINGS_TAX = "savings"
         private const val JSON_INVESTMENT_TAX = "investment"
         private const val JSON_STOCK_TAX = "stock"
+        private const val JSON_CRYPTO_TAX = "crypto"
 
         fun getCountries(context: Context): Array<Country> {
             val list = mutableListOf<Country>()
@@ -37,12 +38,13 @@ class CountryManager {
             val taxAccount = getTaxBrackets(jsonObject, JSON_SAVINGS_TAX)
             val taxInvestment = getTaxBrackets(jsonObject, JSON_INVESTMENT_TAX)
             val taxStock = getTaxBrackets(jsonObject, JSON_STOCK_TAX)
+            val taxCrypto = getTaxBrackets(jsonObject, JSON_CRYPTO_TAX)
 
             return Country(
                 jsonObject.getString("full name"),
                 jsonObject.getString("country code"),
                 jsonObject.getString("currency code"),
-                taxAccount, taxInvestment, taxStock
+                taxAccount, taxInvestment, taxStock, taxCrypto
             )
         }
 

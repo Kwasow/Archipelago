@@ -1,22 +1,15 @@
 package com.github.kwasow.archipelago.activities
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.github.kwasow.archipelago.R
-import com.github.kwasow.archipelago.animations.FabAnimation
 import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.SourceInvestment
 import com.github.kwasow.archipelago.databinding.ActivityMainBinding
 import com.github.kwasow.archipelago.utils.NoScrollLinearLayoutManager
 import com.github.kwasow.archipelago.utils.SourceAdapter
-import com.github.kwasow.archipelago.views.AddTransactionDialog
-import com.google.android.material.snackbar.Snackbar
 import org.javamoney.moneta.Money
 
 class MainActivity : AppCompatActivity() {
@@ -25,15 +18,16 @@ class MainActivity : AppCompatActivity() {
     var fabIsRotated = false
     var noSources = false
 
+    private var currentNavigationItemId = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        initFab()
-        setupOptionsMenu()
-
+        // initFab()
         setupRecyclers()
+        disableClipOnParents(binding.navigationBar)
 
         setContentView(binding.root)
     }
@@ -44,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         // Reload sources list
         setupRecyclers()
     }
-
+/*
     override fun onBackPressed() {
         if (fabIsRotated) {
             fabClick(binding.actionButton)
@@ -113,20 +107,7 @@ class MainActivity : AppCompatActivity() {
                 })
         }
     }
-
-    private fun setupOptionsMenu() {
-        binding.topAppBar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.menuSettings -> {
-                    val intent = Intent(this, SettingsActivity::class.java)
-                    startActivity(intent)
-                }
-            }
-
-            return@setOnMenuItemClickListener true
-        }
-    }
-
+*/
     private fun setupRecyclers() {
         // Set up cash
         val cashList = SourceCash.get(this)
@@ -187,6 +168,16 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private fun disableClipOnParents(view: View) {
+        if (view is ViewGroup) {
+            view.clipChildren = false
+        }
+
+        if (view.parent is View) {
+            disableClipOnParents(view.parent as View)
+        }
+    }
+/*
     fun addSource(view: View) {
         val intent = Intent(this, AddSourceActivity::class.java)
 
@@ -222,4 +213,5 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(applicationContext, "Not implemented", Toast.LENGTH_SHORT)
             .show()
     }
+ */
 }

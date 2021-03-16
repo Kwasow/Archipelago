@@ -126,10 +126,6 @@ class GraphViewCircular : View {
         accountAngle = (360.0 * (percents[1] / 100.0)).toFloat()
         investmentAngle = (360.0 - cashAngle - accountAngle).toFloat()
 
-        percents.forEach {
-            println(it)
-        }
-
         // Redraw the view
         postInvalidate()
     }

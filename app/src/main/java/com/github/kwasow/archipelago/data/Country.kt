@@ -6,5 +6,6 @@ data class Country(
     val currencyCode: String,
     val taxAccount: List<Tax>,
     val taxInvestment: List<Tax>,
-    val taxStock: List<Tax>
+    val taxStock: List<Tax>,
+    val taxCrypto: List<Tax>
 )
