@@ -100,12 +100,14 @@ class CurrencyEdit : TextInputEditText {
 
     fun getMoneyValue(): Money = Money.of(getBigDecimalValue(), currencyCode)
 
-    private fun formatBigDecimal(value: BigDecimal, currency: String): String {
-        return NumberFormat.getCurrencyInstance().format(
-            value
-        ).replace(
-            NumberFormat.getCurrencyInstance().currency?.symbol.orEmpty(),
-            currency
-        )
+    companion object {
+        fun formatBigDecimal(value: BigDecimal, currency: String): String {
+            return NumberFormat.getCurrencyInstance().format(
+                value
+            ).replace(
+                NumberFormat.getCurrencyInstance().currency?.symbol.orEmpty(),
+                currency
+            )
+        }
     }
 }
