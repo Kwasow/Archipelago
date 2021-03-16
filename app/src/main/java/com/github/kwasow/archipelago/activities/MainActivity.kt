@@ -4,21 +4,14 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.github.kwasow.archipelago.data.SourceAccount
-import com.github.kwasow.archipelago.data.SourceCash
-import com.github.kwasow.archipelago.data.SourceInvestment
+import com.github.kwasow.archipelago.R
+import com.github.kwasow.archipelago.adapters.MainPagerAdapter
 import com.github.kwasow.archipelago.databinding.ActivityMainBinding
-import com.github.kwasow.archipelago.utils.NoScrollLinearLayoutManager
-import com.github.kwasow.archipelago.utils.SourceAdapter
-import org.javamoney.moneta.Money
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val fabList = mutableListOf<View>()
     var fabIsRotated = false
-    var noSources = false
-
-    private var currentNavigationItemId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,17 +19,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         // initFab()
-        setupRecyclers()
         disableClipOnParents(binding.navigationBar)
+        setupViewPager()
 
         setContentView(binding.root)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        // Reload sources list
-        setupRecyclers()
     }
 /*
     override fun onBackPressed() {
@@ -108,66 +94,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 */
-    private fun setupRecyclers() {
-        // Set up cash
-        val cashList = SourceCash.get(this)
-        val cashLayoutManager = NoScrollLinearLayoutManager(this)
-        val cashAdapter = SourceAdapter(cashList)
-        binding.cashRecycler.layoutManager = cashLayoutManager
-        binding.cashRecycler.adapter = cashAdapter
-        if (cashList.isEmpty()) {
-            binding.cashEmpty.visibility = View.VISIBLE
-        } else {
-            binding.cashEmpty.visibility = View.GONE
-        }
-        var sumCash = Money.of(0.0, "PLN")
-        cashList.forEach {
-            sumCash = sumCash.add(it.amount)
-        }
+    /*
 
-        // Set up account
-        val accountList = SourceAccount.get(this)
-        val accountLayoutManager = NoScrollLinearLayoutManager(this)
-        val accountAdapter = SourceAdapter(accountList)
-        binding.accountRecycler.layoutManager = accountLayoutManager
-        binding.accountRecycler.adapter = accountAdapter
-        if (accountList.isEmpty()) {
-            binding.accountEmpty.visibility = View.VISIBLE
-        } else {
-            binding.accountEmpty.visibility = View.GONE
-        }
-        var sumAccount = Money.of(0.0, "PLN")
-        accountList.forEach {
-            sumAccount = sumAccount.add(it.amount)
-        }
-
-        // Check if there are any sources that allow for adding transactions
-        noSources = cashList.isEmpty() && accountList.isEmpty()
-
-        // Set up investment
-        val investmentList = SourceInvestment.get(this)
-        val investmentLayoutManager = NoScrollLinearLayoutManager(this)
-        val investmentAdapter = SourceAdapter(investmentList)
-        binding.investmentRecycler.layoutManager = investmentLayoutManager
-        binding.investmentRecycler.adapter = investmentAdapter
-        if (investmentList.isEmpty()) {
-            binding.investmentEmpty.visibility = View.VISIBLE
-        } else {
-            binding.investmentEmpty.visibility = View.GONE
-        }
-        var sumInvestment = Money.of(0.0, "PLN")
-        investmentList.forEach {
-            sumInvestment = sumInvestment.add(it.amount)
-        }
-
-        // Set up summary graph
-        // TODO: This should not be hardcoded
-        binding.circularGraph.setData(
-            listOf(sumCash, sumAccount, sumInvestment),
-            "PLN"
-        )
-    }
-
+*/
     private fun disableClipOnParents(view: View) {
         if (view is ViewGroup) {
             view.clipChildren = false
@@ -175,6 +104,25 @@ class MainActivity : AppCompatActivity() {
 
         if (view.parent is View) {
             disableClipOnParents(view.parent as View)
+        }
+    }
+
+    private fun setupViewPager() {
+        val pager = binding.mainPager
+        val pagerAdapter = MainPagerAdapter(this)
+        pager.adapter = pagerAdapter
+        pager.isUserInputEnabled = false
+
+        binding.navigationBar.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.action_home -> pager.currentItem = 0
+                R.id.action_banking -> pager.currentItem = 1
+                R.id.action_stocks -> pager.currentItem = 2
+                R.id.action_crypto -> pager.currentItem = 3
+                R.id.action_settings -> pager.currentItem = 4
+            }
+
+            return@setOnNavigationItemSelectedListener true
         }
     }
 /*

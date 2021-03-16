@@ -1,5 +1,6 @@
 package com.github.kwasow.archipelago.views
 
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
@@ -89,6 +90,7 @@ class CustomBottomNavigation : BottomNavigationView {
             val subText = itemView
                 .findViewById<TextView>(com.google.android.material.R.id.largeLabel)
             val bottomNav = this
+            val animatorSet = AnimatorSet()
 
             subText.setTypeface(subText.typeface, Typeface.BOLD)
 
@@ -105,14 +107,14 @@ class CustomBottomNavigation : BottomNavigationView {
                 val translateDownAnimator = ObjectAnimator.ofFloat(
                     currentView,
                     "translationY",
-                    0f,
-                    -(bottomNav.height / 4).toFloat()
+                    -(bottomNav.height / 4).toFloat(),
+                    0f
                 ).setDuration(500)
                 val translateCircleDownAnimator = ObjectAnimator.ofFloat(
                     oldCircle,
                     "translationY",
-                    0f,
-                    -(bottomNav.height / 4).toFloat()
+                    -(bottomNav.height / 4).toFloat(),
+                    0f
                 ).setDuration(500)
                 val animateTintWhiteToBlack = ValueAnimator.ofArgb(Color.WHITE, Color.BLACK)
                 animateTintWhiteToBlack.duration = 500
@@ -120,9 +122,11 @@ class CustomBottomNavigation : BottomNavigationView {
                     currentView.drawable.setTint(it.animatedValue as Int)
                 }
 
-                translateDownAnimator.reverse()
-                translateCircleDownAnimator.reverse()
-                animateTintWhiteToBlack.start()
+                animatorSet.playTogether(
+                    translateDownAnimator,
+                    translateCircleDownAnimator,
+                    animateTintWhiteToBlack
+                )
                 oldCircle.animate()
                     .alpha(0F)
                     .duration = 500
@@ -169,14 +173,17 @@ class CustomBottomNavigation : BottomNavigationView {
                 view.drawable.setTint(it.animatedValue as Int)
             }
 
-            translateIconUpAnimator.start()
-            translateCircleUpAnimator.start()
-            animateTintBlackToWhite.start()
+            animatorSet.playTogether(
+                translateIconUpAnimator,
+                translateCircleUpAnimator,
+                animateTintBlackToWhite
+            )
             circleView.animate()
                 .alpha(1F)
                 .duration = 500
 
             currentNavigationItemId = itemId
+            animatorSet.start()
         }
 
         return true

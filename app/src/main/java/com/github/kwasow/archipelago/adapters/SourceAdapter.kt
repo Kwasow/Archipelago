@@ -1,4 +1,4 @@
-package com.github.kwasow.archipelago.utils
+package com.github.kwasow.archipelago.adapters
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -13,6 +13,7 @@ import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
 import com.github.kwasow.archipelago.data.SourceInvestment
 import com.github.kwasow.archipelago.databinding.ViewSourceCardBinding
+import com.github.kwasow.archipelago.utils.MaterialColors
 import com.github.kwasow.archipelago.views.GraphView
 import org.javamoney.moneta.Money
 

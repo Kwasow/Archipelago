@@ -1,4 +1,4 @@
-package com.github.kwasow.archipelago.utils
+package com.github.kwasow.archipelago.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.ViewTransactionItemBinding
+import com.github.kwasow.archipelago.utils.MaterialColors
 import org.javamoney.moneta.Money
 
 class TransactionsAdapter(

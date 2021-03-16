@@ -3,6 +3,7 @@ package com.github.kwasow.archipelago.activities
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.github.kwasow.archipelago.adapters.TransactionsAdapter
 import com.github.kwasow.archipelago.data.Source
 import com.github.kwasow.archipelago.data.SourceAccount
 import com.github.kwasow.archipelago.data.SourceCash
@@ -10,7 +11,6 @@ import com.github.kwasow.archipelago.data.Transaction
 import com.github.kwasow.archipelago.databinding.ActivitySourceDetailsBinding
 import com.github.kwasow.archipelago.utils.MaterialColors
 import com.github.kwasow.archipelago.utils.NoScrollLinearLayoutManager
-import com.github.kwasow.archipelago.utils.TransactionsAdapter
 import com.github.kwasow.archipelago.views.GraphView
 import org.javamoney.moneta.Money
 

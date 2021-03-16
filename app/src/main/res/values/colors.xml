@@ -17,6 +17,8 @@
     <color name="dark_primary_dark">#373737</color>
     <color name="dark_primary_light">#8E8E8E</color>
 
+    <color name="background_white">#FFF3F3F3</color>
+
     <!-- Colors from materialui.co -->
     <color name="blue_500">#FF2196F3</color>
     <color name="red_500">#FFF44336</color>
