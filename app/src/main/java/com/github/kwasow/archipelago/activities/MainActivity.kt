@@ -1,8 +1,8 @@
 package com.github.kwasow.archipelago.activities
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kwasow.archipelago.R
 import com.github.kwasow.archipelago.adapters.MainPagerAdapter
@@ -100,6 +100,7 @@ class MainActivity : AppCompatActivity() {
         pager.adapter = pagerAdapter
         pager.isUserInputEnabled = false
 
+        binding.navigationBar.color = Color.parseColor("#6CB86A")
         binding.navigationBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.action_home -> pager.currentItem = 0

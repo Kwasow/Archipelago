@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:background="@color/background_white"/>
 
-        <com.github.kwasow.archipelago.views.CustomBottomNavigation
+        <com.github.kwasow.bottomnavigationcircles.BottomNavigationCircles
             android:id="@+id/navigationBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
