@@ -70,9 +70,13 @@ class CustomBottomNavigation : BottomNavigationView {
     }
 
     private fun setupClipping() {
-        clipChildren = false
-        rootLayout.clipChildren = false
-        findViewById<BottomNavigationMenuView>(menuViewGroupId).clipChildren = false
+        viewTreeObserver.addOnGlobalLayoutListener {
+            clipChildren = false
+            rootLayout.clipChildren = false
+            findViewById<BottomNavigationMenuView>(menuViewGroupId).clipChildren = false
+
+            disableClipOnParents(this)
+        }
     }
 
     private fun disableClipOnParents(view: View) {

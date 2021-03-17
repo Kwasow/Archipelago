@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         // initFab()
-        disableClipOnParents(binding.navigationBar)
         setupViewPager()
 
         setContentView(binding.root)
@@ -94,18 +93,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 */
-    /*
-
-*/
-    private fun disableClipOnParents(view: View) {
-        if (view is ViewGroup) {
-            view.clipChildren = false
-        }
-
-        if (view.parent is View) {
-            disableClipOnParents(view.parent as View)
-        }
-    }
 
     private fun setupViewPager() {
         val pager = binding.mainPager
