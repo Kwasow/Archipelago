@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -22,6 +23,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.properties.Delegates
 
 class CustomBottomNavigation : BottomNavigationView {
     private var currentNavigationItemId = -1
@@ -29,6 +31,7 @@ class CustomBottomNavigation : BottomNavigationView {
     private val menuViewGroupId = View.generateViewId()
 
     private lateinit var rootLayout: RelativeLayout
+    private var disabledColor by Delegates.notNull<Int>()
 
     constructor(context: Context) : super(context) {
         init()
@@ -47,6 +50,7 @@ class CustomBottomNavigation : BottomNavigationView {
         setupRootLayout()
         setupListener()
         setupClipping()
+        getColor()
         selectFirstItem()
     }
 
@@ -71,6 +75,20 @@ class CustomBottomNavigation : BottomNavigationView {
         findViewById<BottomNavigationMenuView>(menuViewGroupId).clipChildren = false
     }
 
+    private fun disableClipOnParents(view: View) {
+        if (view is ViewGroup) {
+            view.clipChildren = false
+        }
+
+        if (view.parent is View) {
+            disableClipOnParents(view.parent as View)
+        }
+    }
+
+    private fun getColor() {
+        disabledColor = ContextCompat.getColor(context, R.color.material_on_surface_emphasis_medium)
+    }
+
     private fun selectFirstItem() {
         val firstElement =
             ((rootLayout.getChildAt(0)) as BottomNavigationMenuView).getChildAt(0)
@@ -85,7 +103,7 @@ class CustomBottomNavigation : BottomNavigationView {
         if (itemId != currentNavigationItemId) {
             val itemView =
                 findViewById<BottomNavigationItemView>(itemId)
-            val view = itemView
+            val icon = itemView
                 .findViewById<AppCompatImageView>(com.google.android.material.R.id.icon)
             val subText = itemView
                 .findViewById<TextView>(com.google.android.material.R.id.largeLabel)
@@ -116,7 +134,7 @@ class CustomBottomNavigation : BottomNavigationView {
                     -(bottomNav.height / 4).toFloat(),
                     0f
                 ).setDuration(500)
-                val animateTintWhiteToBlack = ValueAnimator.ofArgb(Color.WHITE, Color.BLACK)
+                val animateTintWhiteToBlack = ValueAnimator.ofArgb(Color.WHITE, disabledColor)
                 animateTintWhiteToBlack.duration = 500
                 animateTintWhiteToBlack.addUpdateListener {
                     currentView.drawable.setTint(it.animatedValue as Int)
@@ -148,15 +166,15 @@ class CustomBottomNavigation : BottomNavigationView {
             circleView.alpha = 0F
             rootLayout.addView(circleView)
             val params = circleView.layoutParams
-            params.width = view.width * 2
-            params.height = view.height * 2
+            params.width = icon.width * 2
+            params.height = icon.height * 2
             circleView.layoutParams = params
             circleView.setImageDrawable(circleDrawable)
-            circleView.x = itemView.x + itemView.width / 2 - view.width
+            circleView.x = itemView.x + itemView.width / 2 - icon.width
             findViewById<BottomNavigationMenuView>(menuViewGroupId).bringToFront()
 
             val translateIconUpAnimator = ObjectAnimator.ofFloat(
-                view,
+                icon,
                 "translationY",
                 0f,
                 -(bottomNav.height / 4).toFloat()
@@ -167,10 +185,10 @@ class CustomBottomNavigation : BottomNavigationView {
                 0f,
                 -(bottomNav.height / 4).toFloat()
             ).setDuration(500)
-            val animateTintBlackToWhite = ValueAnimator.ofArgb(Color.BLACK, Color.WHITE)
+            val animateTintBlackToWhite = ValueAnimator.ofArgb(disabledColor, Color.WHITE)
             animateTintBlackToWhite.duration = 500
             animateTintBlackToWhite.addUpdateListener {
-                view.drawable.setTint(it.animatedValue as Int)
+                icon.drawable.setTint(it.animatedValue as Int)
             }
 
             animatorSet.playTogether(

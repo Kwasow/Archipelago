@@ -31,6 +31,13 @@ class HomeFragment : Fragment() {
         setupRecyclers()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        // TODO: I think this could be optimized
+        setupRecyclers()
+    }
+
     private fun setupRecyclers() {
         context?.let {
             // Set up cash
