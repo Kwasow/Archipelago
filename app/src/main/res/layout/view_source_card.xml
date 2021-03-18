@@ -22,7 +22,7 @@
             android:padding="8dp"
             android:paddingEnd="0dp">
 
-            <com.github.kwasow.archipelago.views.GraphView
+            <io.github.kwasow.archipelago.views.GraphView
                 android:id="@+id/graph"
                 android:layout_width="150dp"
                 android:layout_height="120dp"

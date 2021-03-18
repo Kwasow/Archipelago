@@ -13,7 +13,7 @@ android {
     compileSdkVersion(30)
 
     defaultConfig {
-        applicationId = "com.github.kwasow.archipelago"
+        applicationId = "io.github.kwasow.archipelago"
         minSdkVersion(23)
         targetSdkVersion(30)
         versionCode = versionCode()

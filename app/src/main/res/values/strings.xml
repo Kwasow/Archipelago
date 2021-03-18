@@ -2,20 +2,25 @@
     <string name="app_name">Archipelago</string>
 
     <!-- Used on the home screen -->
-    <string name="home">Home</string>
-    <string name="banking">Banking</string>
     <string name="cash">Cash</string>
     <string name="savings_account">Savings account</string>
     <string name="investment">Investment</string>
-    <string name="stocks">Stocks</string>
-    <string name="crypto">Crypto</string>
-    <string name="settings">Settings</string>
     <string name="add_source">New source</string>
     <string name="add_transaction">New transaction</string>
     <string name="buy_sell_stocks">Buy/sell stocks</string>
-    <string name="nothing_to_show">Nothing to show</string>
     <string name="add_sources_to_add_transactions">Add sources before adding transactions</string>
     <string name="month_change">Month change</string>
+
+    <!-- Navigation labels -->
+    <string name="home">Home</string>
+    <string name="banking">Banking</string>
+    <string name="stocks">Stocks</string>
+    <string name="crypto">Crypto</string>
+    <string name="settings">Settings</string>
+
+    <!-- fragment_home.xml -->
+    <string name="diversity">Diversity</string>
+    <string name="nothing_to_show">Nothing to show</string>
 
     <!-- Used in adding a new savings source -->
     <string name="something_went_wrong_joke">Uhhh… Someone messed up, if you\'re seeing this</string>
