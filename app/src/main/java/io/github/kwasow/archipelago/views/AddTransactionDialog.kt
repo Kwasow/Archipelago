@@ -5,12 +5,12 @@ import android.content.Context
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.ArrayAdapter
+import com.google.android.material.snackbar.Snackbar
 import io.github.kwasow.archipelago.R
 import io.github.kwasow.archipelago.data.SourceAccount
 import io.github.kwasow.archipelago.data.SourceCash
 import io.github.kwasow.archipelago.data.Transaction
 import io.github.kwasow.archipelago.databinding.DialogAddTransactionBinding
-import com.google.android.material.snackbar.Snackbar
 import java.util.Date
 
 class AddTransactionDialog(context: Context) : AlertDialog(context) {

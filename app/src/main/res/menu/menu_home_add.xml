@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_add_source"
+        android:title="@string/add_source"
+        android:icon="@drawable/ic_credit_card" />
+    <item
+        android:id="@+id/action_add_transaction"
+        android:title="@string/add_transaction"
+        android:icon="@drawable/ic_transaction" />
+    <item
+        android:id="@+id/action_add_stock"
+        android:title="@string/buy_sell_stocks"
+        android:icon="@drawable/ic_graph" />
+    <item
+        android:id="@+id/action_add_crypto"
+        android:title="@string/buy_sell_crypto"
+        android:icon="@drawable/ic_dollar" />
+</menu>

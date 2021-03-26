@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import io.github.kwasow.archipelago.R
 import io.github.kwasow.archipelago.data.Capitalization
 import io.github.kwasow.archipelago.data.Country
@@ -14,7 +15,6 @@ import io.github.kwasow.archipelago.data.SourceInvestment
 import io.github.kwasow.archipelago.data.Transaction
 import io.github.kwasow.archipelago.databinding.ActivityAddSourceBinding
 import io.github.kwasow.archipelago.utils.CountryManager
-import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date

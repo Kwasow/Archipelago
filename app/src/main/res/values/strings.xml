@@ -5,9 +5,6 @@
     <string name="cash">Cash</string>
     <string name="savings_account">Savings account</string>
     <string name="investment">Investment</string>
-    <string name="add_source">New source</string>
-    <string name="add_transaction">New transaction</string>
-    <string name="buy_sell_stocks">Buy/sell stocks</string>
     <string name="add_sources_to_add_transactions">Add sources before adding transactions</string>
     <string name="month_change">Month change</string>
 
@@ -21,6 +18,11 @@
     <!-- fragment_home.xml -->
     <string name="diversity">Diversity</string>
     <string name="nothing_to_show">Nothing to show</string>
+    <string name="add_source">New source</string>
+    <string name="add_transaction">New transaction</string>
+    <string name="buy_sell_stocks">Buy/sell stocks</string>
+    <string name="buy_sell_crypto">Buy/sell cryptocurrencies</string>
+
 
     <!-- Used in adding a new savings source -->
     <string name="something_went_wrong_joke">Uhhh… Someone messed up, if you\'re seeing this</string>

@@ -1,19 +1,28 @@
 package io.github.kwasow.archipelago.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
+import io.github.kwasow.archipelago.R
+import io.github.kwasow.archipelago.activities.AddSourceActivity
 import io.github.kwasow.archipelago.adapters.SourceAdapter
 import io.github.kwasow.archipelago.data.SourceAccount
 import io.github.kwasow.archipelago.data.SourceInvestment
 import io.github.kwasow.archipelago.databinding.FragmentHomeBinding
 import io.github.kwasow.archipelago.utils.NoScrollLinearLayoutManager
+import io.github.kwasow.archipelago.views.AddTransactionDialog
 import org.javamoney.moneta.Money
 
-class HomeFragment : Fragment(), View.OnClickListener {
+class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     private lateinit var binding: FragmentHomeBinding
+    private var noSources = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +37,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         super.onStart()
 
         setupRecyclers()
+        setupClicks()
     }
 
     override fun onResume() {
@@ -68,21 +78,79 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 "PLN"
             )
 
-            if (accountList.isEmpty() && investmentList.isEmpty()) {
+            noSources = if (accountList.isEmpty() && investmentList.isEmpty()) {
                 binding.sourcesEmpty.visibility = View.VISIBLE
+                true
             } else {
                 binding.sourcesEmpty.visibility = View.GONE
+                false
             }
         }
     }
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            binding.addButton.id -> addButtonClick()
+    private fun setupClicks() {
+        binding.addButton.setOnClickListener { addButtonClick(it) }
+    }
+
+    private fun addButtonClick(view: View) {
+        context?.let {
+            PopupMenu(it, view).apply {
+                inflate(R.menu.menu_home_add)
+                setOnMenuItemClickListener(this@HomeFragment)
+                show()
+            }
         }
     }
 
-    private fun addButtonClick() {
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        item?.let {
+            when (item.itemId) {
+                R.id.action_add_source -> addSource()
+                R.id.action_add_transaction -> addTransaction()
+                R.id.action_add_stock -> buySellStocks()
+                R.id.action_add_crypto -> buySellCrypto()
+            }
+        }
 
+        return true
+    }
+
+    private fun addSource() {
+        val intent = Intent(context, AddSourceActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun addTransaction() {
+        if (noSources) {
+            Snackbar.make(
+                binding.root,
+                R.string.add_sources_to_add_transactions,
+                Snackbar.LENGTH_SHORT
+            ).apply {
+                setAnchorView(R.id.navigationBar)
+                show()
+            }
+        } else {
+            context?.let {
+                val dialog = AddTransactionDialog(it)
+                dialog.onAddListener = {
+                    // Reload home screen if transaction added
+                    onResume()
+                }
+                dialog.show()
+            }
+        }
+    }
+
+    private fun buySellStocks() {
+        // TODO: Buy and sell stocks
+        Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun buySellCrypto() {
+        // TODO: Buy and sell crypto
+        Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT)
+            .show()
     }
 }
