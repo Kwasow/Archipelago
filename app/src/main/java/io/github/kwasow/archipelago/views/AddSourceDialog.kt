@@ -1,52 +1,54 @@
-package io.github.kwasow.archipelago.activities
+package io.github.kwasow.archipelago.views
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import io.github.kwasow.archipelago.R
 import io.github.kwasow.archipelago.data.Capitalization
-import io.github.kwasow.archipelago.data.Country
 import io.github.kwasow.archipelago.data.SourceAccount
 import io.github.kwasow.archipelago.data.SourceCash
 import io.github.kwasow.archipelago.data.SourceInvestment
 import io.github.kwasow.archipelago.data.Transaction
-import io.github.kwasow.archipelago.databinding.ActivityAddSourceBinding
+import io.github.kwasow.archipelago.databinding.DialogAddSourceBinding
 import io.github.kwasow.archipelago.utils.CountryManager
+import org.javamoney.moneta.Money
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
-class AddSourceActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityAddSourceBinding
-    private lateinit var countries: Array<Country>
-    private lateinit var caps: List<String>
-    var currentSource = 0
-    var countryChosen = false
-    var capChosen = false
+class AddSourceDialog(context: Context) : AlertDialog(context) {
+    private lateinit var binding: DialogAddSourceBinding
+    private var currentSource = 0
+    private var countryChosen = false
+    private var capChosen = false
 
-    var startDate: Date? = null
-    var endDate: Date? = null
+    private var startDate: Date? = null
+    private var endDate: Date? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setTheme(R.style.Theme_Archipelago_App_DarkNotificationBar)
-        window.statusBarColor = resources.getColor(R.color.black, theme)
-        binding = ActivityAddSourceBinding.inflate(layoutInflater)
+        binding = DialogAddSourceBinding.inflate(layoutInflater)
 
-        binding.topAppBar.setNavigationOnClickListener {
-            onBackPressed()
-        }
+        setupKeyboard()
+        setupButtons()
+        setupSourcePicker()
+        setupCountryPicker()
+        setupCapitalizationOptions()
 
-        // TODO: Load from resource strings
-        // Set up source picker
-        val sources = listOf("cash source", "savings account", "investment")
-        val sourcesAdapter = ArrayAdapter(this, R.layout.list_item, sources)
+        setContentView(binding.root)
+    }
+
+    private fun setupSourcePicker() {
+        val sources = getSourceTypesList()
+        val sourcesAdapter = ArrayAdapter(context, R.layout.list_item, sources)
         binding.sourceType.setAdapter(sourcesAdapter)
-        // Listen to source selected and show the appropriate views
+
         binding.sourceType.setOnItemClickListener { _, _, i, _ ->
             // Reset to default state in case something was visible that shouldn't be
             binding.finishButton.isEnabled = true
@@ -62,113 +64,63 @@ class AddSourceActivity : AppCompatActivity() {
             binding.finishButton.visibility = View.VISIBLE
 
             when (i) {
-                // Cash
                 0 -> sourceCash()
-                // Savings
                 1 -> sourceSavings()
-                // Investment
                 2 -> sourceInvestment()
             }
         }
+    }
 
-        // Set up country chooser
-        countries = CountryManager.getCountries(this)
+    private fun getSourceTypesList(): List<String> {
+        return listOf(
+            context.resources.getString(R.string.new_cash_source),
+            context.resources.getString(R.string.new_savings_account),
+            context.resources.getString(R.string.new_investment)
+        )
+    }
+
+    private fun setupCountryPicker() {
+        val countries = CountryManager.getCountries(context)
         val countryCodes = mutableListOf<String>()
         countries.forEach {
             countryCodes.add(it.code)
         }
-        val countryAdapter = ArrayAdapter(this, R.layout.list_item, countryCodes)
+        val countryAdapter = ArrayAdapter(context, R.layout.list_item, countryCodes)
         binding.countrySelect.setAdapter(countryAdapter)
         // Set currency when country is selected
         binding.countrySelect.setOnItemClickListener { _, _, i, _ ->
             binding.amount.currencyCode = countries[i].currencyCode
             countryChosen = true
         }
+    }
 
-        // Set up possible capitalization options
-        caps = listOf(
-            resources.getString(Capitalization.EndOfMonth.value),
-            resources.getString(Capitalization.EndOfInvestment.value),
-            resources.getString(Capitalization.Monthly.value),
-            resources.getString(Capitalization.Yearly.value)
+    private fun setupCapitalizationOptions() {
+        val caps = listOf(
+            context.resources.getString(Capitalization.EndOfMonth.value),
+            context.resources.getString(Capitalization.EndOfInvestment.value),
+            context.resources.getString(Capitalization.Monthly.value),
+            context.resources.getString(Capitalization.Yearly.value)
         )
-        val capAdapter = ArrayAdapter(this, R.layout.list_item, caps)
+        val capAdapter = ArrayAdapter(context, R.layout.list_item, caps)
         binding.capitalization.setAdapter(capAdapter)
         binding.capitalization.setOnItemClickListener { _, _, _, _ -> capChosen = true }
 
         binding.interest.currency = "%"
-
-        setContentView(binding.root)
     }
 
-    fun finishAdding(view: View) {
-        // Check if all the needed details were provided
-        var error = false
-        if (binding.sourceName.text.toString().isBlank()) {
-            binding.sourceNameLayout.error = resources.getString(R.string.error_blank)
-            error = true
-        } else {
-            binding.sourceNameLayout.error = null
-        }
-
-        if (!countryChosen) {
-            binding.countrySelectLayout.error = resources.getString(R.string.error_blank)
-            error = true
-        } else {
-            binding.countrySelectLayout.error = null
-        }
-
-        if ((currentSource == 1 || currentSource == 2) && !capChosen) {
-            binding.capitalizationLayout.error = resources.getString(R.string.error_blank)
-            error = true
-        } else {
-            binding.capitalizationLayout.error = null
-        }
-
-        if (currentSource == 2) {
-            if (binding.dateStart.text.toString().isBlank()) {
-                binding.dateStartLayout.error = resources.getString(R.string.error_blank)
-                error = true
-            } else {
-                binding.dateStartLayout.error = null
-            }
-
-            if (binding.dateEnd.text.toString().isBlank()) {
-                binding.dateEndLayout.error = resources.getString(R.string.error_blank)
-                error = true
-            } else {
-                binding.dateEndLayout.error = null
-            }
-
-            if (endDate != null && startDate != null) {
-                if (endDate!!.before(startDate)) {
-                    binding.dateEndLayout.error = resources.getString(R.string.error_endDate_before_startDate)
-                    error = true
-                } else if (startDate!!.before(endDate)) {
-                    binding.dateEndLayout.error = null
-                }
-            }
-        }
-        // Don't continue if any errors were found
-        if (error) return
+    private fun finishAdding() {
+        if (checkIfAllFieldsCorrect()) return
 
         // Get common source attributes
         val name = binding.sourceName.text.toString()
         val countryTmp = CountryManager
-            .getCountyByCode(this, binding.countrySelect.text.toString())
+            .getCountyByCode(context, binding.countrySelect.text.toString())
         val country = countryTmp.name
         val countryCode = countryTmp.code
         val currency = countryTmp.currencyCode
         val amount = binding.amount.getMoneyValue()
 
-        val transactions = mutableListOf(
-            Transaction(
-                Date(),
-                resources.getString(R.string.initial_account_state),
-                amount,
-                resources.getString(R.string.added_automatically)
-            )
-        )
+        val transactions = createInitialTransactionList(amount)
 
         // Specific stuff (+checking if succeeded)
         when (currentSource) {
@@ -182,7 +134,7 @@ class AddSourceActivity : AppCompatActivity() {
                     amount,
                     transactions
                 )
-                if (!source.save(this)) {
+                if (!source.save(context)) {
                     // TODO: Error should be more specific in the future
                     // TODO: Maybe add report issue button to this
                     Snackbar.make(
@@ -206,7 +158,7 @@ class AddSourceActivity : AppCompatActivity() {
                     cap,
                     transactions
                 )
-                if (!source.save(this)) {
+                if (!source.save(context)) {
                     Snackbar.make(
                         binding.root,
                         R.string.something_went_wrong,
@@ -230,7 +182,7 @@ class AddSourceActivity : AppCompatActivity() {
                     startDate!!,
                     endDate!!
                 )
-                if (!source.save(this)) {
+                if (!source.save(context)) {
                     Snackbar.make(
                         binding.root,
                         R.string.something_went_wrong,
@@ -241,14 +193,76 @@ class AddSourceActivity : AppCompatActivity() {
             }
         }
 
-        finish()
+        dismiss()
     }
 
-    fun dateStart(view: View) {
+    private fun checkIfAllFieldsCorrect(): Boolean {
+        var error = false
+        if (binding.sourceName.text.toString().isBlank()) {
+            binding.sourceNameLayout.error = context.resources.getString(R.string.error_blank)
+            error = true
+        } else {
+            binding.sourceNameLayout.error = null
+        }
+
+        if (!countryChosen) {
+            binding.countrySelectLayout.error = context.resources.getString(R.string.error_blank)
+            error = true
+        } else {
+            binding.countrySelectLayout.error = null
+        }
+
+        if ((currentSource == 1 || currentSource == 2) && !capChosen) {
+            binding.capitalizationLayout.error = context.resources.getString(R.string.error_blank)
+            error = true
+        } else {
+            binding.capitalizationLayout.error = null
+        }
+
+        if (currentSource == 2) {
+            if (binding.dateStart.text.toString().isBlank()) {
+                binding.dateStartLayout.error = context.resources.getString(R.string.error_blank)
+                error = true
+            } else {
+                binding.dateStartLayout.error = null
+            }
+
+            if (binding.dateEnd.text.toString().isBlank()) {
+                binding.dateEndLayout.error = context.resources.getString(R.string.error_blank)
+                error = true
+            } else {
+                binding.dateEndLayout.error = null
+            }
+
+            if (endDate != null && startDate != null) {
+                if (endDate!!.before(startDate)) {
+                    binding.dateEndLayout.error = context.resources.getString(R.string.error_endDate_before_startDate)
+                    error = true
+                } else if (startDate!!.before(endDate)) {
+                    binding.dateEndLayout.error = null
+                }
+            }
+        }
+
+        return error
+    }
+
+    private fun createInitialTransactionList(amount: Money): MutableList<Transaction> {
+        return mutableListOf(
+            Transaction(
+                Date(),
+                context.resources.getString(R.string.initial_account_state),
+                amount,
+                context.resources.getString(R.string.added_automatically)
+            )
+        )
+    }
+
+    private fun dateStart() {
         val calendar = Calendar.getInstance()
 
         DatePickerDialog(
-            this,
+            context,
             { _, year, month, dayOfMonth ->
                 val selection = Calendar.getInstance()
                 selection.set(Calendar.YEAR, year)
@@ -268,11 +282,11 @@ class AddSourceActivity : AppCompatActivity() {
         ).show()
     }
 
-    fun dateEnd(view: View) {
+    private fun dateEnd() {
         val calendar = Calendar.getInstance()
 
         DatePickerDialog(
-            this,
+            context,
             { _, year, month, dayOfMonth ->
                 val selection = Calendar.getInstance()
                 selection.set(Calendar.YEAR, year)
@@ -323,11 +337,44 @@ class AddSourceActivity : AppCompatActivity() {
         val selectedString = binding.capitalization.text.toString()
 
         Capitalization.values().forEach {
-            if (selectedString == resources.getString(it.value)) {
+            if (selectedString == context.resources.getString(it.value)) {
                 return it
             }
         }
 
         return null
+    }
+
+    private fun setupKeyboard() {
+        window?.clearFlags(
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
+        )
+        val focusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            } else {
+                window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+            }
+        }
+
+        binding.sourceName.onFocusChangeListener = focusChangeListener
+        binding.amount.onFocusChangeListener = focusChangeListener
+        binding.interest.onFocusChangeListener = focusChangeListener
+    }
+
+    private fun setupButtons() {
+        binding.cancelButton.setOnClickListener {
+            onBackPressed()
+        }
+        binding.finishButton.setOnClickListener {
+            finishAdding()
+        }
+        binding.dateStart.setOnClickListener {
+            dateStart()
+        }
+        binding.dateEnd.setOnClickListener {
+            dateEnd()
+        }
     }
 }

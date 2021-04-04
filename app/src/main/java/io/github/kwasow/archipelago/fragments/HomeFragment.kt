@@ -1,6 +1,5 @@
 package io.github.kwasow.archipelago.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -11,12 +10,12 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import io.github.kwasow.archipelago.R
-import io.github.kwasow.archipelago.activities.AddSourceActivity
 import io.github.kwasow.archipelago.adapters.SourceAdapter
 import io.github.kwasow.archipelago.data.SourceAccount
 import io.github.kwasow.archipelago.data.SourceInvestment
 import io.github.kwasow.archipelago.databinding.FragmentHomeBinding
 import io.github.kwasow.archipelago.utils.NoScrollLinearLayoutManager
+import io.github.kwasow.archipelago.views.AddSourceDialog
 import io.github.kwasow.archipelago.views.AddTransactionDialog
 import org.javamoney.moneta.Money
 
@@ -116,8 +115,10 @@ class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     }
 
     private fun addSource() {
-        val intent = Intent(context, AddSourceActivity::class.java)
-        startActivity(intent)
+        context?.let {
+            val dialog = AddSourceDialog(it)
+            dialog.show()
+        }
     }
 
     private fun addTransaction() {

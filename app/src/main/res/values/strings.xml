@@ -27,9 +27,9 @@
     <!-- Used in adding a new savings source -->
     <string name="something_went_wrong_joke">Uhhh… Someone messed up, if you\'re seeing this</string>
     <string name="something_went_wrong">Something went wrong</string>
-    <string name="new_cash_source">New cash source</string>
-    <string name="new_savings">New savings account</string>
-    <string name="new_investment">New investment</string>
+    <string name="new_cash_source">cash source</string>
+    <string name="new_savings_account">savings account</string>
+    <string name="new_investment">investment</string>
     <string name="new_stock">New stock</string>
     <string name="add_new">Add new</string>
     <string name="source">Source</string>
@@ -41,6 +41,7 @@
     <string name="date_start">Date start</string>
     <string name="date_end">Date end</string>
     <string name="finish">Finish</string>
+    <string name="cancel">Cancel</string>
     <string name="initial_account_state">Initial account state</string>
     <string name="added_automatically">Added automatically</string>
     <string name="error_blank">This cannot be blank</string>

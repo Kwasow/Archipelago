@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         pager.adapter = pagerAdapter
         pager.isUserInputEnabled = false
 
-        binding.navigationBar.color = Color.parseColor("#6CB86A")
+        binding.navigationBar.circleColor = Color.parseColor("#6CB86A")
         binding.navigationBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.action_home -> pager.currentItem = 0
@@ -39,5 +39,4 @@ class MainActivity : AppCompatActivity() {
             return@setOnNavigationItemSelectedListener true
         }
     }
-
 }
