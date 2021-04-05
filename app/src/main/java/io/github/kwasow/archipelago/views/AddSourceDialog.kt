@@ -21,6 +21,8 @@ import java.util.Calendar
 import java.util.Date
 
 class AddSourceDialog(context: Context) : AlertDialog(context) {
+    var onAddListener = {}
+
     private lateinit var binding: DialogAddSourceBinding
     private var currentSource = 0
     private var countryChosen = false
@@ -246,6 +248,7 @@ class AddSourceDialog(context: Context) : AlertDialog(context) {
         }
 
         dismiss()
+        onAddListener()
     }
 
     private fun checkIfAllFieldsCorrect(): Boolean {

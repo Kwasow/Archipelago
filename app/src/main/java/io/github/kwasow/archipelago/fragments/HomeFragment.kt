@@ -117,6 +117,9 @@ class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     private fun addSource() {
         context?.let {
             val dialog = AddSourceDialog(it)
+            dialog.onAddListener = {
+                onResume()
+            }
             dialog.show()
         }
     }

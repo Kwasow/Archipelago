@@ -13,8 +13,9 @@ import io.github.kwasow.archipelago.databinding.DialogAddTransactionBinding
 import java.util.Date
 
 class AddTransactionDialog(context: Context) : AlertDialog(context) {
-    private lateinit var binding: DialogAddTransactionBinding
     var onAddListener = {}
+
+    private lateinit var binding: DialogAddTransactionBinding
 
     private var currentSelection: Int = -1
     private lateinit var accountSources: List<SourceAccount>

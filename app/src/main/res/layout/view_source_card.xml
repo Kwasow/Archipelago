@@ -19,8 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:paddingEnd="0dp">
+            android:padding="8dp">
 
             <io.github.kwasow.archipelago.views.GraphView
                 android:id="@+id/graph"
