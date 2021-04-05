@@ -16,6 +16,8 @@
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
         <item name="android:textColor">@color/black</item>
+
+        <item name="android:colorBackground">@color/background_white</item>
     </style>
 
     <!-- For API 23-27 -->

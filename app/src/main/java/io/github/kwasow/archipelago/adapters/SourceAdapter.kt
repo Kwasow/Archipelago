@@ -23,10 +23,8 @@ class SourceAdapter(private val dataSet: List<Source>) :
         // Set up all children views
         val root = binding.root
         val cardView = binding.cardView
-        val graph = binding.graph
         val sourceName = binding.sourceName
         val amount = binding.amount
-        val monthChangeLabel = binding.monthChangeLabel
         val monthChange = binding.monthChange
     }
 
@@ -60,10 +58,6 @@ class SourceAdapter(private val dataSet: List<Source>) :
 
                 holder.monthChange.text = plus +
                     Money.of(change.number, sourceObject.currencyCode)
-
-                // Set up graph
-                holder.graph.data =
-                    GraphView.graphArrayFromTransactions(sourceObject.transactions)
             }
             is SourceInvestment -> {
                 // Set name and amount
@@ -72,9 +66,7 @@ class SourceAdapter(private val dataSet: List<Source>) :
                     Money.of(sourceObject.amount.number, sourceObject.currencyCode).toString()
 
                 // Don't show monthly change
-                holder.monthChangeLabel.visibility = View.GONE
                 holder.monthChange.visibility = View.GONE
-                holder.graph.visibility = View.GONE
             }
         }
 

@@ -13,8 +13,7 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/mainPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background_white"/>
+            android:layout_height="match_parent"/>
 
         <com.github.kwasow.bottomnavigationcircles.BottomNavigationCircles
             android:id="@+id/navigationBar"
