@@ -11,7 +11,6 @@ import com.google.android.material.snackbar.Snackbar
 import io.github.kwasow.archipelago.R
 import io.github.kwasow.archipelago.data.Capitalization
 import io.github.kwasow.archipelago.data.SourceAccount
-import io.github.kwasow.archipelago.data.SourceCash
 import io.github.kwasow.archipelago.data.SourceInvestment
 import io.github.kwasow.archipelago.data.Transaction
 import io.github.kwasow.archipelago.databinding.DialogAddSourceBinding
@@ -64,16 +63,14 @@ class AddSourceDialog(context: Context) : AlertDialog(context) {
             binding.finishButton.visibility = View.VISIBLE
 
             when (i) {
-                0 -> sourceCash()
-                1 -> sourceSavings()
-                2 -> sourceInvestment()
+                0 -> sourceSavings()
+                1 -> sourceInvestment()
             }
         }
     }
 
     private fun getSourceTypesList(): List<String> {
         return listOf(
-            context.resources.getString(R.string.new_cash_source),
             context.resources.getString(R.string.new_savings_account),
             context.resources.getString(R.string.new_investment)
         )
@@ -108,145 +105,6 @@ class AddSourceDialog(context: Context) : AlertDialog(context) {
         binding.interest.currency = "%"
     }
 
-    private fun finishAdding() {
-        if (checkIfAllFieldsCorrect()) return
-
-        // Get common source attributes
-        val name = binding.sourceName.text.toString()
-        val countryTmp = CountryManager
-            .getCountyByCode(context, binding.countrySelect.text.toString())
-        val country = countryTmp.name
-        val countryCode = countryTmp.code
-        val currency = countryTmp.currencyCode
-        val amount = binding.amount.getMoneyValue()
-
-        val transactions = createInitialTransactionList(amount)
-
-        // Specific stuff (+checking if succeeded)
-        when (currentSource) {
-            // Cash
-            0 -> {
-                val source = SourceCash(
-                    name,
-                    country,
-                    countryCode,
-                    currency,
-                    amount,
-                    transactions
-                )
-                if (!source.save(context)) {
-                    // TODO: Error should be more specific in the future
-                    // TODO: Maybe add report issue button to this
-                    Snackbar.make(
-                        binding.root,
-                        R.string.something_went_wrong,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                    return
-                }
-            }
-            // Savings account
-            1 -> {
-                val cap = getCapitalization() ?: return
-                val source = SourceAccount(
-                    name,
-                    country,
-                    countryCode,
-                    currency,
-                    amount,
-                    (binding.interest.getDoubleValue() * 100).toInt(),
-                    cap,
-                    transactions
-                )
-                if (!source.save(context)) {
-                    Snackbar.make(
-                        binding.root,
-                        R.string.something_went_wrong,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                    return
-                }
-            }
-            // Investment
-            2 -> {
-                val cap = getCapitalization() ?: return
-                val source = SourceInvestment(
-                    name,
-                    country,
-                    countryCode,
-                    currency,
-                    amount,
-                    (binding.interest.getDoubleValue() * 100).toInt(),
-                    cap,
-                    // These are not null, because we checked it earlier
-                    startDate!!,
-                    endDate!!
-                )
-                if (!source.save(context)) {
-                    Snackbar.make(
-                        binding.root,
-                        R.string.something_went_wrong,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                    return
-                }
-            }
-        }
-
-        dismiss()
-    }
-
-    private fun checkIfAllFieldsCorrect(): Boolean {
-        var error = false
-        if (binding.sourceName.text.toString().isBlank()) {
-            binding.sourceNameLayout.error = context.resources.getString(R.string.error_blank)
-            error = true
-        } else {
-            binding.sourceNameLayout.error = null
-        }
-
-        if (!countryChosen) {
-            binding.countrySelectLayout.error = context.resources.getString(R.string.error_blank)
-            error = true
-        } else {
-            binding.countrySelectLayout.error = null
-        }
-
-        if ((currentSource == 1 || currentSource == 2) && !capChosen) {
-            binding.capitalizationLayout.error = context.resources.getString(R.string.error_blank)
-            error = true
-        } else {
-            binding.capitalizationLayout.error = null
-        }
-
-        if (currentSource == 2) {
-            if (binding.dateStart.text.toString().isBlank()) {
-                binding.dateStartLayout.error = context.resources.getString(R.string.error_blank)
-                error = true
-            } else {
-                binding.dateStartLayout.error = null
-            }
-
-            if (binding.dateEnd.text.toString().isBlank()) {
-                binding.dateEndLayout.error = context.resources.getString(R.string.error_blank)
-                error = true
-            } else {
-                binding.dateEndLayout.error = null
-            }
-
-            if (endDate != null && startDate != null) {
-                if (endDate!!.before(startDate)) {
-                    binding.dateEndLayout.error = context.resources.getString(R.string.error_endDate_before_startDate)
-                    error = true
-                } else if (startDate!!.before(endDate)) {
-                    binding.dateEndLayout.error = null
-                }
-            }
-        }
-
-        return error
-    }
-
     private fun createInitialTransactionList(amount: Money): MutableList<Transaction> {
         return mutableListOf(
             Transaction(
@@ -258,63 +116,8 @@ class AddSourceDialog(context: Context) : AlertDialog(context) {
         )
     }
 
-    private fun dateStart() {
-        val calendar = Calendar.getInstance()
-
-        DatePickerDialog(
-            context,
-            { _, year, month, dayOfMonth ->
-                val selection = Calendar.getInstance()
-                selection.set(Calendar.YEAR, year)
-                selection.set(Calendar.MONTH, month)
-                selection.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-                val date = selection.time
-                val dateFormat = SimpleDateFormat.getDateInstance()
-                binding.dateStart.setText(
-                    dateFormat.format(date)
-                )
-                startDate = date
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        ).show()
-    }
-
-    private fun dateEnd() {
-        val calendar = Calendar.getInstance()
-
-        DatePickerDialog(
-            context,
-            { _, year, month, dayOfMonth ->
-                val selection = Calendar.getInstance()
-                selection.set(Calendar.YEAR, year)
-                selection.set(Calendar.MONTH, month)
-                selection.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-                val date = selection.time
-                val dateFormat = SimpleDateFormat.getDateInstance()
-                binding.dateEnd.setText(
-                    dateFormat.format(date)
-                )
-                endDate = date
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        ).show()
-    }
-
-    private fun sourceCash() {
-        currentSource = 0
-
-        // TODO: Maybe add animation when selecting source
-        binding.photoLeading.setImageResource(R.drawable.ic_dollar)
-    }
-
     private fun sourceSavings() {
-        currentSource = 1
+        currentSource = 0
 
         binding.photoLeading.setImageResource(R.drawable.ic_credit_card)
 
@@ -323,7 +126,7 @@ class AddSourceDialog(context: Context) : AlertDialog(context) {
     }
 
     private fun sourceInvestment() {
-        currentSource = 2
+        currentSource = 1
 
         binding.photoLeading.setImageResource(R.drawable.ic_percent)
 
@@ -376,5 +179,171 @@ class AddSourceDialog(context: Context) : AlertDialog(context) {
         binding.dateEnd.setOnClickListener {
             dateEnd()
         }
+    }
+
+    private fun finishAdding() {
+        if (!checkIfAllFieldsCorrect()) return
+
+        // Get common source attributes
+        val name = binding.sourceName.text.toString()
+        val countryTmp = CountryManager
+            .getCountyByCode(context, binding.countrySelect.text.toString())
+        val country = countryTmp.name
+        val countryCode = countryTmp.code
+        val currency = countryTmp.currencyCode
+        val amount = binding.amount.getMoneyValue()
+
+        val transactions = createInitialTransactionList(amount)
+
+        // Specific stuff (+checking if succeeded)
+        when (currentSource) {
+            // Savings account
+            0 -> {
+                val cap = getCapitalization() ?: return
+                val source = SourceAccount(
+                    name,
+                    country,
+                    countryCode,
+                    currency,
+                    amount,
+                    (binding.interest.getDoubleValue() * 100).toInt(),
+                    cap,
+                    transactions
+                )
+                if (!source.save(context)) {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.something_went_wrong,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    return
+                }
+            }
+            // Investment
+            1 -> {
+                val cap = getCapitalization() ?: return
+                val source = SourceInvestment(
+                    name,
+                    country,
+                    countryCode,
+                    currency,
+                    amount,
+                    (binding.interest.getDoubleValue() * 100).toInt(),
+                    cap,
+                    // These are not null, because we checked it earlier
+                    startDate!!,
+                    endDate!!
+                )
+                if (!source.save(context)) {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.something_went_wrong,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    return
+                }
+            }
+        }
+
+        dismiss()
+    }
+
+    private fun checkIfAllFieldsCorrect(): Boolean {
+        var correct = true
+        if (binding.sourceName.text.toString().isBlank()) {
+            binding.sourceNameLayout.error = context.resources.getString(R.string.error_blank)
+            correct = false
+        } else {
+            binding.sourceNameLayout.error = null
+        }
+
+        if (!countryChosen) {
+            binding.countrySelectLayout.error = context.resources.getString(R.string.error_blank)
+            correct = false
+        } else {
+            binding.countrySelectLayout.error = null
+        }
+
+        if (!capChosen) {
+            binding.capitalizationLayout.error = context.resources.getString(R.string.error_blank)
+            correct = false
+        } else {
+            binding.capitalizationLayout.error = null
+        }
+
+        if (currentSource == 1) {
+            if (binding.dateStart.text.toString().isBlank()) {
+                binding.dateStartLayout.error = context.resources.getString(R.string.error_blank)
+                correct = false
+            } else {
+                binding.dateStartLayout.error = null
+            }
+
+            if (binding.dateEnd.text.toString().isBlank()) {
+                binding.dateEndLayout.error = context.resources.getString(R.string.error_blank)
+                correct = false
+            } else {
+                binding.dateEndLayout.error = null
+            }
+
+            if (endDate != null && startDate != null) {
+                if (endDate!!.before(startDate)) {
+                    binding.dateEndLayout.error = context.resources.getString(R.string.error_endDate_before_startDate)
+                    correct = false
+                } else if (startDate!!.before(endDate)) {
+                    binding.dateEndLayout.error = null
+                }
+            }
+        }
+
+        return correct
+    }
+
+    private fun dateStart() {
+        val calendar = Calendar.getInstance()
+
+        DatePickerDialog(
+            context,
+            { _, year, month, dayOfMonth ->
+                val selection = Calendar.getInstance()
+                selection.set(Calendar.YEAR, year)
+                selection.set(Calendar.MONTH, month)
+                selection.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                val date = selection.time
+                val dateFormat = SimpleDateFormat.getDateInstance()
+                binding.dateStart.setText(
+                    dateFormat.format(date)
+                )
+                startDate = date
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+    private fun dateEnd() {
+        val calendar = Calendar.getInstance()
+
+        DatePickerDialog(
+            context,
+            { _, year, month, dayOfMonth ->
+                val selection = Calendar.getInstance()
+                selection.set(Calendar.YEAR, year)
+                selection.set(Calendar.MONTH, month)
+                selection.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                val date = selection.time
+                val dateFormat = SimpleDateFormat.getDateInstance()
+                binding.dateEnd.setText(
+                    dateFormat.format(date)
+                )
+                endDate = date
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 }

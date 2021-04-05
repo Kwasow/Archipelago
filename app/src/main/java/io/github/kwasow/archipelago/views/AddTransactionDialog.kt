@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import com.google.android.material.snackbar.Snackbar
 import io.github.kwasow.archipelago.R
 import io.github.kwasow.archipelago.data.SourceAccount
-import io.github.kwasow.archipelago.data.SourceCash
 import io.github.kwasow.archipelago.data.Transaction
 import io.github.kwasow.archipelago.databinding.DialogAddTransactionBinding
 import java.util.Date
@@ -18,7 +17,6 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
     var onAddListener = {}
 
     private var currentSelection: Int = -1
-    private lateinit var cashSources: List<SourceCash>
     private lateinit var accountSources: List<SourceAccount>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,13 +34,6 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
     private fun setupSources() {
         val sources = mutableListOf<String>()
 
-        cashSources = SourceCash.get(this.context)
-        cashSources.forEach {
-            sources.add(
-                "${it.name} (${it.amount} ${it.currencyCode})"
-            )
-        }
-
         accountSources = SourceAccount.get(this.context)
         accountSources.forEach {
             sources.add(
@@ -54,14 +45,7 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
         binding.sourceSelect.setAdapter(sourcesAdapter)
         binding.sourceSelect.setOnItemClickListener { _, _, i, _ ->
             currentSelection = i
-
-            if (i >= cashSources.size) {
-                // Then it's from the accountSources list
-                binding.amount.currencyCode = accountSources[i - cashSources.size].currencyCode
-            } else {
-                // It's form cash sources
-                binding.amount.currencyCode = cashSources[i].currencyCode
-            }
+            binding.amount.currencyCode = accountSources[i].currencyCode
         }
     }
 
@@ -124,34 +108,17 @@ class AddTransactionDialog(context: Context) : AlertDialog(context) {
             binding.details.text.toString()
         )
 
-        if (currentSelection > cashSources.size) {
-            // Then it's from the accountSources list
-            val source = accountSources[currentSelection - cashSources.size]
-            source.transactions.add(transaction)
-            source.recalculate()
-            // Check if transaction added successfully
-            if (!source.update(context)) {
-                Snackbar.make(
-                    binding.root,
-                    R.string.something_went_wrong,
-                    Snackbar.LENGTH_SHORT
-                ).show()
-                return
-            }
-        } else {
-            // It's form cash sources
-            val source = cashSources[currentSelection]
-            source.transactions.add(transaction)
-            source.recalculate()
-            // Check if transaction added successfully
-            if (!source.update(context)) {
-                Snackbar.make(
-                    binding.root,
-                    R.string.something_went_wrong,
-                    Snackbar.LENGTH_SHORT
-                ).show()
-                return
-            }
+        val source = accountSources[currentSelection]
+        source.transactions.add(transaction)
+        source.recalculate()
+        // Check if transaction added successfully
+        if (!source.update(context)) {
+            Snackbar.make(
+                binding.root,
+                R.string.something_went_wrong,
+                Snackbar.LENGTH_SHORT
+            ).show()
+            return
         }
 
         dismiss()

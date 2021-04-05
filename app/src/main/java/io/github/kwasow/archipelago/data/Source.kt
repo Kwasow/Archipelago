@@ -67,14 +67,14 @@ interface Source : Serializable {
             }
 
             // Return anything that implements interface - SourceCash is the simplest
-            return SourceCash(
-                jsonName,
-                jsonCountry,
-                jsonCountryCode,
-                jsonCurrencyCode,
-                jsonAmount,
-                jsonTransactions
-            )
+            return object : Source {
+                override var name = jsonName
+                override var country = jsonCountry
+                override var countryCode = jsonCountryCode
+                override var currencyCode = jsonCurrencyCode
+                override var amount = jsonAmount
+                override var transactions = jsonTransactions
+            }
         }
     }
 

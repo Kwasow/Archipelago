@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import io.github.kwasow.archipelago.adapters.TransactionsAdapter
 import io.github.kwasow.archipelago.data.Source
 import io.github.kwasow.archipelago.data.SourceAccount
-import io.github.kwasow.archipelago.data.SourceCash
 import io.github.kwasow.archipelago.data.Transaction
 import io.github.kwasow.archipelago.databinding.ActivitySourceDetailsBinding
 import io.github.kwasow.archipelago.utils.MaterialColors
@@ -26,8 +25,8 @@ class SourceDetailsActivity : AppCompatActivity() {
         binding = ActivitySourceDetailsBinding.inflate(layoutInflater)
 
         when (sourceObject) {
-            is SourceCash, is SourceAccount -> {
-                transactions = (sourceObject as Source).transactions
+            is SourceAccount -> {
+                transactions = sourceObject.transactions
 
                 // Name and amount
                 binding.sourceName.text = sourceObject.name
