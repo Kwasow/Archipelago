@@ -1,18 +1,18 @@
 package io.github.kwasow.archipelago.views
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.ArrayAdapter
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.github.kwasow.archipelago.R
 import io.github.kwasow.archipelago.data.SourceAccount
 import io.github.kwasow.archipelago.data.Transaction
 import io.github.kwasow.archipelago.databinding.DialogAddTransactionBinding
 import java.util.Date
 
-class AddTransactionDialog(context: Context) : AlertDialog(context) {
+class AddTransactionDialog(context: Context) : BottomSheetDialog(context) {
     var onAddListener = {}
 
     private lateinit var binding: DialogAddTransactionBinding

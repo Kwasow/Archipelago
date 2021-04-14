@@ -43,11 +43,11 @@ class GraphViewCircular : View {
         }
 
     private fun init() {
-        paintCash.color = MaterialColors.BLACK26
-        paintAccount.color = MaterialColors.BLACK38
+        paintCash.color = MaterialColors.LIGHT_GREEN
+        paintAccount.color = MaterialColors.YELLOW
         paintInvestment.color = MaterialColors.BLACK54
 
-        centerCirclePaint.color = MaterialColors.WHITE
+        centerCirclePaint.color = MaterialColors.BACKGROUND_WHITE
         sumPaint.color = MaterialColors.BLACK
         sumPaint.textAlign = Paint.Align.CENTER
         sumPaint.typeface = Typeface.DEFAULT_BOLD

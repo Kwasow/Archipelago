@@ -1,6 +1,5 @@
 package io.github.kwasow.archipelago.views
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
@@ -8,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ArrayAdapter
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.github.kwasow.archipelago.R
 import io.github.kwasow.archipelago.data.Capitalization
 import io.github.kwasow.archipelago.data.SourceAccount
@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
-class AddSourceDialog(context: Context) : AlertDialog(context) {
+class AddSourceDialog(context: Context) : BottomSheetDialog(context)  {
     var onAddListener = {}
 
     private lateinit var binding: DialogAddSourceBinding
@@ -121,16 +121,12 @@ class AddSourceDialog(context: Context) : AlertDialog(context) {
     private fun sourceSavings() {
         currentSource = 0
 
-        binding.photoLeading.setImageResource(R.drawable.ic_credit_card)
-
         binding.interestLayout.visibility = View.VISIBLE
         binding.capitalizationLayout.visibility = View.VISIBLE
     }
 
     private fun sourceInvestment() {
         currentSource = 1
-
-        binding.photoLeading.setImageResource(R.drawable.ic_percent)
 
         binding.interestLayout.visibility = View.VISIBLE
         binding.capitalizationLayout.visibility = View.VISIBLE

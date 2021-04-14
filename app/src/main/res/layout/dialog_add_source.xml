@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Add some spacing -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,224 +13,197 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:padding="16dp">
 
             <LinearLayout
-                android:id="@+id/photoLeadingLinearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@color/black"
-                android:gravity="center_horizontal"
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/photoLeading"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:src="@drawable/ic_source_add"
-                    android:scaleType="fitXY"
-                    android:contentDescription="@string/description_image_representing_action"
-                    app:tint="@color/white"/>
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_new"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:paddingEnd="20dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/sourceTypeLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/source"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/sourceType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/sourceNameLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                app:layout_constraintTop_toBottomOf="@id/photoLeadingLinearLayout">
+                android:hint="@string/source_name"
+                android:paddingEnd="10dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:layout_constraintTop_toBottomOf="@id/linearLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/countrySelectLayout"
+                android:visibility="gone">
 
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/add_new"
-                        android:textStyle="bold"
-                        android:textSize="24sp"
-                        android:paddingEnd="20dp"/>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/sourceTypeLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/source"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/sourceType"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="none"/>
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/sourceNameLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/source_name"
-                    android:paddingEnd="10dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:layout_constraintTop_toBottomOf="@id/linearLayout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/countrySelectLayout"
-                    android:visibility="gone">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/sourceName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textCapSentences"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/countrySelectLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/country"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    app:layout_constraintTop_toBottomOf="@id/linearLayout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:visibility="gone">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/countrySelect"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/amountLayout"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sourceName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/amount"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:layout_constraintTop_toBottomOf="@id/countrySelectLayout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:visibility="gone">
+                    android:inputType="textCapSentences"/>
 
-                    <io.github.kwasow.archipelago.views.CurrencyEdit
-                        android:id="@+id/amount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/countrySelectLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/country"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                app:layout_constraintTop_toBottomOf="@id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/interestLayout"
-                    android:layout_width="0dp"
+                <AutoCompleteTextView
+                    android:id="@+id/countrySelect"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="10dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:hint="@string/interest"
-                    app:layout_constraintTop_toBottomOf="@id/amountLayout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/capitalizationLayout"
-                    android:visibility="gone">
+                    android:inputType="none" />
 
-                    <io.github.kwasow.archipelago.views.CurrencyEdit
-                        android:id="@+id/interest"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/amountLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/amount"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:layout_constraintTop_toBottomOf="@id/countrySelectLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/capitalizationLayout"
-                    android:layout_width="wrap_content"
+                <io.github.kwasow.archipelago.views.CurrencyEdit
+                    android:id="@+id/amount"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:hint="@string/capitalization"
-                    app:layout_constraintTop_toBottomOf="@id/amountLayout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:visibility="gone">
+                    android:inputType="numberDecimal"/>
 
-                    <AutoCompleteTextView
-                        android:id="@+id/capitalization"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/interestLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingEnd="10dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="@string/interest"
+                app:layout_constraintTop_toBottomOf="@id/amountLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/capitalizationLayout"
+                android:visibility="gone">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/dateStartLayout"
-                    android:layout_width="0dp"
+                <io.github.kwasow.archipelago.views.CurrencyEdit
+                    android:id="@+id/interest"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/date_start"
-                    android:paddingEnd="10dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/dateEndLayout"
-                    app:layout_constraintTop_toBottomOf="@id/capitalizationLayout"
-                    android:visibility="gone">
+                    android:inputType="numberDecimal"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/dateStart"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:inputType="none"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/capitalizationLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:hint="@string/capitalization"
+                app:layout_constraintTop_toBottomOf="@id/amountLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/dateEndLayout"
-                    android:layout_width="0dp"
+                <AutoCompleteTextView
+                    android:id="@+id/capitalization"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/date_end"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/dateStartLayout"
-                    app:layout_constraintTop_toBottomOf="@id/capitalizationLayout"
-                    android:visibility="gone">
+                    android:inputType="none"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/dateEnd"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:inputType="none"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dateStartLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/date_start"
+                android:paddingEnd="10dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/dateEndLayout"
+                app:layout_constraintTop_toBottomOf="@id/capitalizationLayout"
+                android:visibility="gone">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/cancelButton"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/dateStart"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/cancel"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/dateEndLayout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    style="?attr/materialButtonOutlinedStyle"/>
+                    android:focusable="false"
+                    android:inputType="none"/>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/finishButton"
-                    android:layout_width="wrap_content"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dateEndLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/date_end"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dateStartLayout"
+                app:layout_constraintTop_toBottomOf="@id/capitalizationLayout"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/dateEnd"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/finish"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/dateEndLayout"
-                    app:layout_constraintEnd_toStartOf="@id/cancelButton"
-                    android:visibility="gone"/>
+                    android:focusable="false"
+                    android:inputType="none"/>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/dateEndLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="?attr/materialButtonOutlinedStyle"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/finishButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/finish"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintTop_toBottomOf="@id/dateEndLayout"
+                app:layout_constraintEnd_toStartOf="@id/cancelButton"
+                android:visibility="gone"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -28,6 +28,7 @@ class MaterialColors {
         val RED = Color.parseColor("#FFF44336")
         val TEAL = Color.parseColor("#009688")
         val WHITE = Color.parseColor("#FFFFFFFF")
+        val BACKGROUND_WHITE = Color.parseColor("#FFF6F6F6")
         val YELLOW = Color.parseColor("#FFFFEB3B")
     }
 }

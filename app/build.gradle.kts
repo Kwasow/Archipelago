@@ -57,6 +57,7 @@ dependencies {
     implementation("androidx.security:security-crypto:1.1.0-alpha03")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("com.github.Kwasow:BottomNavigationCircles-Android:1.1-beta5")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("com.google.android.material:material:1.3.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
     implementation("org.javamoney:moneta:1.4.2")
