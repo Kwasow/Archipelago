@@ -70,7 +70,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:ignore="HardcodedText" />
 
-            <io.github.kwasow.archipelago.views.GraphView
+            <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/graph"
                 android:layout_width="200dp"
                 android:layout_height="150dp"

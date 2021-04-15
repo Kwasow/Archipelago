@@ -13,7 +13,6 @@ import io.github.kwasow.archipelago.data.SourceAccount
 import io.github.kwasow.archipelago.data.SourceInvestment
 import io.github.kwasow.archipelago.databinding.ViewSourceCardBinding
 import io.github.kwasow.archipelago.utils.MaterialColors
-import io.github.kwasow.archipelago.views.GraphView
 import org.javamoney.moneta.Money
 
 class SourceAdapter(private val dataSet: List<Source>) :
