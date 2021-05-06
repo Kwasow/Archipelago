@@ -96,6 +96,8 @@ class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         graph.setUsePercentValues(true)
         graph.centerText = sumInvestment.add(sumAccount).toString()
         graph.isRotationEnabled = false
+        graph.legend.isEnabled = false
+        graph.description.isEnabled = false
         graph.animateY(500, Easing.EaseInOutQuad)
         setData(sumAccount, sumInvestment)
     }
