@@ -25,11 +25,15 @@ import io.github.kwasow.archipelago.utils.MaterialColors
 import io.github.kwasow.archipelago.utils.NoScrollLinearLayoutManager
 import io.github.kwasow.archipelago.views.AddSourceDialog
 import io.github.kwasow.archipelago.views.AddTransactionDialog
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.javamoney.moneta.Money
 
 class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     private lateinit var binding: FragmentHomeBinding
     private var noSources = false
+
+    private var dataChanged = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,44 +54,49 @@ class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     override fun onResume() {
         super.onResume()
 
-        // TODO: I think this could be optimized
         setupRecyclers()
     }
 
     private fun setupRecyclers() {
         // TODO: Currency is hardcoded
-        context?.let {
-            // Set up account
-            val accountList = SourceAccount.get(it)
-            val accountLayoutManager = NoScrollLinearLayoutManager(it)
-            val accountAdapter = SourceAdapter(accountList)
-            binding.accountRecycler.layoutManager = accountLayoutManager
-            binding.accountRecycler.adapter = accountAdapter
-            var sumAccount = Money.of(0.0, "PLN")
-            accountList.forEach { source ->
-                sumAccount = sumAccount.add(source.sum)
-            }
+        context?.let { context ->
+            GlobalScope.launch {
+                val accountList = SourceAccount.get(context)
+                var sumAccount = Money.of(0.0, "PLN")
+                accountList.forEach { source ->
+                    sumAccount = sumAccount.add(source.sum)
+                }
 
-            // Set up investment
-            val investmentList = SourceInvestment.get(it)
-            val investmentLayoutManager = NoScrollLinearLayoutManager(it)
-            val investmentAdapter = SourceAdapter(investmentList)
-            binding.investmentRecycler.layoutManager = investmentLayoutManager
-            binding.investmentRecycler.adapter = investmentAdapter
-            var sumInvestment = Money.of(0.0, "PLN")
-            investmentList.forEach { source ->
-                sumInvestment = sumInvestment.add(source.sum)
-            }
+                val investmentList = SourceInvestment.get(context)
+                var sumInvestment = Money.of(0.0, "PLN")
+                investmentList.forEach { source ->
+                    sumInvestment = sumInvestment.add(source.sum)
+                }
 
-            // Set up summary graph
-            setupGraph(binding.circularGraph, sumAccount, sumInvestment)
+                activity?.runOnUiThread {
+                    if (dataChanged) {
+                        val accountLayoutManager = NoScrollLinearLayoutManager(context)
+                        val accountAdapter = SourceAdapter(accountList)
+                        binding.accountRecycler.layoutManager = accountLayoutManager
+                        binding.accountRecycler.adapter = accountAdapter
 
-            noSources = if (accountList.isEmpty() && investmentList.isEmpty()) {
-                binding.sourcesEmpty.visibility = View.VISIBLE
-                true
-            } else {
-                binding.sourcesEmpty.visibility = View.GONE
-                false
+                        val investmentLayoutManager = NoScrollLinearLayoutManager(context)
+                        val investmentAdapter = SourceAdapter(investmentList)
+                        binding.investmentRecycler.layoutManager = investmentLayoutManager
+                        binding.investmentRecycler.adapter = investmentAdapter
+
+                        setupGraph(binding.circularGraph, sumAccount, sumInvestment)
+                    }
+
+                    noSources = if (accountList.isEmpty() && investmentList.isEmpty()) {
+                        binding.sourcesEmpty.visibility = View.VISIBLE
+                        true
+                    } else {
+                        binding.sourcesEmpty.visibility = View.GONE
+                        false
+                    }
+                    dataChanged = false
+                }
             }
         }
     }
@@ -164,6 +173,7 @@ class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         context?.let {
             val dialog = AddSourceDialog(it)
             dialog.onAddListener = {
+                dataChanged = true
                 onResume()
             }
             dialog.show()
@@ -184,7 +194,7 @@ class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             context?.let {
                 val dialog = AddTransactionDialog(it)
                 dialog.onAddListener = {
-                    // Reload home screen if transaction added
+                    dataChanged = true
                     onResume()
                 }
                 dialog.show()
