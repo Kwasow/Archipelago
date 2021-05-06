@@ -8,12 +8,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.snackbar.Snackbar
 import io.github.kwasow.archipelago.R
 import io.github.kwasow.archipelago.adapters.SourceAdapter
 import io.github.kwasow.archipelago.data.SourceAccount
 import io.github.kwasow.archipelago.data.SourceInvestment
 import io.github.kwasow.archipelago.databinding.FragmentHomeBinding
+import io.github.kwasow.archipelago.utils.MaterialColors
 import io.github.kwasow.archipelago.utils.NoScrollLinearLayoutManager
 import io.github.kwasow.archipelago.views.AddSourceDialog
 import io.github.kwasow.archipelago.views.AddTransactionDialog
@@ -47,6 +55,7 @@ class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     }
 
     private fun setupRecyclers() {
+        // TODO: Currency is hardcoded
         context?.let {
             // Set up account
             val accountList = SourceAccount.get(it)
@@ -55,8 +64,8 @@ class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             binding.accountRecycler.layoutManager = accountLayoutManager
             binding.accountRecycler.adapter = accountAdapter
             var sumAccount = Money.of(0.0, "PLN")
-            accountList.forEach {
-                sumAccount = sumAccount.add(it.amount)
+            accountList.forEach { source ->
+                sumAccount = sumAccount.add(source.sum)
             }
 
             // Set up investment
@@ -66,16 +75,12 @@ class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             binding.investmentRecycler.layoutManager = investmentLayoutManager
             binding.investmentRecycler.adapter = investmentAdapter
             var sumInvestment = Money.of(0.0, "PLN")
-            investmentList.forEach {
-                sumInvestment = sumInvestment.add(it.amount)
+            investmentList.forEach { source ->
+                sumInvestment = sumInvestment.add(source.sum)
             }
 
             // Set up summary graph
-            // TODO: This should not be hardcoded
-            binding.circularGraph.setData(
-                listOf(sumAccount, sumInvestment),
-                "PLN"
-            )
+            setupGraph(binding.circularGraph, sumAccount, sumInvestment)
 
             noSources = if (accountList.isEmpty() && investmentList.isEmpty()) {
                 binding.sourcesEmpty.visibility = View.VISIBLE
@@ -85,6 +90,45 @@ class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                 false
             }
         }
+    }
+
+    private fun setupGraph(graph: PieChart, sumAccount: Money, sumInvestment: Money) {
+        graph.setUsePercentValues(true)
+        graph.centerText = sumInvestment.add(sumAccount).toString()
+        graph.isRotationEnabled = false
+        graph.animateY(500, Easing.EaseInOutQuad)
+        setData(sumAccount, sumInvestment)
+    }
+
+    private fun setData(accountSum: Money, investmentSum: Money) {
+        val entries = mutableListOf<PieEntry>()
+        if (accountSum.isPositive) {
+            entries.add(
+                PieEntry(accountSum.number.toFloat(), resources.getString(R.string.savings_account))
+            )
+        }
+        if (investmentSum.isPositive) {
+            entries.add(
+                PieEntry(investmentSum.number.toFloat(), resources.getString(R.string.investment))
+            )
+        }
+
+        val pieDataSet = PieDataSet(entries, accountSum.add(investmentSum).toString())
+        pieDataSet.setDrawIcons(false)
+
+        val colors = mutableListOf<Int>()
+
+        for (i in ColorTemplate.PASTEL_COLORS) {
+            colors.add(i)
+        }
+
+        pieDataSet.colors = colors
+
+        val pieData = PieData(pieDataSet)
+        pieData.setValueFormatter(PercentFormatter())
+        pieData.setValueTextSize(11f);
+        pieData.setValueTextColor(MaterialColors.WHITE);
+        binding.circularGraph.data = pieData
     }
 
     private fun setupClicks() {

@@ -38,7 +38,7 @@ class AddTransactionDialog(context: Context) : BottomSheetDialog(context) {
         accountSources = SourceAccount.get(this.context)
         accountSources.forEach {
             sources.add(
-                "${it.name} (${it.amount} ${it.currencyCode})"
+                "${it.name} (${it.sum} ${it.currencyCode})"
             )
         }
 

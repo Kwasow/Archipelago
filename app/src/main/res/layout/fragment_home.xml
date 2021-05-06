@@ -23,7 +23,7 @@
                 android:textSize="20sp"
                 android:layout_gravity="center_horizontal"/>
 
-            <io.github.kwasow.archipelago.views.GraphViewCircular
+            <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/circularGraph"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"/>

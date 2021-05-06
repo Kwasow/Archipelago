@@ -1,7 +1,6 @@
 package io.github.kwasow.archipelago.data
 
 import android.content.Context
-import io.github.kwasow.archipelago.utils.SourceManager
 import org.javamoney.moneta.Money
 import org.json.JSONObject
 
@@ -10,7 +9,7 @@ data class SourceAccount(
     override var country: String,
     override var countryCode: String,
     override var currencyCode: String,
-    override var amount: Money,
+    override var sum: Money,
     var interest: Int,
     val capitalization: Capitalization,
     override var transactions: MutableList<Transaction>
@@ -20,10 +19,8 @@ data class SourceAccount(
         private const val JSON_INTEREST = "interest"
         private const val JSON_CAPITALIZATION = "capitalization"
 
-        // This is safe - I promise
-        @Suppress("UNCHECKED_CAST")
         fun get(context: Context): List<SourceAccount> {
-            val anyList = SourceManager.get(
+            val anyList = Source.get(
                 context, "/account"
             )
 
@@ -51,7 +48,7 @@ data class SourceAccount(
                 genericSource.country,
                 genericSource.countryCode,
                 genericSource.currencyCode,
-                genericSource.amount,
+                genericSource.sum,
                 jsonInterest,
                 jsonCapitalization,
                 genericSource.transactions
@@ -60,21 +57,11 @@ data class SourceAccount(
     }
 
     fun save(context: Context): Boolean {
-        return SourceManager.save(
-            context, name, "/account", toJsonObject()
-        )
-    }
-
-    fun delete(context: Context): Boolean {
-        return SourceManager.delete(
-            context, name, "/account"
-        )
+        return save(context, toJsonObject())
     }
 
     fun update(context: Context): Boolean {
-        return SourceManager.update(
-            context, name, "/account", toJsonObject()
-        )
+        return update(context, toJsonObject())
     }
 
     override fun toString(): String {

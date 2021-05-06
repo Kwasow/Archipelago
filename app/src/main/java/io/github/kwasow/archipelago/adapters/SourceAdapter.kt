@@ -43,7 +43,7 @@ class SourceAdapter(private val dataSet: List<Source>) :
                 // Set name and amount
                 holder.sourceName.text = sourceObject.name
                 holder.amount.text =
-                    Money.of(sourceObject.amount.number, sourceObject.currencyCode).toString()
+                    Money.of(sourceObject.sum.number, sourceObject.currencyCode).toString()
 
                 // Set month change
                 val change = getMonthChange(sourceObject.transactions, sourceObject.currencyCode)
@@ -62,7 +62,7 @@ class SourceAdapter(private val dataSet: List<Source>) :
                 // Set name and amount
                 holder.sourceName.text = sourceObject.name
                 holder.amount.text =
-                    Money.of(sourceObject.amount.number, sourceObject.currencyCode).toString()
+                    Money.of(sourceObject.sum.number, sourceObject.currencyCode).toString()
 
                 // Don't show monthly change
                 holder.monthChange.visibility = View.GONE

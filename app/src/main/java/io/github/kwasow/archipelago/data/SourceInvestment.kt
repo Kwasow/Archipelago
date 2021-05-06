@@ -1,7 +1,6 @@
 package io.github.kwasow.archipelago.data
 
 import android.content.Context
-import io.github.kwasow.archipelago.utils.SourceManager
 import org.javamoney.moneta.Money
 import org.json.JSONObject
 import java.util.Date
@@ -11,7 +10,7 @@ data class SourceInvestment(
     override var country: String,
     override var countryCode: String,
     override var currencyCode: String,
-    override var amount: Money,
+    override var sum: Money,
     var interest: Int,
     val capitalization: Capitalization,
     var start: Date,
@@ -25,10 +24,8 @@ data class SourceInvestment(
         private const val JSON_DATE_START = "start"
         private const val JSON_DATE_END = "end"
 
-        // This is safe - I promise
-        @Suppress("UNCHECKED_CAST")
         fun get(context: Context): List<SourceInvestment> {
-            val anyList = SourceManager.get(
+            val anyList = Source.get(
                 context, "/investment"
             )
 
@@ -58,7 +55,7 @@ data class SourceInvestment(
                 genericSource.country,
                 genericSource.countryCode,
                 genericSource.currencyCode,
-                genericSource.amount,
+                genericSource.sum,
                 jsonInterest,
                 jsonCapitalization,
                 Date(jsonStart),
@@ -68,21 +65,11 @@ data class SourceInvestment(
     }
 
     fun save(context: Context): Boolean {
-        return SourceManager.save(
-            context, name, "/investment", toJsonObject()
-        )
-    }
-
-    fun delete(context: Context): Boolean {
-        return SourceManager.delete(
-            context, name, "/investment"
-        )
+        return save(context, toJsonObject())
     }
 
     fun update(context: Context): Boolean {
-        return SourceManager.update(
-            context, name, "/investment", toJsonObject()
-        )
+        return update(context, toJsonObject())
     }
 
     override fun toString(): String {
@@ -103,8 +90,8 @@ data class SourceInvestment(
 
     // We don't want this to do anything
     override fun recalculate() {
-        val saveAmount = amount
+        val saveAmount = sum
         super.recalculate()
-        amount = saveAmount
+        sum = saveAmount
     }
 }
